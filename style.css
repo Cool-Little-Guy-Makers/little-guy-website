@@ -1,0 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Lexend:wght@100..900&display=swap');
+
+:root{
+    --navbar-background-color: rgb(80, 44, 6);
+    --navbar-hover-color: rgb(168, 106, 41);
+    --navbar-text-color: white;
+}
+
+body{
+    font-family: "Lexend", sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6, p{
+    margin-left: 20px; 
+    margin-right: 20px;
+}
+
+h1{
+    font-family: "Balsamiq Sans", serif;
+}
+
+.navbar{
+    ul{
+        background-color: var(--navbar-background-color);
+        list-style-type: none;
+        margin: 0;
+        padding: 5px;
+    }
+    
+    li{
+        margin: 0px 5px; /* margin with 2 values sets top&bottom and left&right*/
+        padding: 5px;
+        display: inline;
+        a{
+            color: var(--navbar-text-color);
+        }
+    }
+
+    li:hover{
+        background-color: var(--navbar-hover-color);
+    }
+}
