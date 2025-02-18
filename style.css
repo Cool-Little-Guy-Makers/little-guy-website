@@ -19,7 +19,7 @@ h1{
     font-family: "Balsamiq Sans", serif;
 }
 
-.navbar{
+nav{
     ul{
         background-color: var(--navbar-background-color);
         list-style-type: none;
