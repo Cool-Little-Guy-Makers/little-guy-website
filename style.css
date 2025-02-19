@@ -98,6 +98,7 @@ nav{
         border: 5px solid var(--very-light-gray);
     }
 }
+
 .flex-container{
     display: flex;
     flex-direction: row;
