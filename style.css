@@ -28,6 +28,11 @@ h1{
     font-size: 2.3em;
 }
 
+h6{
+    font-size: 1.1em;
+    font-weight: normal;
+}
+
 #content-box{
     max-width: 1050px;
     margin: auto;
@@ -40,11 +45,25 @@ h1{
 #endnote{
     font-style: italic;
     font-size: 0.9em;
+    color: var(--navbar-text-color);
+    text-align: center;
 }
 
-h6{
-    font-size: 1.1em;
-    font-weight: normal;
+footer{
+    background-color: var(--navbar-background-color);
+    padding: 2px;
+}
+
+#green-bean-ad {
+    width: 100%;
+}
+
+iframe {
+    display: block;
+    margin: auto;
+    width: 400px;
+    height: 150px; 
+    margin: 50px auto;
 }
 
 nav{
@@ -73,7 +92,7 @@ nav{
 #features {
 
     padding: 0 10px; /* Horizontal padding to match testimonials */ 
-    margin-bottom: 100px;
+    margin-top: 100px;
 
     h2 {
         text-align: center
@@ -127,6 +146,12 @@ nav{
     #content-box{
         margin: auto;
     }
+
+    iframe {
+        width: 400px;
+        height: 150px; 
+    }
+
     .flex-container {
       flex-direction: column;
       div{
@@ -152,4 +177,5 @@ nav{
             flex-direction: column-reverse;
         }
     }
+    
 }
