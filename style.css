@@ -6,6 +6,12 @@
     --navbar-text-color: white;
     --flexbox-darker: rgb(251,180,216);
     --flexbox-lighter: rgb(251,225,96);
+
+    --elevator-background-color: aliceblue;
+    --elevator-border-color: rgb(161, 168, 173);
+
+    --pricing-background-color: bisque;
+    --pricing-border-color: black;
 }
 /* rgb(81,81,246); */
 
@@ -139,7 +145,10 @@ nav{
         display:flex;
         justify-content: center;
         align-items: center;
-        background-color: aliceblue;
+
+        background-color: var(--elevator-background-color);
+        border: solid var(--elevator-border-color);
+
         div{
             margin:10px;
             flex-basis: 100%;
@@ -168,6 +177,22 @@ nav{
     }
     .lighter-color{
         background-color: var(--flexbox-lighter);
+    }
+}
+
+#pricing{
+    display: flex;
+    flex-direction: row;
+    margin-bottom: 70px;
+
+    .price{
+        border: solid var(--pricing-border-color);
+
+        text-align: left;
+        background-color: var(--pricing-background-color);
+        margin: 10px;
+        flex-basis: 100%;
+
     }
 }
 
@@ -219,6 +244,13 @@ nav{
                 text-align: center;
             }
         }
+    }
+
+    #pricing {
+        flex-direction: column;
+        text-align: center;
+        margin-right: 20%;
+        margin-left: 20%;
     }
     
 }
