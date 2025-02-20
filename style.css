@@ -1,7 +1,8 @@
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Lexend:wght@100..900&display=swap');
 
 :root{ /* Global Variables */
-    --navbar-background-color: rgb(56,165,233);
+    /*extant navbar background color: rgb(56,165,233)*/
+    --navbar-background-color: rgb(18, 52, 74);
     --navbar-hover-color: rgb(251,180,216);
     --navbar-text-color: white;
     --flexbox-darker: rgb(251,180,216);
