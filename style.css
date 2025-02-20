@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Lexend:wght@100..900&display=swap');
 
 :root{ /* Global Variables */
-    --navbar-background-color: rgb(80, 44, 6);
-    --navbar-hover-color: rgb(168, 106, 41);
+    --navbar-background-color: rgb(56,165,233);
+    --navbar-hover-color: rgb(251,180,216);
     --navbar-text-color: white;
-    --very-light-gray: rgb(222, 228, 233);
-    --flexbox-darker: rgb(221, 155, 84);
-    --flexbox-lighter: rgb(238, 184, 127);
+    --flexbox-darker: rgb(251,180,216);
+    --flexbox-lighter: rgb(251,225,96);
 }
+/* rgb(81,81,246); */
 
 h1, h2, h3, h4, h5, h6, p{
     margin-left: 20px; 
@@ -22,6 +22,15 @@ body{
 h1, h2, h3, h4, h5{
     font-family: "Balsamiq Sans", serif;
     text-align: center;
+}
+
+h1{
+    font-size: 2.3em;
+}
+
+#content-box{
+    max-width: 1050px;
+    margin: auto;
 }
 
 #title{
@@ -64,6 +73,7 @@ nav{
 #features {
 
     padding: 0 10px; /* Horizontal padding to match testimonials */ 
+    margin-bottom: 100px;
 
     h2 {
         text-align: center
@@ -77,11 +87,13 @@ nav{
         /*padding: 20px;
         border: 5px solid var(--flexbox-lighter);*/
 
-        margin: 20px 0px; /* spacing on the top and bottom between features */
+        margin: 40px 20px;
+
     }
 
     .description {
         align-content: center;
+        width: 66%;
     }
 
     .screenshot {
@@ -112,8 +124,32 @@ nav{
 
 /* Responsively converts flexbox into columns when screen size is less than 800px */
 @media (max-width: 800px) {                    
+    #content-box{
+        margin: auto;
+    }
     .flex-container {
       flex-direction: column;
+      div{
+        margin: 10px 8%;
+      }
     }
 
+    #features {
+        .feature {
+            flex-direction: column;
+            .description{
+                width: auto;
+            }
+            img{
+                display: block;
+                margin-right: auto;
+                margin-left: auto;
+                width: 60%;
+            }
+        }
+    
+        #middle-feature {
+            flex-direction: column-reverse;
+        }
+    }
 }
