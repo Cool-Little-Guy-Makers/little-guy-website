@@ -125,13 +125,17 @@ nav{
 }
 .elevator{
     text-align:center;
-    margin: 10%;
+    margin: 50px;
     margin-top: 0px;
     margin-bottom: 0px;
+
     p{
         font-style: italic;
     }
     .flex-el{
+        margin: 10%;
+        margin-top: 0px;
+        margin-bottom: 0px;
         display:flex;
         justify-content: center;
         align-items: center;
@@ -139,7 +143,6 @@ nav{
         div{
             margin:10px;
             flex-basis: 100%;
-
         }
         p{
             text-align: right;
@@ -202,6 +205,19 @@ nav{
     
         #middle-feature {
             flex-direction: column-reverse;
+        }
+    }
+
+    .elevator {
+        margin: 40px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        .flex-el {
+            flex-direction:column;
+
+            p{
+                text-align: center;
+            }
         }
     }
     
