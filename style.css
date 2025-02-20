@@ -63,39 +63,33 @@ nav{
 /* Classes for Features section on landing page */
 #features {
 
+    padding: 0 10px; /* Horizontal padding to match testimonials */ 
+
     h2 {
         text-align: center
     }
 
-    h3 {
-        text-align: center;
-    }
-
+    /* Container for combined feature description and image */
     .feature {
         box-sizing: border-box;
         display: flex;
         flex-direction: row;
-        width: 100%;
-        padding: 20px;
-        border: 5px solid var(--very-light-gray);
+        /*padding: 20px;
+        border: 5px solid var(--flexbox-lighter);*/
 
         margin: 20px 0px; /* spacing on the top and bottom between features */
     }
 
     .description {
-        /*width: 200px;*/
-        /*flex-grow: 2;*/
-        /*flex: 2;*/
         align-content: center;
     }
 
     .screenshot {
-        object-fit: cover;
+        object-fit: cover; /* Behavior when not enough room for full screenshot*/
         box-sizing: border-box;
-        width: 33%;
-        /*flex: 1;*/
+        width: 33%; /* Screenshot takes up a third of the space */
 
-        border: 5px solid var(--very-light-gray);
+        border: 5px solid var(--flexbox-lighter);
     }
 }
 
@@ -121,4 +115,5 @@ nav{
     .flex-container {
       flex-direction: column;
     }
+
 }
