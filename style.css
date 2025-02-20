@@ -24,6 +24,14 @@ h1, h2, h3, h4, h5{
     text-align: center;
 }
 
+h1{
+    font-size: 2.3em;
+}
+
+#content-box{
+    margin: auto 10%;
+}
+
 #title{
     font-size: 4em; /* 1em = current font size, 2em is twice as big, etc*/
 }
@@ -64,6 +72,7 @@ nav{
 #features {
 
     padding: 0 10px; /* Horizontal padding to match testimonials */ 
+    margin-bottom: 100px;
 
     h2 {
         text-align: center
@@ -77,11 +86,13 @@ nav{
         /*padding: 20px;
         border: 5px solid var(--flexbox-lighter);*/
 
-        margin: 20px 0px; /* spacing on the top and bottom between features */
+        margin: 40px 20px;
+
     }
 
     .description {
         align-content: center;
+        width: 66%;
     }
 
     .screenshot {
@@ -112,8 +123,32 @@ nav{
 
 /* Responsively converts flexbox into columns when screen size is less than 800px */
 @media (max-width: 800px) {                    
+    #content-box{
+        margin: auto;
+    }
     .flex-container {
       flex-direction: column;
+      div{
+        margin: 10px 8%;
+      }
     }
 
+    #features {
+        .feature {
+            flex-direction: column;
+            .description{
+                width: auto;
+            }
+            img{
+                display: block;
+                margin-right: auto;
+                margin-left: auto;
+                width: 60%;
+            }
+        }
+    
+        #middle-feature {
+            flex-direction: column-reverse;
+        }
+    }
 }
