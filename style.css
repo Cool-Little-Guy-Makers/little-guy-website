@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Balsamiq+Sans:ital,wght@0,400;0,700;1,400;1,700&family=Lexend:wght@100..900&display=swap');
 
 :root{ /* Global Variables */
-    --navbar-background-color: rgb(80, 44, 6);
-    --navbar-hover-color: rgb(168, 106, 41);
+    --navbar-background-color: rgb(56,165,233);
+    --navbar-hover-color: rgb(251,180,216);
     --navbar-text-color: white;
-    --very-light-gray: rgb(222, 228, 233);
-    --flexbox-darker: rgb(221, 155, 84);
-    --flexbox-lighter: rgb(238, 184, 127);
+    --flexbox-darker: rgb(251,180,216);
+    --flexbox-lighter: rgb(251,225,96);
 }
+/* rgb(81,81,246); */
 
 h1, h2, h3, h4, h5, h6, p{
     margin-left: 20px; 
@@ -29,7 +29,8 @@ h1{
 }
 
 #content-box{
-    margin: auto 10%;
+    max-width: 1050px;
+    margin: auto;
 }
 
 #title{
