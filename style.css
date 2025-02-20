@@ -123,6 +123,36 @@ nav{
         border: 5px solid var(--flexbox-lighter);
     }
 }
+.elevator{
+    text-align:center;
+    margin: 50px;
+    margin-top: 0px;
+    margin-bottom: 0px;
+
+    p{
+        font-style: italic;
+    }
+    .flex-el{
+        margin: 10%;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        background-color: aliceblue;
+        div{
+            margin:10px;
+            flex-basis: 100%;
+        }
+        p{
+            text-align: right;
+            align-content: right;
+        }
+        img{
+            align-content: left;
+        }
+    }
+}
 
 .flex-container{
     display: flex;
@@ -175,6 +205,19 @@ nav{
     
         #middle-feature {
             flex-direction: column-reverse;
+        }
+    }
+
+    .elevator {
+        margin: 40px;
+        margin-top: 0px;
+        margin-bottom: 0px;
+        .flex-el {
+            flex-direction:column;
+
+            p{
+                text-align: center;
+            }
         }
     }
     
