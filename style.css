@@ -4,6 +4,7 @@
     --navbar-background-color: rgb(80, 44, 6);
     --navbar-hover-color: rgb(168, 106, 41);
     --navbar-text-color: white;
+    --very-light-gray: rgb(222, 228, 233);
     --flexbox-darker: rgb(221, 155, 84);
     --flexbox-lighter: rgb(238, 184, 127);
 }
@@ -59,6 +60,39 @@ nav{
     }
 }
 
+/* Classes for Features section on landing page */
+#features {
+
+    padding: 0 10px; /* Horizontal padding to match testimonials */ 
+
+    h2 {
+        text-align: center
+    }
+
+    /* Container for combined feature description and image */
+    .feature {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        /*padding: 20px;
+        border: 5px solid var(--flexbox-lighter);*/
+
+        margin: 20px 0px; /* spacing on the top and bottom between features */
+    }
+
+    .description {
+        align-content: center;
+    }
+
+    .screenshot {
+        object-fit: cover; /* Behavior when not enough room for full screenshot*/
+        box-sizing: border-box;
+        width: 33%; /* Screenshot takes up a third of the space */
+
+        border: 5px solid var(--flexbox-lighter);
+    }
+}
+
 .flex-container{
     display: flex;
     flex-direction: row;
@@ -81,4 +115,5 @@ nav{
     .flex-container {
       flex-direction: column;
     }
+
 }
