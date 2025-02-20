@@ -123,6 +123,33 @@ nav{
         border: 5px solid var(--flexbox-lighter);
     }
 }
+.elevator{
+    text-align:center;
+    margin: 10%;
+    margin-top: 0px;
+    margin-bottom: 0px;
+    p{
+        font-style: italic;
+    }
+    .flex-el{
+        display:flex;
+        justify-content: center;
+        align-items: center;
+        background-color: aliceblue;
+        div{
+            margin:10px;
+            flex-basis: 100%;
+
+        }
+        p{
+            text-align: right;
+            align-content: right;
+        }
+        img{
+            align-content: left;
+        }
+    }
+}
 
 .flex-container{
     display: flex;
