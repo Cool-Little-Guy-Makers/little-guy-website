@@ -1,9 +1,9 @@
 # Little Guy Website
 
 ### Team members:
-- Luca Guerrera
-- Maze Labowitz
-- Kate Lyman
+- Luca Guerrera (36%)
+- Maze Labowitz (36%)
+- Kate Lyman (28%)
 
 ### Code:
 The code in this repository is for a [website](https://lucaguerrera.github.io/little-guy-website/) advertising a web app character creator and social platform. 
