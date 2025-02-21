@@ -2,17 +2,17 @@
 
 :root{ /* Global Variables */
     /*extant navbar background color: rgb(56,165,233)*/
-    --navbar-background-color: rgb(18, 52, 74);
+    --navbar-background-color: rgb(40,40,161);
     --navbar-hover-color: rgb(251,180,216);
     --navbar-text-color: white;
-    --flexbox-darker: rgb(251,180,216);
+    --flexbox-darker: rgb(167,226,249);
     --flexbox-lighter: rgb(251,225,96);
 
-    --elevator-background-color: aliceblue;
-    --elevator-border-color: rgb(161, 168, 173);
+    --elevator-background-color: rgb(183, 234, 255);
+    --elevator-border-color: rgb(81,81,246);
 
-    --pricing-background-color: bisque;
-    --pricing-border-color: black;
+    --pricing-background-color: rgb(167,226,249);
+    --pricing-border-color: rgb(81,81,246);
 }
 /* rgb(81,81,246); */
 
@@ -148,7 +148,7 @@ nav{
         align-items: center;
 
         background-color: var(--elevator-background-color);
-        border: solid var(--elevator-border-color);
+        border: 5px solid var(--elevator-border-color);
 
         div{
             margin:10px;
