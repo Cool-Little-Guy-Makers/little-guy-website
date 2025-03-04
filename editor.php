@@ -20,8 +20,6 @@
 
             require_once("config.php");
 
-            $littleguyid = 6; // FIGURE OUT HOW TO GET THIS
-
             $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
 
             // Continue session
@@ -40,6 +38,9 @@
 
 
             // Get the appropriate little guy
+            $littleguyid = $_POST["littleguyid"];
+            echo "Little guy ID: ". $littleguyid;
+
             $query = "SELECT * FROM `little-guys` WHERE id = ?;";
             $stmt = mysqli_prepare($db,$query);
             mysqli_stmt_bind_param($stmt,"i",$littleguyid);
@@ -59,6 +60,9 @@
         ?>
         <br>
         <a href="logout.php">Log Out</a>
+        <br>
+        <br>
+        <a href="home.php">Leave without Saving</a>
         <br>
 
         
