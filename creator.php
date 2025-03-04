@@ -37,6 +37,10 @@
             echo "You are logged in as user: " . $user;
 
         ?>
+        <br>
+        <a href="logout.php">Log Out</a>
+        <br>
+
 
         <h1>Little Guy Creator</h1>
         <h2>New Little Guy!</h2>

@@ -20,7 +20,7 @@
 
             require_once("config.php");
 
-            $littleguyid = 3; // FIGURE OUT HOW TO GET THIS
+            $littleguyid = 6; // FIGURE OUT HOW TO GET THIS
 
             $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
 
@@ -52,17 +52,22 @@
             }
 
             $row = mysqli_fetch_array($result);
-            echo "Row: ".$row;
             $currentname = $row[2];
             $currentvariant = $row[3];
+            $currentname = str_replace('"', "'", $currentname);
+
         ?>
+        <br>
+        <a href="logout.php">Log Out</a>
+        <br>
+
         
         <h1>Little Guy Editor</h1>
         <h2>Change Your Little Guy!</h2>
         <form action="editguyhelper.php" method="post">
             <div>
                 <label>Name: </label>
-                <input type="text" name="name" <?php echo "value = ".$currentname?>>
+                <input type="text" name="name" <?php echo "value = \"".$currentname."\""?>>
             </div>
             <br>
             <div>
@@ -82,7 +87,7 @@
                 <input type="hidden" name="littleguyid" <?php echo "value = ".$littleguyid?> />
             </div>
             <br>
-            <input type="submit" value="Submit">
+            <input type="submit" value="Save changes">
         </form>
     </body>
 </html>
