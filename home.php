@@ -10,6 +10,7 @@
 
             $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
 
+            // Continue session
             session_start();
 
             // Current user credentials
