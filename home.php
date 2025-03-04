@@ -92,6 +92,54 @@
             ?>
         </table>
 
+        <hr>
+
+        <!--SECTION: OTHER USERS' GUYS TABLE-->
+
+        <h1>More Little Guys</h1>
+
+        <table>
+            <!--COLUMN HEADERS-->
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Variant</th>
+                <th>Image</th>
+                <th>User</th>
+            </tr>
+
+            <?php
+
+                // Get other users' little guys
+                $sql = "SELECT * FROM `little-guys` WHERE NOT `username` = (?)";
+                $stmt = mysqli_prepare($db, $sql);
+                mysqli_stmt_bind_param($stmt, "s", $user);
+                mysqli_stmt_execute($stmt);
+                $result = mysqli_stmt_get_result($stmt);
+
+                if ($result == false) die("Failed to get result");
+
+                $row = mysqli_fetch_array($result);
+
+                // $row will equal null when no more rows left
+                while ($row != null) {
+
+                    // Add row as html
+                    echo "<tr>";
+                    echo "<td>" . $row[0] . "</td>";
+                    echo "<td>" . $row[2] . "</td>";
+                    echo "<td>" . $variants[$row[3]] . "</td>"; // Variant type as string
+                    echo "<td>" . '<img src="' . $variant_images[$row[3]] . '" alt="Picture of Little Guy" width="90" height="100">'. "</td>"; // Variant type as image
+                    echo "<td>" . $row[1] . "</td>";
+                    echo "</tr>";
+
+                    // Next row
+                    $row = mysqli_fetch_array($result);
+                }
+
+            ?>
+        </table>
+
 
     </body>
 </html>
