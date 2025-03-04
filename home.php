@@ -76,6 +76,7 @@
                 // $row will equal null when no more rows left
                 while ($row != null) {
 
+                    // Add row as html
                     echo "<tr>";
                     echo "<td>" . $row[0] . "</td>";
                     echo "<td>" . $row[2] . "</td>";
@@ -84,6 +85,7 @@
                     echo "<td>" . '<a href="' . $edit_guy_page . '">Edit</a>' . "</td>";
                     echo "</tr>";
 
+                    // Next row
                     $row = mysqli_fetch_array($result);
                 }
 
