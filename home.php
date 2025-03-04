@@ -60,7 +60,7 @@
 
             <?php
 
-                $edit_guy_page = "editor.php"; // Replace with correct edit guy page if needed
+                $edit_guy_page = "editor.php"; // Replace with correct edit guy page if needed um
 
                 // Get your little guys
                 $sql = "SELECT * FROM `little-guys` WHERE `username` = (?)";
