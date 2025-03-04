@@ -9,4 +9,6 @@
     $stmt = mysqli_prepare($db,$sql);
     mysqli_stmt_bind_param($stmt,"ssi", $user, $guyname, $guyvariant);
     mysqli_stmt_execute($stmt);
+
+    header("location: home.php");
 ?>
