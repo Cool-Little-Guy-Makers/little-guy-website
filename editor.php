@@ -29,27 +29,29 @@
             $user = "USERTEMPLATE"; // change to $_SESSION["user"]; or equivalent
             $logged_in = 1; // change to $_SESSION["loggedin"]; or equivalent
 
-            // Prevent access to home page if not signed in
+            // Prevent access to editor page if not signed in or no little guy was passed in to be edited 
             if (!isset($logged_in)) {
                 header("location: " . $sign_in_page);
+            }
+            if(!isset($_POST["littleguyid"])){
+                header("location: home.php");
             }
 
             echo "You are logged in as user: " . $user;
 
-
-            // Get the appropriate little guy
+            // Get the ID of the appropriate little guy
             $littleguyid = $_POST["littleguyid"];
-            echo "Little guy ID: ". $littleguyid;
-
-            $query = "SELECT * FROM `little-guys` WHERE id = ?;";
+            
+            // Find that guy in the database from logged-in user
+            $query = "SELECT * FROM `little-guys` WHERE id = ? AND username = ?;";
             $stmt = mysqli_prepare($db,$query);
-            mysqli_stmt_bind_param($stmt,"i",$littleguyid);
+            mysqli_stmt_bind_param($stmt,"is",$littleguyid, $user);
             mysqli_execute($stmt);
             $result = mysqli_stmt_get_result($stmt);
 
-            // Quit if not found
+            // Go back to the home page if guy is not found
             if ($result == false) { 
-                die("Failed to get result"); 
+                header("location: home.php");
             }
 
             $row = mysqli_fetch_array($result);
@@ -58,6 +60,7 @@
             $currentname = str_replace('"', "'", $currentname);
 
         ?>
+        <!-- Log out + Exit links -->
         <br>
         <a href="logout.php">Log Out</a>
         <br>
@@ -65,9 +68,11 @@
         <a href="home.php">Leave without Saving</a>
         <br>
 
-        
         <h1>Little Guy Editor</h1>
         <h2>Change Your Little Guy!</h2>
+
+        <!-- Form to edit little guy 
+        (PHP fills in current settings for this specific little guy) -->
         <form action="editguyhelper.php" method="post">
             <div>
                 <label>Name: </label>
@@ -88,7 +93,8 @@
                     <?php if($currentvariant==2) echo "checked = \"checked\""?> >
                     Green
                 </input>
-                <input type="hidden" name="littleguyid" <?php echo "value = ".$littleguyid?> />
+                <!-- passes on ID to helper file -->
+                <input type="hidden" name="littleguyid" <?php echo "value = ".$littleguyid?> /> 
             </div>
             <br>
             <input type="submit" value="Save changes">

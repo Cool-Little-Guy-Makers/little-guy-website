@@ -29,7 +29,7 @@
             $user = "USERTEMPLATE"; // change to $_SESSION["user"]; or equivalent
             $logged_in = 1; // change to $_SESSION["loggedin"]; or equivalent
 
-            // Prevent access to home page if not signed in
+            // Prevent access to creator page if not signed in
             if (!isset($logged_in)) {
                 header("location: " . $sign_in_page);
             }

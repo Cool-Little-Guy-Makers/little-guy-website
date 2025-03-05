@@ -59,8 +59,9 @@
             </tr>
 
 
+            <!--Function to redirect to editor.php-->
             <script>
-                function redirect() {
+                function redirectToEditor() {
                     window.location.href="/editor.php";  
                 }
             </script>
@@ -90,11 +91,13 @@
                     echo "<td>" . $row[2] . "</td>";
                     echo "<td>" . $variants[$row[3]] . "</td>"; // Variant type as string
                     echo "<td>" . '<img src="' . $variant_images[$row[3]] . '" alt="Picture of Little Guy" width="90" height="100">'. "</td>"; // Variant type as image
+                    
+                    // Edit button that sends this little guy's ID to editor and redirects there
                     echo "<td>" .   '<form action="editor.php" method="post">
                                         <input type="hidden" name="littleguyid" value = ' . $row[0] . ' /> 
-                                        <input type="hidden" name="page" value = \'editor.php\' /> 
-                                        <input type="submit" value="Edit" onClick="redirect()" />
+                                        <input type="submit" value="Edit" onClick="redirectToEditor()" />
                                     </form>';
+                                    
                     echo "</tr>";
 
                     // Next row
