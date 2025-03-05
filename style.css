@@ -93,7 +93,10 @@ nav{
     li:hover{
         background-color: var(--navbar-hover-color);
     }
+
 }
+
+
 
 /* Classes for Features section on landing page */
 #features {
