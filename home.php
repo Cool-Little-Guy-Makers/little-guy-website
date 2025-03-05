@@ -58,6 +58,7 @@
                 <th>Actions</th>
             </tr>
 
+
             <script>
                 function redirect() {
                     window.location.href="/editor.php";  
@@ -67,6 +68,7 @@
             <?php
 
                 $edit_guy_page = "editor.php";
+
 
                 // Get your little guys
                 $sql = "SELECT * FROM `little-guys` WHERE `username` = (?)";
