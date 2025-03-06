@@ -8,7 +8,7 @@
 
             require_once("config.php");
 
-            $sign_in_page = "signin.html";
+            $sign_in_page = "signin.php";
 
             // Continue session
             session_start();
