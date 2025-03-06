@@ -58,7 +58,6 @@
                 <th>Actions</th>
             </tr>
 
-
             <!--Function to redirect to editor.php-->
             <script>
                 function redirectToEditor() {
@@ -69,7 +68,6 @@
             <?php
 
                 $edit_guy_page = "editor.php";
-
 
                 // Get your little guys
                 $sql = "SELECT * FROM `little-guys` WHERE `username` = (?)";

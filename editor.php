@@ -65,7 +65,7 @@
         <a href="logout.php">Log Out</a>
         <br>
         <br>
-        <a href="home.php">Leave without Saving</a>
+        <a href="home.php">< Leave without Saving</a>
         <br>
 
         <h1>Little Guy Editor</h1>
@@ -99,6 +99,26 @@
             <br>
             <input type="submit" value="Save changes">
         </form>
+        <br>
+
+        <!-- Delete button -->
+        <button id="deleteButton">Delete little guy</button>
+
+        <!-- Hidden form to send info to delete.php -->
+        <form name="infoForm" action="delete.php" method="post">
+            <input type="hidden" name="littleguyid" <?php echo "value = ".$littleguyid?> /> 
+        </form>
+        
+        <!-- Confirm alert pops up on button click -->
+        <script>
+            const deleteButton = document.querySelector("#deleteButton");
+
+            deleteButton.addEventListener("click", () => {
+            if (window.confirm("Are you sure you want to delete this little guy?")) {
+                document.infoForm.submit();
+            }
+            });
+        </script>
     </body>
 </html>
 
