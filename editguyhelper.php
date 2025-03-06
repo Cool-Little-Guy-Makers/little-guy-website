@@ -1,4 +1,10 @@
 <?php
+    /*
+    editguyhelper.php: Directed here from editor.php. Function: takes the features specified in 
+    the editor and updates the same little guy to have those features in the database, and then 
+    redirects to home.php.
+    */
+
     require_once("config.php");
 
     $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent

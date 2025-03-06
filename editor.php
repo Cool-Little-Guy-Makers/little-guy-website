@@ -50,7 +50,7 @@
             $result = mysqli_stmt_get_result($stmt);
 
             // Go back to the home page if guy is not found
-            if ($result == false) { 
+            if ($result == false || mysqli_num_rows($result) == 0) { 
                 header("location: home.php");
             }
 

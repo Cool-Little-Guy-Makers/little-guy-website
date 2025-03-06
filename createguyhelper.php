@@ -1,4 +1,10 @@
 <?php
+    /*
+    createguyhelper.php: Directed here from creator.php. Function: takes the features specified in 
+    the creator and adds a little guy with those features to the database, and then redirects to 
+    home.php.
+    */
+    
     require_once("config.php");
 
     // Get info entered for little guy
