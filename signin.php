@@ -16,7 +16,16 @@
     
     <body>
         <h1>Sign In</h1>
+        <?php
+            session_start();
 
+            if (isset($_SESSION["signinerror"])) {
+                $sign_in_error = $_SESSION["signinerror"];
+                if ($sign_in_error) {
+                    echo "Incorrect username or password.";
+                }
+            }
+        ?>
         <form action="checksignin.php" method="post">
         
             <label>Username: </label>
@@ -25,9 +34,11 @@
             <label>Password: </label>
             <input type="password" name="password">
             <p></p>
-            <input type="submit" value="its little guy time">
+            <input type="submit" value="Sign in">
 
         </form>
+
+        <p>Don't have an account? <a href="\little-guy-website\registration.php">Register</a> here.</a></p>
     </body>
 </html>
 
