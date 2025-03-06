@@ -13,23 +13,32 @@
         <title>Little Guy Creator</title>
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
+    
     <body>
         <h1>Sign In</h1>
-        <label>Username: </label>
-        <input type="text" name="username">
-        <p></p>
-        <label>Password: </label>
-        <input type="password" name="password">
+        <?php
+            session_start();
 
-
-
-        <form action="signingin.php" method="post">
+            if (isset($_SESSION["signinerror"])) {
+                $sign_in_error = $_SESSION["signinerror"];
+                if ($sign_in_error) {
+                    echo "Incorrect username or password.";
+                }
+            }
+        ?>
+        <form action="checksignin.php" method="post">
+        
+            <label>Username: </label>
+            <input type="text" name="username">
+            <p></p>
+            <label>Password: </label>
+            <input type="password" name="password">
+            <p></p>
+            <input type="submit" value="Sign in">
 
         </form>
-        <p></p>
 
-        <input type="submit" value="its little guy time">
-
+        <p>Don't have an account? <a href="\little-guy-website\registration.php">Register</a> here.</a></p>
     </body>
 </html>
 

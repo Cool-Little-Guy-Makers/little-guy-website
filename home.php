@@ -8,14 +8,14 @@
 
             require_once("config.php");
 
-            $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
+            $sign_in_page = "signin.php";
 
             // Continue session
             session_start();
 
             // Current user credentials
-            $user = "USERTEMPLATE"; // change to $_SESSION["user"]; or equivalent
-            $logged_in = 1; // change to $_SESSION["loggedin"]; or equivalent
+            $user = $_SESSION["user"];
+            $logged_in = $_SESSION["loggedin"];
             
             // Prevent access to home page if not signed in
             if (!isset($logged_in)) {

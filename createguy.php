@@ -1,7 +1,8 @@
 <?php
     require_once("config.php");
+    session_start();
 
-    $user = "USERTEMPLATE"; //$_SESSION['user'];
+    $user = $_SESSION['user'];
     $guyname = $_POST['name'];
     $guyvariant = $_POST['variant'];
 
