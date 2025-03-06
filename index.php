@@ -30,7 +30,6 @@
         <?php
           session_start();
 
-
           if (!isset($_SESSION["loggedin"])) {
             echo "<li id='signinbutton'><a href='/little-guy-website/signin.php'>Sign In</a></li>";
           }
