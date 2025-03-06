@@ -1,7 +1,7 @@
 <?php
     // Log Out functionality
     
-    $logout_page = "index.html"; // Page to go to after logging out
+    $logout_page = "index.php"; // Page to go to after logging out
 
     session_start();
 
