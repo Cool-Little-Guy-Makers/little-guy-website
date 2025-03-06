@@ -1,5 +1,8 @@
 <?php
     include "config.php";
+    
+    session_start();
+
     $username = $_POST['username'];
     $password = $_POST['password'];
     $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
@@ -11,7 +14,6 @@
 
     if ($num > 0) {
 
-        session_start();
 
         $_SESSION['user'] = $username;
         $_SESSION['loggedin'] = true;
@@ -23,6 +25,7 @@
             </form>";
     }
     else {
-        echo "Wrong. stupod.";
+        $_SESSION['signinerror'] = true;
+        header("location:" . "signin.php");
     }
 ?>

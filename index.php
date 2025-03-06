@@ -30,9 +30,8 @@
         <?php
           session_start();
 
-
           if (!isset($_SESSION["loggedin"])) {
-            echo "<li id='signinbutton'><a href='/little-guy-website/signin.html'>Sign In</a></li>";
+            echo "<li id='signinbutton'><a href='/little-guy-website/signin.php'>Sign In</a></li>";
           }
           else {
             $user = $_SESSION["user"];
