@@ -1,17 +1,18 @@
 <?php
     include "config.php";
+
+    session_start();
+
     $username = $_POST['username'];
     $password = $_POST['password'];
-    $sql = "SELECT * FROM users WHERE username = ? AND password = ?";
+    $sql = "SELECT * FROM users WHERE username = ?";
     $stmt = mysqli_prepare($db, $sql);
-    mysqli_stmt_bind_param($stmt, "ss", $username, $password);
+    mysqli_stmt_bind_param($stmt, "s", $username);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $num = mysqli_fetch_array($result);
 
-    if ($num > 0) {
-
-        session_start();
+    if ($num > 0 and password_verify($password, $num[1])) {
 
         $_SESSION['user'] = $username;
         $_SESSION['loggedin'] = true;
@@ -23,6 +24,7 @@
             </form>";
     }
     else {
-        echo "Wrong. stupod.";
+        $_SESSION['signinerror'] = true;
+        header("location:" . "signin.php");
     }
 ?>
