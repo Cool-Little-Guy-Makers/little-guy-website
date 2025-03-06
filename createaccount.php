@@ -20,7 +20,7 @@ Prevent registration:
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
     $num = mysqli_fetch_array($result);
-    
+
     if ($num > 0) {
         $_SESSION['signuperror'] = 'user';
         header("location:" . "registration.php");
