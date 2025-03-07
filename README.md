@@ -1,22 +1,22 @@
 # Little Guy Website
 
 ### Team members:
-- Luca Guerrera (36%)
-- Maze Labowitz (36%)
-- Kate Lyman (28%)
+- Luca Guerrera (33%)
+- Maze Labowitz (33%)
+- Kate Lyman (33%)
 
 ### [Online Link](https://littleguycreator.great-site.net/)
 
 ### phpmyadmin Screenshots:
 
 #### Luca Guerrera:
-![Luca's SS]()
+![Luca's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/LucaSS.png)
 
 #### Maze Labowitz:
-![Maze's SS]()
+![Maze's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/MazeSS.png)
 
 #### Kate Lyman:
-![Kate's SS]()
+![Kate's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/KateSS.png)
 
 ### File Guide:
 - README.md: description of the project.
