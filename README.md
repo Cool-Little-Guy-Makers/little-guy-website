@@ -1,11 +1,11 @@
 # Little Guy Website
 
-### Team members:
+### Team Members:
 - Luca Guerrera (33%)
 - Maze Labowitz (33%)
 - Kate Lyman (33%)
 
-### To use online: [online link](https://littleguycreator.great-site.net/)
+### To Use Online: [online link](https://littleguycreator.great-site.net/)
 
 ### phpmyadmin Screenshots:
 
@@ -17,6 +17,14 @@
 
 #### Kate Lyman:
 ![Kate's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/KateSS.png)
+
+### Development Environment:
+
+#### Little Guy local table:
+![Development environment for little guy data](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/DevGuys.png)
+
+#### Users local table:
+![Development environment for little guy data](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/DevUsers.png)
 
 ### File Guide:
 - README.md: description of the project.
