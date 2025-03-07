@@ -59,7 +59,7 @@ CREATE TABLE `app-db`.`little-guys`(id INT(11) PRIMARY KEY AUTO_INCREMENT, usern
 
 2. In the little-guy-website repository, edit config.php and replace the $hostname, $username, and $password fields to match your user account (information found under the user accounts tab in phpmyadmin).
 
-3. Put the little-guy-website repository into the htdocs folder on your machine (located in the xampp folder).
+3. Put the little-guy-website repository into the htdocs folder on your machine (located in the xampp folder). Put all files straight into htdocs, not in its own folder.
 
 ### How to use the site:
 
