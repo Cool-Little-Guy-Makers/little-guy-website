@@ -22,22 +22,21 @@
   <body>
     <nav>
       <ul>
-        <li><a href="/little-guy-website/">Home</a></li>
-        <li><a href="/little-guy-website/under-construction-notice.html">About</a></li>
-        <li><a href="/little-guy-website/under-construction-notice.html">Our Team</a></li>
-        <li><a href="/little-guy-website/under-construction-notice.html">Pricing</a></li>
-        <li><a href="/little-guy-website/under-construction-notice.html">FAQ</a></li>
+        <li><a href="/">Home</a></li>
+        <li><a href="/under-construction-notice.html">About</a></li>
+        <li><a href="/under-construction-notice.html">Our Team</a></li>
+        <li><a href="/under-construction-notice.html">Pricing</a></li>
+        <li><a href="/under-construction-notice.html">FAQ</a></li>
         <?php
           session_start();
 
-
           if (!isset($_SESSION["loggedin"])) {
-            echo "<li id='signinbutton'><a href='/little-guy-website/signin.php'>Sign In</a></li>";
+            echo "<li id='signinbutton'><a href='/signin.php'>Sign In</a></li>";
           }
           else {
             $user = $_SESSION["user"];
             $logged_in = $_SESSION["loggedin"];
-            echo "<li id='signinbutton'><a href='/little-guy-website/logout.php'>Log Out ($user)</a></li>";
+            echo "<li id='signinbutton'><a href='/logout.php'>Log Out ($user)</a></li>";
           }
         ?>
       </ul>

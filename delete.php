@@ -1,14 +1,14 @@
 <?php
     require_once("config.php");
 
-    $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
+    $sign_in_page = "signin.html";
 
     // Continue session
     session_start();
 
     // Current user credentials
-    $user = "USERTEMPLATE"; // change to $_SESSION["user"]; or equivalent
-    $logged_in = 1; // change to $_SESSION["loggedin"]; or equivalent
+    $user = $_SESSION["user"];
+    $logged_in = $_SESSION["loggedin"];
     
     if (!isset($logged_in)) {
         header("location: " . $sign_in_page);

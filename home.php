@@ -1,6 +1,13 @@
 <!DOCTYPE html>
 <html>
-    <head></head>
+    <head>
+        <meta charset="utf-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta name="description" 
+        content="The Little Guy Website is the website users use to make Little Guys, socialize with friends, design fun characters, and have a great time." /> 
+        <title>Little Guy Creator</title>
+        <link rel="icon" type="image/x-icon" href="favicon.ico">
+    </head>
     <body>
 
         <?php
