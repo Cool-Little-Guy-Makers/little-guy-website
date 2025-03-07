@@ -19,6 +19,11 @@
         <?php
             session_start();
 
+            // Already logged in users are sent to home page
+            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
+                header("location: home.php");
+            }
+
             if (isset($_SESSION["signinerror"])) {
                 $sign_in_error = $_SESSION["signinerror"];
                 if ($sign_in_error) {

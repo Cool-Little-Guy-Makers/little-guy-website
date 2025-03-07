@@ -19,6 +19,12 @@
         <form action="createaccount.php" method="post">
             <?php 
             session_start();
+
+            // Already logged in users are sent to home page
+            if (isset($_SESSION["loggedin"]) && $_SESSION["loggedin"] == true) {
+                header("location: home.php");
+            }
+
             /*if there was a sign in error, set back to false*/
             $_SESSION['signinerror'] = false;
 
