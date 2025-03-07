@@ -5,7 +5,7 @@
 - Maze Labowitz (33%)
 - Kate Lyman (33%)
 
-### [Online Link](https://littleguycreator.great-site.net/)
+### To use online: [online link](https://littleguycreator.great-site.net/)
 
 ### phpmyadmin Screenshots:
 
@@ -54,4 +54,7 @@ CREATE TABLE `app-db`.`little-guys`(id INT(11) PRIMARY KEY AUTO_INCREMENT, usern
 3. Put the little-guy-website repository into the htdocs folder on your machine (located in the xampp folder).
 
 ### How to use the site:
-To run this code locally, clone the repository onto your machine and open the index.html file in whichever browser you prefer. Alternatively, visit [the website](https://lucaguerrera.github.io/little-guy-website/).
+
+From the landing page, use the far-right button on the navigation bar at the top (labelled "sign in") to sign in to the site. You may either sign in to an existing account or register a new account using the link below the entry fields. After logging in, the site will direct you to the home page, where the CRUD functionality is. The home page displays all of the users Little Guys, as well as all the Little Guys of the other users.
+
+You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
