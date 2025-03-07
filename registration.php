@@ -41,6 +41,7 @@
                 if (($_SESSION['signuperror'] == "blank_field")) {
                     echo "FIELDS MAY NOT BE BLANK.";
                 }
+                unset($_SESSION["signuperror"]);
             }
             ?>
             <div>

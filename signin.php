@@ -29,6 +29,7 @@
                 if ($sign_in_error) {
                     echo "Incorrect username or password.";
                 }
+                unset($_SESSION["signinerror"]);
             }
         ?>
         <form action="checksignin.php" method="post">
