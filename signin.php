@@ -38,7 +38,7 @@
 
         </form>
 
-        <p>Don't have an account? <a href="\little-guy-website\registration.php">Register</a> here.</a></p>
+        <p>Don't have an account? <a href="/registration.php">Register</a> here.</a></p>
     </body>
 </html>
 

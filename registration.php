@@ -45,7 +45,7 @@
             <br>
             <input type="submit" value="Submit">
         </form>
-        <p>Back to <a href="\little-guy-website\signin.php">sign in</a>.</p>
+        <p>Back to <a href="/signin.php">sign in</a>.</p>
     </body>
 </html>
 
