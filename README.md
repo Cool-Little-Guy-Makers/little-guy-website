@@ -25,7 +25,18 @@
 - config.php: connect to the database. MODIFY THESE FIELDS ON YOUR LOCAL MACHINE.
 - createaccount.php: inserts new credentials into the user database after a successful registration attempt.
 - createguyhelper.php: inserts little guy data into database after creation.
--
+- creator.php: form for creating a little guy.
+- delete.php: remove little guy information when deleted.
+- editguyhelper.php: change data in little guy database after edit.
+- editor.php: form for editing a little guy.
+- favicon.ico: icon for little guy website.
+- home.php: main page for showing your little guys and other users' little guys.
+- index.php: landing page.
+- logout.php: logs user out by destroying the session. Redirects to landing page.
+- registration.php: form for making an account.
+- signin.php: form for signing into an account.
+- style.css: visual information for html.
+- under-construction-notice.html: under construction page for portions of the app not yet developed.
 
 ### How to run locally:
 
