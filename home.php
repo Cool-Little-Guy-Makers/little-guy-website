@@ -46,7 +46,7 @@
 
         <h1>Your Little Guys</h1>
         
-        <a href="creator.html">Create a new Little Guy</a>
+        <a href="creator.php">Create a new Little Guy</a>
 
         <table>
             <!--COLUMN HEADERS-->
@@ -58,9 +58,16 @@
                 <th>Actions</th>
             </tr>
 
+            <!--Function to redirect to editor.php-->
+            <script>
+                function redirectToEditor() {
+                    window.location.href="/editor.php";  
+                }
+            </script>
+
             <?php
 
-                $edit_guy_page = "editor.php"; // Replace with correct edit guy page if needed um
+                $edit_guy_page = "editor.php";
 
                 // Get your little guys
                 $sql = "SELECT * FROM `little-guys` WHERE `username` = (?)";
@@ -82,7 +89,13 @@
                     echo "<td>" . $row[2] . "</td>";
                     echo "<td>" . $variants[$row[3]] . "</td>"; // Variant type as string
                     echo "<td>" . '<img src="' . $variant_images[$row[3]] . '" alt="Picture of Little Guy" width="90" height="100">'. "</td>"; // Variant type as image
-                    echo "<td>" . '<a href="' . $edit_guy_page . '">Edit</a>' . "</td>";
+                    
+                    // Edit button that sends this little guy's ID to editor and redirects there
+                    echo "<td>" .   '<form action="editor.php" method="post">
+                                        <input type="hidden" name="littleguyid" value = ' . $row[0] . ' /> 
+                                        <input type="submit" value="Edit" onClick="redirectToEditor()" />
+                                    </form>';
+                                    
                     echo "</tr>";
 
                     // Next row
