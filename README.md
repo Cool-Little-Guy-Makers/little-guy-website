@@ -40,7 +40,7 @@
 
 ### How to run locally:
 
-1. Install XAMPP, navigate to localhost/phpmyadmin/ or equivalent, and under the SQL tab run the following command:
+1. Install XAMPP, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
 ```sql
 CREATE DATABASE `app-db`;
 
@@ -49,7 +49,7 @@ CREATE TABLE `app-db`.`users`(username VARCHAR(255) PRIMARY KEY, password VARCHA
 CREATE TABLE `app-db`.`little-guys`(id INT(11) PRIMARY KEY AUTO_INCREMENT, username VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, variant INT(1) NOT NULL);
 ```
 
-2. Edit config.php and replace the $hostname, $username, and $password fields to match your user account (information found under the user accounts tab in phpmyadmin).
+2. In the little-guy-website repository, edit config.php and replace the $hostname, $username, and $password fields to match your user account (information found under the user accounts tab in phpmyadmin).
 
 3. Put the little-guy-website repository into the htdocs folder on your machine (located in the xampp folder).
 
