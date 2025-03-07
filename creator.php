@@ -14,9 +14,37 @@
         <link rel="icon" type="image/x-icon" href="favicon.ico">
     </head>
     <body>
+
+        <?php
+            // Base page top functionality: config SQL, verify if logged in, etc.
+
+            require_once("config.php");
+
+            $sign_in_page = "index.html"; // change to "sign-in.php" or equivalent
+
+            // Continue session
+            session_start();
+
+            // Current user credentials
+            $user = "USERTEMPLATE"; // change to $_SESSION["user"]; or equivalent
+            $logged_in = 1; // change to $_SESSION["loggedin"]; or equivalent
+
+            // Prevent access to creator page if not signed in
+            if (!isset($logged_in)) {
+                header("location: " . $sign_in_page);
+            }
+
+            echo "You are logged in as user: " . $user;
+
+        ?>
+        <br>
+        <a href="logout.php">Log Out</a>
+        <br>
+
+
         <h1>Little Guy Creator</h1>
         <h2>New Little Guy!</h2>
-        <form action="createguy.php" method="post">
+        <form action="createguyhelper.php" method="post">
             <div>
                 <label>Name: </label>
                 <input type="text" name="name">
