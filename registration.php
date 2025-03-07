@@ -35,6 +35,12 @@
                 if (($_SESSION['signuperror'] == "pass")) {
                     echo "PASSWORDS DO NOT MATCH.";
                 }
+                if (($_SESSION['signuperror'] == "password_length")) {
+                    echo "PASSWORD MUST BE 10 OR MORE CHARACTERS.";
+                }
+                if (($_SESSION['signuperror'] == "blank_field")) {
+                    echo "FIELDS MAY NOT BE BLANK.";
+                }
             }
             ?>
             <div>

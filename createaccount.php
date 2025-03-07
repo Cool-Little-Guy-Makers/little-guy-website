@@ -29,6 +29,14 @@ Prevent registration:
         $_SESSION['signuperror'] = 'pass';
         header("location:" . "registration.php");
     }
+    else if (strlen($password) < 10) {
+        $_SESSION['signuperror'] = 'password_length';
+        header("location:" . "registration.php");
+    }
+    else if (strlen($password) == 0 || strlen($username) == 0) {
+        $_SESSION['signuperror'] = 'blank_field';
+        header("location:" . "registration.php");
+    }
     else {
         $_SESSION['signuperror'] = 'none';
 
