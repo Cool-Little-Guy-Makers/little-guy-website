@@ -52,9 +52,19 @@
 ```sql
 CREATE DATABASE `app-db`;
 
-CREATE TABLE `app-db`.`users`(username VARCHAR(255) PRIMARY KEY, password VARCHAR(255) NOT NULL);
+CREATE TABLE `app-db`.`users`(
+    username VARCHAR(255) NOT NULL PRIMARY KEY,
+    password VARCHAR(255) NOT NULL
+);
 
-CREATE TABLE `app-db`.`little-guys`(id INT(11) PRIMARY KEY AUTO_INCREMENT, username VARCHAR(255) NOT NULL, name VARCHAR(255) NOT NULL, variant INT(1) NOT NULL);
+CREATE TABLE `app-db`.`little-guys`(
+    id INT(11) PRIMARY KEY AUTO_INCREMENT,
+    username VARCHAR(255) NOT NULL,
+    name VARCHAR(255) NOT NULL,
+    variant INT(1) NOT NULL,
+    FOREIGN KEY (username) REFERENCES `users`(username)
+        ON DELETE CASCADE ON UPDATE CASCADE
+);
 ```
 
 2. In the little-guy-website repository, edit config.php and replace the $hostname, $username, and $password fields to match your user account (information found under the user accounts tab in phpmyadmin).
