@@ -5,12 +5,13 @@ import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
 // Import all other screens
-import HomeScreen from './Home.js';
-import CreateScreen from './Create.js';
-import EditScreen from './Edit.js';
+import HomeScreen from './components/homeScreen.js';
+import CreateScreen from './components/createScreen.js';
+import EditScreen from './components/editScreen.js';
 
 // All the screens listed here for the navigator
 // **** be sure to add new pages here!
+// https://reactnavigation.org/docs/hello-react-navigation
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'Home',
     screens: {
