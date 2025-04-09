@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "little-guy-creator",
-    "slug": "little-guy-creator",
+    "name": "little-guy-creator-app",
+    "slug": "little-guy-creator-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
