@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text, View } from "react-native";
 
-import {styles} from '../styless.js';
+import {styles} from '../styles.js';
 
 const CreateScreen = ({ navigation, route }) => {
     return (

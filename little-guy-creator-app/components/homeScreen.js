@@ -7,7 +7,7 @@ import {
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
-import {styles} from '../styless.js';
+import {styles} from '../styles.js';
 
 function HomeScreen() {
     // Connect to the current navigation object (made in App.js)
