@@ -11,6 +11,7 @@ import EditScreen from './components/editScreen.js';
 
 // All the screens listed here for the navigator
 // **** be sure to add new pages here!
+// https://reactnavigation.org/docs/hello-react-navigation
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'Home',
     screens: {

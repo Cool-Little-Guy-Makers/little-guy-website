@@ -17,14 +17,14 @@ function HomeScreen() {
         <View style={styles.container}>
             <Text>Home Screen</Text>
 
-            // Nav to edit page
+            {/* Nav to Create page */}
             <Button
                 style = {styles.cushion}
                 onPress={() => navigation.navigate('Create')}>
                 <Text>Create a New Little Guy</Text>
             </Button>
 
-            // Nav to edit page
+            {/* Nav to Create page */}
             <Button onPress={() => navigation.navigate('Edit')}>
                 <Text>Edit a Little Guy</Text>
             </Button>
