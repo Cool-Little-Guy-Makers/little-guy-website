@@ -73,7 +73,7 @@ const LoginScreen = (props) => {
 
         try {
             await new Promise(resolve => setTimeout(resolve, 1000));
-            loginResponse = ValidationResult.INVALID;
+            loginResponse = ValidationResult.OK;
 
         } catch (err) {
             loginResponse = ValidationResult.ERROR;
@@ -82,9 +82,10 @@ const LoginScreen = (props) => {
         setAwaitingValidation(false);
         setValidationResult(loginResponse);
 
-        if (loginResponse = ValidationResult.OK) {
+        if (loginResponse === ValidationResult.OK) {
             // TODO: store authentication data
 
+            console.log("great!");
             navigation.goBack();
         }
 

@@ -1,6 +1,6 @@
 import "react-native-gesture-handler";
 import * as React from 'react';
-import { View, Text } from 'react-native';
+import { View, Text, Button } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -16,7 +16,13 @@ import LoginScreen from './components/loginScreen.js';
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'Home',
     screens: {
-        Home: HomeScreen,
+        Home: {
+            screen: HomeScreen,
+            options: {
+                // Placeholder to prevent flicker, see HomeScreen for real button
+                headerRight: () => <Button title="">Sign In</Button>,
+            },
+        },
         Edit: EditScreen,
         Create: CreateScreen,
         'Sign In': LoginScreen

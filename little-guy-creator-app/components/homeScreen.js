@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { View, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
@@ -12,6 +12,18 @@ const USER = "username" // Placeholder **
 function HomeScreen() {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
+
+    // Add signin button to header
+    // TODO Once we are storing user auth: only do this conditionally, maybe do Sign Out otherwise
+    useEffect( () => {
+        // Use `setOptions` to update the button in App.js
+        // Now the button includes an `onPress` handler to navigate
+        navigation.setOptions({
+            headerRight: () => (
+            <Button onPress={() => navigation.navigate('Sign In')}>Sign In</Button>
+            ),
+        });
+    }, [navigation]);
 
     // Retrieve LittleGuys from database
     const [littleGuys, setLittleGuys] = useState(retrieveLittleGuys(USER));
