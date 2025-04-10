@@ -4,12 +4,12 @@ class UserModel extends Database
 {
     public function registerUser($username, $password)
     {
-        return $this->select("SELECT * FROM users ORDER BY user_id ASC LIMIT ?", ["i", $limit]);
+        return $this->insert("INSERT INTO users VALUES (?, ?)", ["ss", $username, $password]);
     }
 
-    public function loginValidation($username, $password)
+    public function getUser($username)
     {
-        return $this->select("SELECT * FROM users ORDER BY user_id ASC LIMIT ?", ["i", $limit]);
+        return $this->select("SELECT * FROM users WHERE username = '?'", ["s", $username]);
     }
 }
 ?>
