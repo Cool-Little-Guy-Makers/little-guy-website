@@ -52,6 +52,7 @@ export default function LittleGuy ({data,displayUser=false}) {
     );
 }
 
+
 // Placeholder ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database with the username "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.

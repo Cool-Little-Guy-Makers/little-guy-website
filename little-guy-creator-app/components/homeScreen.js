@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
 import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js";
+
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **

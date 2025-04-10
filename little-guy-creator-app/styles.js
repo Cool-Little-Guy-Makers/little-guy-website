@@ -63,6 +63,14 @@ export const styles = StyleSheet.create({
     height: 70,
   },
 
+  // Larger image
+  image: {
+    margin: 20,
+    marginTop: 0,
+    resizeMode: "contain",
+    width: 300,
+  },
+
   // Divider bar
   div: {
     marginTop: 25,
@@ -72,5 +80,11 @@ export const styles = StyleSheet.create({
     width: '100%',
   },
 
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+  },
 
 });
