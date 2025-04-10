@@ -17,6 +17,23 @@ const ValidationResult = {
     ERROR: 2,
 }
 
+// Field Layout component for Username or Password
+const InputField = (props) => {
+    return (
+        <View>
+            <Text>{props.title}:</Text>
+                <TextInput
+                    style={styles.input}
+                    onChangeText={props.onChangeText}
+                    editable={props.editable}
+                    placeholder={props.placeholder}
+                    secureTextEntry={props.secureTextEntry}
+                />
+            <Text>{props.alert}</Text>
+        </View>
+    );
+}
+
 const LoginScreen = (props) => {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
@@ -79,31 +96,25 @@ const LoginScreen = (props) => {
 
         <View style={{pad: 20, width: "90%" }}>
 
-
-            <Text>Username:</Text>
-            <TextInput
-                style={styles.input}
+            {/* Username Field */}
+            <InputField
+                title="Username"
                 onChangeText={onUsernameChanged}
-                value={username}
                 editable={!awaitingValidation}
-                //placeholder="Enter your username..."
+                alert={isUsernameBlank ? ALERT_FIELD_BLANK : null}
             />
-            <Text>{isUsernameBlank ? ALERT_FIELD_BLANK : ""}</Text>
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />
-            
 
-            <Text>Password:</Text>
-            <TextInput
-                style={styles.input}
+            {/* Password Field */}
+            <InputField
+                title="Password"
                 onChangeText={onPasswordChanged}
-                value={password}
-                secureTextEntry={true}
                 editable={!awaitingValidation}
-                //placeholder="Enter your password..."
+                alert={isPasswordBlank ? ALERT_FIELD_BLANK : null}
+                secureTextEntry={true}
             />
-            <Text>{isPasswordBlank ? ALERT_FIELD_BLANK : ""}</Text>
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />

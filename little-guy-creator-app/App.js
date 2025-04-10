@@ -16,10 +16,10 @@ import LoginScreen from './components/loginScreen.js';
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'Home',
     screens: {
-        "Home": HomeScreen,
+        Home: HomeScreen,
         Edit: EditScreen,
         Create: CreateScreen,
-        Login: LoginScreen
+        'Sign In': LoginScreen
     },
 });
 
