@@ -4,18 +4,10 @@ import { createStaticNavigation, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
-import { LittleGuy, retrieveLittleGuys, retrieveLittleGuysExcept } from "./littleGuy.js"
+import LittleGuy { retrieveLittleGuys, retrieveLittleGuysExcept, textCell } from "./littleGuy.js"
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
-
-
-// Helper function that returns a text cell for a table with the inputted text and style
-// Note: styleName is called as styles.styleName (assumed to be a custom style)
-function textCell(text, styleName) {
-    return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
-}
-
 
 function HomeScreen() {
     // Connect to the current navigation object (made in App.js)
