@@ -3,6 +3,7 @@ import { View, Text, Image } from 'react-native';
 import { Button } from '@react-navigation/elements';
 
 import {styles} from '../styles.js';
+import { useNavigation } from '@react-navigation/native';
 
 const USER = "username" // Placeholder **
 
@@ -10,6 +11,15 @@ const USER = "username" // Placeholder **
 // Note: styleName is called as styles.styleName (assumed to be a custom style)
 export function TextCell({text, styleName}) {
     return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
+}
+
+function EditButton({littleGuyInfo}) {
+    const navigation = useNavigation();
+    return (
+        <Button onPress={() => navigation.navigate('Edit', {guy: littleGuyInfo})}>
+        <Text>Edit</Text>
+        </Button>
+    )
 }
 
 // LittleGuy component who takes data from the database and displays a row of
@@ -41,7 +51,7 @@ export default function LittleGuy ({data,displayUser=false}) {
         <View style={styles.table}>
             <TextCell text={id} style="tcenter" />
             {/* Only displays username if displayUser was set to true in props */}
-            {displayUser ? <TextCell text={username} style="tcenter" /> : null }
+            {displayUser ? <TextCell text={username} style="tcenter" /> : <EditButton littleGuyInfo={data}/> }
             <TextCell text={name} style="tcenter" />
             <TextCell text={variantDesc} style="tcenter" />
             <View style={styles.cell}>

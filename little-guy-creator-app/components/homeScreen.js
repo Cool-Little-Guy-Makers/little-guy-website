@@ -27,6 +27,7 @@ function HomeScreen() {
             {/* Header row */}
             <View style={styles.table}>
                 <TextCell text="ID" style="bold" />
+                <TextCell text="" style="bold" />
                 <TextCell text="Name" style="bold" />
                 <TextCell text="Variant" style="bold" />
                 <TextCell text="Picture" style="bold" />
@@ -41,12 +42,7 @@ function HomeScreen() {
                 <Text>Create a New Little Guy</Text>
             </Button>
 
-            {/* Nav button to Edit page */}
-            <Button onPress={() => navigation.navigate('Edit')}>
-                <Text>Edit a Little Guy</Text>
-            </Button>
-
-
+            
             {/* Divider */}
             <View style={styles.div}/>
 
