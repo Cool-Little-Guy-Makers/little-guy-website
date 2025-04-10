@@ -7,9 +7,21 @@ import {styles} from '../styles.js';
 
 // Error messages
 const ALERT_FIELD_BLANK = "This field is required.";
-const ALERT_INVALID = "Username or password is incorrect."
+const ALERT_INVALID = "Username or password is incorrect.";
+const ALTER_UNKNOWN = "Something went wrong. Please try again.";
+
+// Possible sign-in API responses
+const UserValidationResult = {
+    OK: 0,
+    INCORRECT: 1,
+    ERROR: 2,
+}
 
 const LoginScreen = (props) => {
+    // Connect to the current navigation object (made in App.js)
+    const navigation = useNavigation();
+
+    const [isAwaitingUserValidation, setAwaitingUserValidation] = useState(false)
 
     const [usernameInput, setUsernameInput] = useState('');
     const [passwordInput, setPasswordInput] = useState('');
@@ -27,9 +39,13 @@ const LoginScreen = (props) => {
         setPasswordFieldBlank(input === "");
     }
 
+    const onSignInPress = ({_nativeEvent}) => {
+        console.log("hello");
+    }
+
     return (
       <View style={styles.container}>
-        <Text style={styles.h1}>Log In</Text>
+        <Text style={styles.h1}>Sign In</Text>
 
         <View style={{pad: 20, width: "90%" }}>
 
@@ -55,6 +71,12 @@ const LoginScreen = (props) => {
                 //placeholder="Enter your password..."
             />
             <Text>{isPasswordFieldBlank ? ALERT_FIELD_BLANK : ""}</Text>
+
+            {/* Small Spacer */}
+            <View style={ {margin: 10} } />
+
+            <Button onPress={onSignInPress} title="" disabled={isUsernameFieldBlank || isPasswordFieldBlank}>Sign In</Button>
+            <Text style={styles.tcenter}>{ALERT_INVALID}</Text>
 
             {/* Divider */}
             <View style={styles.div}/>
