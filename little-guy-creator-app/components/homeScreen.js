@@ -4,7 +4,7 @@ import { createStaticNavigation, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
-import LittleGuy { retrieveLittleGuys, retrieveLittleGuysExcept, textCell } from "./littleGuy.js"
+import LittleGuy { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js"
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
@@ -25,10 +25,10 @@ function HomeScreen() {
             <Text style = { styles.h1 } >Your Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                <textCell text="ID" style="bold" />
-                <textCell text="Name" style="bold" />
-                <textCell text="Variant" style="bold" />
-                <textCell text="Picture" style="bold" />
+                <TextCell text="ID" style="bold" />
+                <TextCell text="Name" style="bold" />
+                <TextCell text="Variant" style="bold" />
+                <TextCell text="Picture" style="bold" />
             </View>
             {/* Print all this USER's little guys into a table */}
             {littleGuys}
@@ -54,11 +54,11 @@ function HomeScreen() {
             <Text style = { styles.h2 } >Other Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                <textCell text="ID" style="bold" />
-                <textCell text="User" style="bold" />
-                <textCell text="Name" style="bold" />
-                <textCell text="Variant" style="bold" />
-                <textCell text="Picture" style="bold" />
+                <TextCell text="ID" style="bold" />
+                <TextCell text="User" style="bold" />
+                <TextCell text="Name" style="bold" />
+                <TextCell text="Variant" style="bold" />
+                <TextCell text="Picture" style="bold" />
             </View>
             {/* Print all other little guys into a table */}
             {otherLittleGuys}
