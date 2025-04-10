@@ -6,6 +6,12 @@ import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
 
+// Helper function that returns a text cell for a table with the inputted text and style
+// Note: styleName is called as styles.styleName (assumed to be a custom style)
+export function textCell(text, styleName) {
+    return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
+}
+
 // LittleGuy component who takes data from the database and displays a row of
 // information about themself.
 export default function LittleGuy ({data,displayUser=false}) {
