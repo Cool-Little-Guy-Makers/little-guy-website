@@ -52,8 +52,8 @@ export default function LittleGuy ({data,displayUser=false}) {
 export function retrieveLittleGuys(u) {
     let a = [1,u,"Bob",0]
     let b = [3,u,"Bill",2]
-    let guy1 = <LittleGuy data={a} />
-    let guy2 = <LittleGuy data={b} />
+    let guy1 = <LittleGuy data={a} key={a[0]} />
+    let guy2 = <LittleGuy data={b} key={b[0]} />
     let arr = [guy1,guy2]
     return arr;
 }
@@ -65,8 +65,8 @@ export function retrieveLittleGuys(u) {
 export function retrieveLittleGuysExcept(u) {
     let a = [5,"someoneElse","Sally",1]
     let b = [3,"someoneElse","Al",2]
-    let guy1 = <LittleGuy data={a} displayUser={true} />
-    let guy2 = <LittleGuy data={b} displayUser={true} />
+    let guy1 = <LittleGuy data={a} displayUser={true} key={a[0]} />
+    let guy2 = <LittleGuy data={b} displayUser={true} key={b[0]} />
     let arr = [guy1,guy2]
     return arr;
 }
