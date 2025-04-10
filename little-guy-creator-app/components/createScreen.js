@@ -1,21 +1,39 @@
-import { useCallback, useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
+const FETCH_URL = ''
 
 function addNewLittleGuy(name,variantNum,navigation) {
-    console.log("Name: "+name)
-    console.log("Variant num: "+variantNum)
+    console.log("Name: "+name);
+    console.log("Variant num: "+variantNum);
     navigation.popTo('Home');
+    sendAddToDatabase(name,variantNum);
 }
+
+const sendAddToDatabase = async(name,variantNum) => {
+    try {
+        const response = await fetch(FETCH_URL, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                username: USER,
+                guyName: name,
+                guyVariant: variantNum,
+            }),
+        });
+        const json = await response.json();
+        return json.movies;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 function CreateScreen () {
     const navigation = useNavigation();

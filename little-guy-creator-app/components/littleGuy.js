@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { View, Text, Image } from 'react-native';
 import { Button } from '@react-navigation/elements';
 
