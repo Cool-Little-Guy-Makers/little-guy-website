@@ -14,9 +14,9 @@ import LoginScreen from './components/loginScreen.js';
 // **** be sure to add new pages here!
 // https://reactnavigation.org/docs/hello-react-navigation
 const RootStack = createNativeStackNavigator({
-    initialRouteName: 'Login',
+    initialRouteName: 'Home',
     screens: {
-        Home: HomeScreen,
+        "Home": HomeScreen,
         Edit: EditScreen,
         Create: CreateScreen,
         Login: LoginScreen

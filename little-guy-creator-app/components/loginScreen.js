@@ -8,12 +8,12 @@ import {styles} from '../styles.js';
 // Error messages
 const ALERT_FIELD_BLANK = "This field is required.";
 const ALERT_INVALID = "Username or password is incorrect.";
-const ALTER_UNKNOWN = "Something went wrong. Please try again.";
+const ALERT_ERROR = "Something went wrong. Please try again.";
 
 // Possible sign-in API responses
-const UserValidationResult = {
+const ValidationResult = {
     OK: 0,
-    INCORRECT: 1,
+    INVALID: 1,
     ERROR: 2,
 }
 
@@ -21,26 +21,56 @@ const LoginScreen = (props) => {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
 
-    const [isAwaitingUserValidation, setAwaitingUserValidation] = useState(false)
+    const [awaitingValidation, setAwaitingValidation] = useState(false)
+    const [validationResult, setValidationResult] = useState(undefined)
 
-    const [usernameInput, setUsernameInput] = useState('');
-    const [passwordInput, setPasswordInput] = useState('');
+    const [username, setUsername] = useState("");
+    const [password, setPassword] = useState("");
 
-    const [isUsernameFieldBlank, setUsernameFieldBlank] = useState(false);
-    const [isPasswordFieldBlank, setPasswordFieldBlank] = useState(false);
+    const [isUsernameBlank, setUsernameBlank] = useState(false);
+    const [isPasswordBlank, setPasswordBlank] = useState(false);
 
-    const onUsernameInputChanged = (input) => {
-        setUsernameInput(input);
-        setUsernameFieldBlank(input === "");
+    const onUsernameChanged = (text) => {
+        setUsername(text);
+        setUsernameBlank(text === "");
     }
 
-    const onPasswordInputChanged = (input) => {
-        setPasswordInput(input);
-        setPasswordFieldBlank(input === "");
+    const onPasswordChanged = (text) => {
+        setPassword(text);
+        setPasswordBlank(text === "");
     }
 
-    const onSignInPress = ({_nativeEvent}) => {
-        console.log("hello");
+    const onSignInPress = async ({_nativeEvent}) => {
+        // Case for one or more fields is blank
+        if (username === "" || password === "") {
+            if (username === "") setUsernameBlank(true);
+            if (password === "") setPasswordBlank(true);
+
+            // Don't submit login information
+            return;
+        }
+
+        setAwaitingValidation(true);
+        setValidationResult(undefined);
+        let loginResponse;
+
+        try {
+            await new Promise(resolve => setTimeout(resolve, 1000));
+            loginResponse = ValidationResult.INVALID;
+
+        } catch (err) {
+            loginResponse = ValidationResult.ERROR;
+        }
+
+        setAwaitingValidation(false);
+        setValidationResult(loginResponse);
+
+        if (loginResponse = ValidationResult.OK) {
+            // TODO: store authentication data
+
+            navigation.goBack();
+        }
+
     }
 
     return (
@@ -53,11 +83,12 @@ const LoginScreen = (props) => {
             <Text>Username:</Text>
             <TextInput
                 style={styles.input}
-                onChangeText={onUsernameInputChanged}
-                value={usernameInput}
+                onChangeText={onUsernameChanged}
+                value={username}
+                editable={!awaitingValidation}
                 //placeholder="Enter your username..."
             />
-            <Text>{isUsernameFieldBlank ? ALERT_FIELD_BLANK : ""}</Text>
+            <Text>{isUsernameBlank ? ALERT_FIELD_BLANK : ""}</Text>
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />
@@ -66,17 +97,27 @@ const LoginScreen = (props) => {
             <Text>Password:</Text>
             <TextInput
                 style={styles.input}
-                onChangeText={onPasswordInputChanged}
-                value={passwordInput}
+                onChangeText={onPasswordChanged}
+                value={password}
+                secureTextEntry={true}
+                editable={!awaitingValidation}
                 //placeholder="Enter your password..."
             />
-            <Text>{isPasswordFieldBlank ? ALERT_FIELD_BLANK : ""}</Text>
+            <Text>{isPasswordBlank ? ALERT_FIELD_BLANK : ""}</Text>
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />
 
-            <Button onPress={onSignInPress} title="" disabled={isUsernameFieldBlank || isPasswordFieldBlank}>Sign In</Button>
-            <Text style={styles.tcenter}>{ALERT_INVALID}</Text>
+            <Button onPress={onSignInPress} title="Sign-In" disabled={awaitingValidation}>
+                {awaitingValidation ? "Signing In..." : "Sign In"}
+            </Button>
+            {
+                validationResult === ValidationResult.INVALID ?
+                    <Text style={styles.tcenter}>{ALERT_INVALID}</Text> :
+                    validationResult === ValidationResult.ERROR ?
+                        <Text style={styles.tcenter}>{ALERT_ERROR}</Text> :
+                        null
+            } 
 
             {/* Divider */}
             <View style={styles.div}/>
