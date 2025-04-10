@@ -1,22 +1,41 @@
-import { useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
-import DropDownPicker from 'react-native-dropdown-picker';
+import { View, Text } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
+const FETCH_URL = ''
 
 function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
     console.log("ID: "+littleGuyInfo[0])
     console.log("Name: "+name)
     console.log("Variant num: "+variantNum)
     navigation.popTo('Home');
+    sendEditToDatabase(name,variantNum,littleGuyInfo[0]);
 }
+
+const sendEditToDatabase = async(name,variantNum,id) => {
+    try {
+        const response = await fetch(FETCH_URL, {
+            method: 'POST',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                id: id,
+                username: USER,
+                guyName: name,
+                guyVariant: variantNum,
+            }),
+        });
+        const json = await response.json();
+        return json.movies;
+    } catch (error) {
+        console.error(error);
+    }
+};
 
 function EditScreen ({route}) {
     const navigation = useNavigation();

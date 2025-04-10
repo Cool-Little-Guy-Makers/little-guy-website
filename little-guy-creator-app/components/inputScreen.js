@@ -1,18 +1,13 @@
 import { useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, Image, TextInput, Alert } from 'react-native';
 import { Button } from '@react-navigation/elements';
-import { SafeAreaView, SafeAreaProvider } from 'react-native-safe-area-context';
 import DropDownPicker from 'react-native-dropdown-picker';
 
-import LittleGuy, { textCell } from "./littleGuy.js"
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
 
 export default function InputScreen ({littleGuyInfo, buttonDo, buttonText, nav}) {
-    const navigation = useNavigation();
 
     const [text, onChangeText] = useState(littleGuyInfo[2]);
     const [open, setOpen] = useState(false);
@@ -24,7 +19,13 @@ export default function InputScreen ({littleGuyInfo, buttonDo, buttonText, nav})
     ]);  
 
     const localButtonDo = () => {
-        buttonDo(text,value,nav,littleGuyInfo);
+        if(text == "" || text == null) {
+            Alert.alert("Please enter a name.");
+        } else if(value == null) {
+            Alert.alert("Please enter a variant type.");
+        } else {
+            buttonDo(text,value,nav,littleGuyInfo);
+        }
     };
 
     return (
