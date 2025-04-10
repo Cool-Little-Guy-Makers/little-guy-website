@@ -25,10 +25,10 @@ function HomeScreen() {
             <Text style = { styles.h1 } >Your Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                {textCell("ID","bold")}
-                {textCell("Name","bold")}
-                {textCell("Variant","bold")}
-                {textCell("Picture","bold")}
+                <textCell text="ID" style="bold" />
+                <textCell text="Name" style="bold" />
+                <textCell text="Variant" style="bold" />
+                <textCell text="Picture" style="bold" />
             </View>
             {/* Print all this USER's little guys into a table */}
             {littleGuys}
@@ -54,11 +54,11 @@ function HomeScreen() {
             <Text style = { styles.h2 } >Other Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                {textCell("ID",styles.bold)}
-                {textCell("User",styles.bold)}
-                {textCell("Name",styles.bold)}
-                {textCell("Variant",styles.bold)}
-                {textCell("Picture",styles.bold)}
+                <textCell text="ID" style="bold" />
+                <textCell text="User" style="bold" />
+                <textCell text="Name" style="bold" />
+                <textCell text="Variant" style="bold" />
+                <textCell text="Picture" style="bold" />
             </View>
             {/* Print all other little guys into a table */}
             {otherLittleGuys}
