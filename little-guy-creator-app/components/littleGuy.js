@@ -6,6 +6,12 @@ import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
 
+// Helper function that returns a text cell for a table with the inputted text and style
+// Note: styleName is called as styles.styleName (assumed to be a custom style)
+export function TextCell({text, styleName}) {
+    return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
+}
+
 // LittleGuy component who takes data from the database and displays a row of
 // information about themself.
 export default function LittleGuy ({data,displayUser=false}) {
@@ -59,8 +65,8 @@ export function TextCell({text, styleName}) {
 export function retrieveLittleGuys(u) {
     let a = [1,u,"Bob",0]
     let b = [3,u,"Bill",2]
-    let guy1 = <LittleGuy data={a} key={a[0]}/>
-    let guy2 = <LittleGuy data={b} key={b[0]}/>
+    let guy1 = <LittleGuy data={a} key={a[0]} />
+    let guy2 = <LittleGuy data={b} key={b[0]} />
     let arr = [guy1,guy2]
     return arr;
 }

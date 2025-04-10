@@ -4,7 +4,8 @@ import { createStaticNavigation, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 
-import LittleGuy, { TextCell, retrieveLittleGuys, retrieveLittleGuysExcept } from "./littleGuy.js"
+import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js";
+
 import {styles} from '../styles.js';
 
 const USER = "username" // Placeholder **
