@@ -8,7 +8,7 @@ const USER = "username" // Placeholder **
 
 // Helper function that returns a text cell for a table with the inputted text and style
 // Note: styleName is called as styles.styleName (assumed to be a custom style)
-export function textCell({text, styleName}) {
+export function TextCell({text, styleName}) {
     return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
 }
 
@@ -39,11 +39,11 @@ export default function LittleGuy ({data,displayUser=false}) {
     // Return row of table with info about LittleGuy
     return(
         <View style={styles.table}>
-            <textCell text={id} style="tcenter" />
+            <TextCell text={id} style="tcenter" />
             {/* Only displays username if displayUser was set to true in props */}
-            {displayUser ? <textCell text={username} style="tcenter" /> : null }
-            <textCell text={name} style="tcenter" />
-            <textCell text={variantDesc} style="tcenter" />
+            {displayUser ? <TextCell text={username} style="tcenter" /> : null }
+            <TextCell text={name} style="tcenter" />
+            <TextCell text={variantDesc} style="tcenter" />
             <View style={styles.cell}>
                 <Image style={styles.icon} source={iconSrc} />
             </View>
