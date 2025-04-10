@@ -49,7 +49,7 @@ export default function LittleGuy ({data,displayUser=false}) {
 // Placeholder ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database with the username "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
-export default function retrieveLittleGuys(u) {
+export function retrieveLittleGuys(u) {
     let a = [1,u,"Bob",0]
     let b = [3,u,"Bill",2]
     let guy1 = <LittleGuy data={a} />
@@ -62,7 +62,7 @@ export default function retrieveLittleGuys(u) {
 // Returns an array of LittleGuys from the database where the user is NOT "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
 // Must also set displayUser to true for all LittleGuys here.
-export default function retrieveLittleGuysExcept(u) {
+export function retrieveLittleGuysExcept(u) {
     let a = [5,"someoneElse","Sally",1]
     let b = [3,"someoneElse","Al",2]
     let guy1 = <LittleGuy data={a} displayUser={true} />
