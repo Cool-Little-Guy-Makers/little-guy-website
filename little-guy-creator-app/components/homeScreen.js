@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { View, Text, Image } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 
 import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js";
@@ -27,6 +26,7 @@ function HomeScreen() {
             {/* Header row */}
             <View style={styles.table}>
                 <TextCell text="ID" style="bold" />
+                <TextCell text="" style="bold" />
                 <TextCell text="Name" style="bold" />
                 <TextCell text="Variant" style="bold" />
                 <TextCell text="Picture" style="bold" />
@@ -41,12 +41,7 @@ function HomeScreen() {
                 <Text>Create a New Little Guy</Text>
             </Button>
 
-            {/* Nav button to Edit page */}
-            <Button onPress={() => navigation.navigate('Edit')}>
-                <Text>Edit a Little Guy</Text>
-            </Button>
-
-
+            
             {/* Divider */}
             <View style={styles.div}/>
 
