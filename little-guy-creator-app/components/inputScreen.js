@@ -29,7 +29,7 @@ export default function InputScreen ({littleGuyInfo, buttonDo, buttonText, nav})
     };
 
     return (
-        <View style={styles.container}>
+        <View style={styles.containerShort}>
             <View style = {{margin: 20}}>
                 <Text>Name:</Text>
                 <TextInput
