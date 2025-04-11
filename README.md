@@ -7,24 +7,7 @@
 
 ### To Use Online: [online link](https://littleguycreator.great-site.net/)
 
-### Postman Screenshots:
-
-#### Luca Guerrera:
-![Luca's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/LucaSS.png)
-
-#### Maze Labowitz:
-![Maze's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/MazeSS.png)
-
-#### Kate Lyman:
-![Kate's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/KateSS.png)
-
-### Development Environment:
-
-#### Little Guy local table:
-![Development environment for little guy data](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/DevGuys.png)
-
-#### Users local table:
-![Development environment for little guy data](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/DevUsers.png)
+## Web Frontend
 
 ### File Guide:
 - README.md: description of the project.
