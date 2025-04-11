@@ -10,9 +10,9 @@ export const styles = StyleSheet.create({
 
   // ------ Headings -------
   h1: {
-    fontSize: 25,
+    fontSize: 23,
     fontWeight: "bold",
-    marginBottom: 25,
+    marginBottom: 10,
   },
 
   h2: {
@@ -43,8 +43,8 @@ export const styles = StyleSheet.create({
 
   // Cell of the above table
   cell: {
-    flex: 1,
-    alignSelf: 'stretch',
+    //flex: 1,
+    width: "20%",
     alignItems: 'center',
     justifyContent: 'center',
   },
@@ -52,8 +52,8 @@ export const styles = StyleSheet.create({
   // ------- Misc --------
   // Adds margin above and below
   cushion: {
-    marginTop: 25,
-    marginBottom: 10,
+    marginTop: 15,
+    marginBottom: 0,
   },
 
   // Icon sizing
@@ -72,8 +72,8 @@ export const styles = StyleSheet.create({
 
   // Divider bar
   div: {
-    marginTop: 25,
-    marginBottom: 25,
+    marginTop: 15,
+    marginBottom: 15,
     height: 1,
     backgroundColor: 'lightgray',
     width: '100%',
