@@ -6,6 +6,7 @@ import { Button } from '@react-navigation/elements';
 import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js";
 
 import {styles} from '../styles.js';
+import { FlatList } from 'react-native-gesture-handler';
 
 const USER = "username" // Placeholder **
 
@@ -25,9 +26,26 @@ function HomeScreen() {
         });
     }, [navigation]);
 
-    // Retrieve LittleGuys from database
-    const [littleGuys, setLittleGuys] = useState(retrieveLittleGuys(USER));
-    const [otherLittleGuys, setOtherLittleGuys] = useState(retrieveLittleGuysExcept(USER));
+     // Retrieve LittleGuys from database
+     const [littleGuys, setLittleGuys] = useState([]);
+     const [otherLittleGuys, setOtherLittleGuys] = useState([]);
+
+    useEffect( () => {
+        const handleFetch = async () => {
+            const result = await retrieveLittleGuys(USER);
+            setLittleGuys(result);
+        }
+        handleFetch()
+    }, []);
+    
+    useEffect( () => {
+        const handleFetch = async()=> {
+            const secondResult = await retrieveLittleGuysExcept(USER);
+            setOtherLittleGuys(secondResult);
+        }
+        handleFetch()
+    }, []);
+
 
     // Display
     return (
@@ -37,14 +55,19 @@ function HomeScreen() {
             <Text style = { styles.h1 } >Your Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                <TextCell text="ID" style="bold" />
-                <TextCell text="" style="bold" />
-                <TextCell text="Name" style="bold" />
-                <TextCell text="Variant" style="bold" />
-                <TextCell text="Picture" style="bold" />
+                <TextCell text="ID" style={styles.bold} />
+                <TextCell text="" style={styles.bold} />
+                <TextCell text="Name" style={styles.bold} />
+                <TextCell text="Variant" style={styles.bold} />
+                <TextCell text="Picture" style={styles.bold} />
             </View>
             {/* Print all this USER's little guys into a table */}
-            {littleGuys}
+            <FlatList
+                data = {littleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
+                keyExtractor={item => item.id}
+                style = {{height: 650,flexGrow:0}}
+            />
 
             {/* Nav button to Create page */}
             <Button
@@ -62,14 +85,19 @@ function HomeScreen() {
             <Text style = { styles.h2 } >Other Little Guys</Text>
             {/* Header row */}
             <View style={styles.table}>
-                <TextCell text="ID" style="bold" />
-                <TextCell text="User" style="bold" />
-                <TextCell text="Name" style="bold" />
-                <TextCell text="Variant" style="bold" />
-                <TextCell text="Picture" style="bold" />
+                <TextCell text="ID" style={styles.bold} />
+                <TextCell text="User" style={styles.bold} />
+                <TextCell text="Name" style={styles.bold} />
+                <TextCell text="Variant" style={styles.bold} />
+                <TextCell text="Picture" style={styles.bold} />
             </View>
             {/* Print all other little guys into a table */}
-            {otherLittleGuys}
+            <FlatList
+                data = {otherLittleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
+                keyExtractor={item => item.id}
+                style = {{height:"100%",flexGrow:0}}
+            />
         </View>
     );
 }

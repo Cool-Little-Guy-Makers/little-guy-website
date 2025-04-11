@@ -3,6 +3,7 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Import all other screens
 import HomeScreen from './components/homeScreen.js';
@@ -35,6 +36,8 @@ const RootStack = createNativeStackNavigator({
 const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-    return <Navigation />; // Navigation container - everything goes inside this
+    return <GestureHandlerRootView>
+                <Navigation />
+            </GestureHandlerRootView>
 }
 

@@ -8,14 +8,16 @@ const USER = "username" // Placeholder **
 
 // Helper function that returns a text cell for a table with the inputted text and style
 // Note: styleName is called as styles.styleName (assumed to be a custom style)
-export function TextCell({text, styleName}) {
-    return <View style={styles.cell}><Text style={styles.styleName}>{text}</Text></View>;
+export function TextCell({text, style}) {
+    return <View style={styles.cell}><Text style={style}>{text}</Text></View>;
 }
 
 function EditButton({littleGuyInfo}) {
     const navigation = useNavigation();
     return (
-        <Button onPress={() => navigation.navigate('Edit', {guy: littleGuyInfo})}>
+        <Button 
+            style={{height:40,marginTop:15}} 
+            onPress={() => navigation.navigate('Edit', {guy: littleGuyInfo})}>
         <Text>Edit</Text>
         </Button>
     )
@@ -47,12 +49,12 @@ export default function LittleGuy ({data,displayUser=false}) {
 
     // Return row of table with info about LittleGuy
     return(
-        <View style={styles.table}>
-            <TextCell text={id} style="tcenter" />
+        <View style = {styles.table}>
+            <TextCell text={id} style={styles.tcenter} />
             {/* Only displays username if displayUser was set to true in props */}
-            {displayUser ? <TextCell text={username} style="tcenter" /> : <EditButton littleGuyInfo={data}/> }
-            <TextCell text={name} style="tcenter" />
-            <TextCell text={variantDesc} style="tcenter" />
+            {displayUser ? <TextCell text={username} style={styles.tcenter} /> : <EditButton littleGuyInfo={data}/> }
+            <TextCell text={name} style={styles.tcenter} />
+            <TextCell text={variantDesc} style={styles.tcenter} />
             <View style={styles.cell}>
                 <Image style={styles.icon} source={iconSrc} />
             </View>
@@ -65,25 +67,138 @@ export default function LittleGuy ({data,displayUser=false}) {
 // Placeholder ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database with the username "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
-export function retrieveLittleGuys(u) {
-    let a = [1,u,"Bob",0]
-    let b = [3,u,"Bill",2]
-    let guy1 = <LittleGuy data={a} key={a[0]} />
-    let guy2 = <LittleGuy data={b} key={b[0]} />
-    let arr = [guy1,guy2]
-    return arr;
+export const retrieveLittleGuys = async(u) => {
+    return [
+        {   
+            id: 1,
+            username: u,
+            name: "Bob",
+            variantNum: 0
+        },
+        {   
+            id: 3,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 11,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 12,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 13,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 14,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 15,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 16,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 17,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+        {   
+            id: 18,
+            username: u,
+            name: "Bill",
+            variantNum: 2
+        },
+    ]
 }
+
+
 
 // Placeholder again ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database where the user is NOT "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
 // Must also set displayUser to true for all LittleGuys here.
-export function retrieveLittleGuysExcept(u) {
-    let a = [5,"someoneElse","Sally",1]
-    let b = [3,"someoneElse","Al",2]
-    let guy1 = <LittleGuy data={a} displayUser={true} key={a[0]} />
-    let guy2 = <LittleGuy data={b} displayUser={true} key={b[0]} />
-    let arr = [guy1,guy2]
-    return arr;
+export const retrieveLittleGuysExcept = async(u) => {
+    guyInfo = [
+        {   
+            id: 5,
+            username: "someoneElse",
+            name: "Sally",
+            variantNum: 1
+        },
+        {   
+            id: 10,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 19,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 20,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 21,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 22,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 23,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+        {   
+            id: 24,
+            username: "someoneElse",
+            name: "Al",
+            variantNum: 2
+        },
+    ]
+
+    /* try {
+        await new Promise(resolve => setTimeout(resolve,1000))
+        return guyInfo
+    }
+    catch {
+        console.log("Could not retrieve little guys.")
+        return ["ERROR","ERROR","ERROR","ERROR"]
+    } */
+   return guyInfo;
+    
 }
 
