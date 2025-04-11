@@ -17,7 +17,7 @@ const FeedbackTextInput = (props) => {
                     placeholder={props.placeholder}
                     secureTextEntry={props.secureTextEntry}
                 />
-            <Text>{props.feedback}</Text>
+            <Text style={styles.errorText}>{props.feedback}</Text>
         </View>
     );
 }
