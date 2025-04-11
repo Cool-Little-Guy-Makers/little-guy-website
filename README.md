@@ -1,4 +1,4 @@
-# Little Guy Website
+# Little Guy Creator
 
 ### Team Members:
 - Luca Guerrera (33%)
@@ -7,7 +7,7 @@
 
 ### To Use Online: [online link](https://littleguycreator.great-site.net/)
 
-### phpmyadmin Screenshots:
+### Postman Screenshots:
 
 #### Luca Guerrera:
 ![Luca's SS](https://raw.githubusercontent.com/lucaguerrera/little-guy-website/refs/heads/issue-43-readme/assets/screenshots/LucaSS.png)
