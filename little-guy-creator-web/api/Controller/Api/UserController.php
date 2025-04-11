@@ -12,7 +12,7 @@ class UserController extends BaseController
         if (strtoupper($requestMethod) == 'GET') {
             try {
                 $userModel = new UserModel();
-                $intLimit = 10;
+                $intLimit = 10; /**for getUsers parameter */
                 if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
                     $intLimit = $arrQueryStringParams['limit'];
                 }
