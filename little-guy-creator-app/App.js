@@ -9,6 +9,7 @@ import HomeScreen from './components/homeScreen.js';
 import CreateScreen from './components/createScreen.js';
 import EditScreen from './components/editScreen.js';
 import LoginScreen from './components/loginScreen.js';
+import RegistrationScreen from "./components/registrationScreen.js";
 
 // All the screens listed here for the navigator
 // **** be sure to add new pages here!
@@ -25,7 +26,8 @@ const RootStack = createNativeStackNavigator({
         },
         Edit: EditScreen,
         Create: CreateScreen,
-        'Sign In': LoginScreen
+        'Sign In': LoginScreen,
+        Registration: RegistrationScreen,
     },
 });
 
