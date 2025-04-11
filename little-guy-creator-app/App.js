@@ -35,7 +35,7 @@ const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
     return <GestureHandlerRootView>
-                <Navigation />; {/* Navigation container - everything goes inside this */}
+                <Navigation />
             </GestureHandlerRootView>
 }
 

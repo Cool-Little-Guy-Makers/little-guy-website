@@ -139,7 +139,7 @@ export const retrieveLittleGuys = async(u) => {
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
 // Must also set displayUser to true for all LittleGuys here.
 export const retrieveLittleGuysExcept = async(u) => {
-    return [
+    guyInfo = [
         {   
             id: 5,
             username: "someoneElse",
@@ -189,5 +189,16 @@ export const retrieveLittleGuysExcept = async(u) => {
             variantNum: 2
         },
     ]
+
+    /* try {
+        await new Promise(resolve => setTimeout(resolve,1000))
+        return guyInfo
+    }
+    catch {
+        console.log("Could not retrieve little guys.")
+        return ["ERROR","ERROR","ERROR","ERROR"]
+    } */
+   return guyInfo;
+    
 }
 
