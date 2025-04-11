@@ -26,9 +26,26 @@ function HomeScreen() {
         });
     }, [navigation]);
 
-    // Retrieve LittleGuys from database
-    const [littleGuys, setLittleGuys] = useState(retrieveLittleGuys(USER));
-    const [otherLittleGuys, setOtherLittleGuys] = useState(retrieveLittleGuysExcept(USER));
+     // Retrieve LittleGuys from database
+     const [littleGuys, setLittleGuys] = useState([]);
+     const [otherLittleGuys, setOtherLittleGuys] = useState([]);
+
+    useEffect( () => {
+        const handleFetch = async () => {
+            const result = await retrieveLittleGuys(USER);
+            setLittleGuys(result);
+        }
+        handleFetch()
+    }, []);
+    
+    useEffect( () => {
+        const handleFetch = async()=> {
+            const secondResult = await retrieveLittleGuysExcept(USER);
+            setOtherLittleGuys(secondResult);
+        }
+        handleFetch()
+    }, []);
+
 
     // Display
     return (
@@ -49,7 +66,7 @@ function HomeScreen() {
                 data = {littleGuys}
                 renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
                 keyExtractor={item => item.id}
-                style = {{height: 800,flexGrow:0}}
+                style = {{height: 650,flexGrow:0}}
             />
 
             {/* Nav button to Create page */}

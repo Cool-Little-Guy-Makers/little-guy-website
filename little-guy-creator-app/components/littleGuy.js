@@ -67,7 +67,7 @@ export default function LittleGuy ({data,displayUser=false}) {
 // Placeholder ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database with the username "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
-export function retrieveLittleGuys(u) {
+export const retrieveLittleGuys = async(u) => {
     return [
         {   
             id: 1,
@@ -132,11 +132,13 @@ export function retrieveLittleGuys(u) {
     ]
 }
 
+
+
 // Placeholder again ** - fill in w/ functionality
 // Returns an array of LittleGuys from the database where the user is NOT "u".
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
 // Must also set displayUser to true for all LittleGuys here.
-export function retrieveLittleGuysExcept(u) {
+export const retrieveLittleGuysExcept = async(u) => {
     return [
         {   
             id: 5,
