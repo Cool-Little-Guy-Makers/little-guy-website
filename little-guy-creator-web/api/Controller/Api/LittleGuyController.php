@@ -143,12 +143,78 @@ class LittleGuyController extends BaseController
 
     public function changeGuys()
     {
-
+        $strErrorDesc = '';
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        $arrQueryStringParams = $this->getQueryStringParams();
+        if (strtoupper($requestMethod) == 'GET') {
+            try {
+                $littleGuyModel = new UserModel();
+                if (isset($arrQueryStringParams['id']) &&
+                    isset($arrQueryStringParams['user']) &&
+                    isset($arrQueryStringParams['name']) &&
+                    isset($arrQueryStringParams['variant'])) {
+                    $guyUser = $arrQueryStringParams['user'];
+                    $guyId = $arrQueryStringParams['id'];
+                    $newName = $arrQueryStringParams['name'];
+                    $newVariant = $arrQueryStringParams['variant'];
+                }
+                $resp = $littleGuyModel->editLittleGuy($guyId, $guyUser, $newName, $newVariant); 
+                $responseData = json_encode($resp);
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $responseData,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }     
     }
 
     public function trashGuys()
     {
-        
+        $strErrorDesc = '';
+        $requestMethod = $_SERVER["REQUEST_METHOD"];
+        $arrQueryStringParams = $this->getQueryStringParams();
+        if (strtoupper($requestMethod) == 'GET') {
+            try {
+                $littleGuyModel = new UserModel();
+                if (isset($arrQueryStringParams['id']) &&
+                    isset($arrQueryStringParams['user'])) {
+                    $guyUser = $arrQueryStringParams['user'];
+                    $guyId = $arrQueryStringParams['id'];
+                }
+                $resp = $littleGuyModel->deleteLittleGuy($guyId, $guyUser); 
+                $responseData = json_encode($resp);
+            } catch (Error $e) {
+                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+            }
+        } else {
+            $strErrorDesc = 'Method not supported';
+            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+        }
+        // send output 
+        if (!$strErrorDesc) {
+            $this->sendOutput(
+                $responseData,
+                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            );
+        } else {
+            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+                array('Content-Type: application/json', $strErrorHeader)
+            );
+        }        
     }
 
 /*

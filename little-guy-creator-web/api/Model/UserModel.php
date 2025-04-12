@@ -34,12 +34,18 @@ class UserModel extends Database
 
     public function editLittleGuy($id, $username, $guyName, $guyVariant)
     {
-        return $this->update("UPDATE `little-guys` SET `name` = ?, `variant` = ? WHERE `id` = ? AND `username` = ?", ["siis", $guyName, $guyVariant, $id, $username]);
+        $exists = $this->userIdMatch($id, $username);
+        return $exists && $this->update("UPDATE `little-guys` SET `name` = ?, `variant` = ? WHERE `id` = ? AND `username` = ?", ["siis", $guyName, $guyVariant, $id, $username]);
     }
 
     public function deleteLittleGuy($id, $username)
     {
-        return $this->delete("DELETE FROM `little-guys` WHERE `id` = ? AND `username` = ?", ["is", $id, $username]);
+        $exists = $this->userIdMatch($id, $username);
+        return $exists && $this->delete("DELETE FROM `little-guys` WHERE `id` = ? AND `username` = ?", ["is", $id, $username]);
+    }
+
+    public function userIdMatch($id, $username) {
+        return !empty($this->select("SELECT * FROM `little-guys` WHERE id = ? AND username = ?", ["is", $id, $username]));
     }
 }
 ?>

@@ -34,11 +34,11 @@ class Database
         try {
             $stmt = $this->executeStatement( $query , $params );
             $stmt->close();
-            return true;
+            return 'OK';
         } catch(Exception $e) {
             throw New Exception( $e->getMessage() );
         }
-        return false;
+        return 'ERROR';
     }
 
     /*
