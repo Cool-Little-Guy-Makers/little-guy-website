@@ -24,8 +24,8 @@ const sendAddToDatabase = async(name,variantNum) => {
             },
             body: JSON.stringify({
                 username: USER,
-                guyName: name,
-                guyVariant: variantNum,
+                name: name,
+                variant: variantNum,
             }),
         });
         const json = await response.json();

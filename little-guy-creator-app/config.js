@@ -1,0 +1,1 @@
+export const requestURL = 'localhost/api/index.php'
