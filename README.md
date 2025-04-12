@@ -7,7 +7,12 @@
 
 ### To Use Online: [online link](https://littleguycreator.great-site.net/)
 
-## Web Frontend
+### Chapters:
+- [Web Server and Frontend](#web-server-and-frontend) (`/little-guy-creator-web/`)
+- [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
+- Using the REST API
+
+## Web Server and Frontend
 
 ### File Guide:
 - README.md: description of the project.
@@ -59,3 +64,5 @@ CREATE TABLE `app-db`.`little-guys`(
 From the landing page, use the far-right button on the navigation bar at the top (labelled "sign in") to sign in to the site. You may either sign in to an existing account or register a new account using the link below the entry fields. After logging in, the site will direct you to the home page, where the CRUD functionality is. The home page displays all of the users Little Guys, as well as all the Little Guys of the other users.
 
 You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
+
+## Mobile Frontend
