@@ -2,6 +2,12 @@
 require_once PROJECT_ROOT_PATH . "/Model/Database.php";
 class UserModel extends Database
 {
+    public function checkUser($username, $password) 
+    {
+
+        return !empty($this->select("SELECT * FROM users WHERE username = ? AND password = ?", ["ss", $username, $password]));
+    }
+
     public function registerUser($username, $password)
     {
         return $this->insert("INSERT INTO users VALUES (?, ?)", ["ss", $username, $password]);

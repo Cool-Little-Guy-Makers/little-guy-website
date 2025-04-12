@@ -11,9 +11,10 @@ $objFeedController = new LittleGuyController();
 
 if ($uri[5] == 'guy') {
     $strMethodName = $uri[6] . 'Guys';
+    $objFeedController->{$strMethodName}();
 }
 else {
-    $strMethodName = $uri[6] . 'Action';
+    $strMethodName = $uri[6] . 'User';
 }
 $objFeedController->{$strMethodName}();
 

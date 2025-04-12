@@ -1,8 +1,85 @@
 <?php
 class LittleGuyController extends BaseController
 {
+
+        /** 
+* "/user/login" Endpoint - returns OK if user exists
+*/
+public function loginUser()
+{
+    $strErrorDesc = '';
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+    $arrQueryStringParams = $this->getQueryStringParams();
+    if (strtoupper($requestMethod) == 'GET') {
+        try {
+            $userModel = new UserModel();
+            if (isset($arrQueryStringParams['username']) && $arrQueryStringParams['password']) {
+                $username = $arrQueryStringParams['username'];
+                $password = $arrQueryStringParams['password'];
+            }
+            $userExists = $userModel->checkUser($username, $password);
+            $responseData = json_encode($userExists);
+        } catch (Error $e) {
+            $strErrorDesc = $e->getMessage().('Something went wrong! Please contact support.');
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+        }
+    } else {
+        $strErrorDesc = 'Method not supported';
+        $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+    }
+    // send output 
+    if (!$strErrorDesc) {
+        $this->sendOutput(
+            $responseData,
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+    } else {
+        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            array('Content-Type: application/json', $strErrorHeader)
+        );
+    }
+}
+
+        /** 
+* "/user/register" Endpoint - inserts a new user
+*/
+public function registerUser()
+{
+    $strErrorDesc = '';
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+    $arrQueryStringParams = $this->getQueryStringParams();
+    if (strtoupper($requestMethod) == 'GET') {
+        try {
+            $userModel = new UserModel();
+            if (isset($arrQueryStringParams['username']) && $arrQueryStringParams['password']) {
+                $username = $arrQueryStringParams['username'];
+                $password = $arrQueryStringParams['password'];
+            }
+            $userExists = $userModel->registerUser($username, $password);
+            $responseData = json_encode($userExists);
+        } catch (Error $e) {
+            $strErrorDesc = $e->getMessage().('Something went wrong! Please contact support.');
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+        }
+    } else {
+        $strErrorDesc = 'Method not supported';
+        $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+    }
+    // send output 
+    if (!$strErrorDesc) {
+        $this->sendOutput(
+            $responseData,
+            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+        );
+    } else {
+        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
+            array('Content-Type: application/json', $strErrorHeader)
+        );
+    }
+}
+
     /** 
-* "/guy/listAll" Endpoint - Get list of users 
+* "/guy/listAll" Endpoint - get list of little guys
 */
     public function listAllGuys() 
     {
@@ -33,7 +110,9 @@ class LittleGuyController extends BaseController
             );
         }
     }
-
+    /** 
+* "/guy/listUser" Endpoint - get list of little guys belonging to user
+*/
     public function listUserGuys()
     {
         $strErrorDesc = '';
@@ -67,7 +146,9 @@ class LittleGuyController extends BaseController
             );
         }
     }
-
+    /** 
+* "/guy/listNonUser" Endpoint - get list of little guys not belonging to user
+*/
     public function listNonUserGuys()
     {
         $strErrorDesc = '';
@@ -102,6 +183,9 @@ class LittleGuyController extends BaseController
         }
     }
 
+    /** 
+* "/guy/new" Endpoint - make new little guy
+*/
     public function newGuys()
     {
         $strErrorDesc = '';
@@ -141,6 +225,9 @@ class LittleGuyController extends BaseController
         }
     }
 
+    /** 
+* "/guy/change" Endpoint - edit pre-existing little guy
+*/
     public function changeGuys()
     {
         $strErrorDesc = '';
@@ -180,7 +267,9 @@ class LittleGuyController extends BaseController
             );
         }     
     }
-
+    /** 
+* "/guy/trash" Endpoint - delete pre-existing little guy
+*/
     public function trashGuys()
     {
         $strErrorDesc = '';
@@ -216,43 +305,5 @@ class LittleGuyController extends BaseController
             );
         }        
     }
-
-/*
-    public function listAction()
-    {
-        $strErrorDesc = '';
-        $requestMethod = $_SERVER["REQUEST_METHOD"];
-        $arrQueryStringParams = $this->getQueryStringParams();
-        if (strtoupper($requestMethod) == 'GET') {
-            try {
-                $userModel = new UserModel();
-                $intLimit = 10; 
-                if (isset($arrQueryStringParams['limit']) && $arrQueryStringParams['limit']) {
-                    $intLimit = $arrQueryStringParams['limit'];
-                }
-                $arrUsers = $userModel->getUsers($intLimit); 
-                $responseData = json_encode($arrUsers);
-            } catch (Error $e) {
-                $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
-                $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
-            }
-        } else {
-            $strErrorDesc = 'Method not supported';
-            $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
-        }
-        // send output 
-        if (!$strErrorDesc) {
-            $this->sendOutput(
-                $responseData,
-                array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-            );
-        } else {
-            $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-                array('Content-Type: application/json', $strErrorHeader)
-            );
-        }
-    }
-
-*/
 }
 ?>
