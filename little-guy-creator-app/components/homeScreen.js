@@ -64,7 +64,7 @@ function HomeScreen() {
             {/* Print all this USER's little guys into a table */}
             <FlatList
                 data = {littleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
                 keyExtractor={item => item.id}
                 style = {{height: 650,flexGrow:0}}
             />
@@ -94,7 +94,7 @@ function HomeScreen() {
             {/* Print all other little guys into a table */}
             <FlatList
                 data = {otherLittleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
                 keyExtractor={item => item.id}
                 style = {{height:"100%",flexGrow:0}}
             />
