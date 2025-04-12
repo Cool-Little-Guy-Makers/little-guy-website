@@ -84,6 +84,24 @@ function HomeScreen({route}) {
                     style = {{height: 220,flexGrow:0}}
                 />
 
+            {/* YOUR GUYS TABLE ---------- */}
+            <Text style = { styles.h1 } >Your Little Guys</Text>
+            {/* Header row */}
+            <View style={styles.table}>
+                <TextCell text="ID" style={styles.bold} />
+                <TextCell text="" style={styles.bold} />
+                <TextCell text="Name" style={styles.bold} />
+                <TextCell text="Variant" style={styles.bold} />
+                <TextCell text="Picture" style={styles.bold} />
+            </View>
+            {/* Print all this USER's little guys into a table */}
+            <FlatList
+                data = {littleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
+                keyExtractor={item => item.id}
+                style = {{height: 650,flexGrow:0}}
+            />
+
                 {/* Nav button to Create page */}
                 <Button
                     style = {styles.cushion}
