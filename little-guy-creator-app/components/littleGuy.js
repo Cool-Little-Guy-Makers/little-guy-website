@@ -73,61 +73,61 @@ export const retrieveLittleGuys = async(u) => {
             id: 1,
             username: u,
             name: "Bob",
-            variantNum: 0
+            variant: 0
         },
         {   
             id: 3,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 11,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 12,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 13,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 14,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 15,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 16,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 17,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 18,
             username: u,
             name: "Bill",
-            variantNum: 2
+            variant: 2
         },
     ]
 }
@@ -139,54 +139,57 @@ export const retrieveLittleGuys = async(u) => {
 // Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
 // Must also set displayUser to true for all LittleGuys here.
 export const retrieveLittleGuysExcept = async(u) => {
+
+
+
     guyInfo = [
         {   
             id: 5,
             username: "someoneElse",
             name: "Sally",
-            variantNum: 1
+            variant: 1
         },
         {   
             id: 10,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 19,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 20,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 21,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 22,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 23,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
         {   
             id: 24,
             username: "someoneElse",
             name: "Al",
-            variantNum: 2
+            variant: 2
         },
     ]
 
