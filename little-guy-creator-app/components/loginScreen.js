@@ -4,6 +4,7 @@ import { createStaticNavigation, useNavigation } from '@react-navigation/native'
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 import {styles} from '../styles.js';
+import FeedbackTextInput from './feedbackTextInput.js';
 
 // Error messages
 const ALERT_FIELD_BLANK = "This field is required.";
@@ -15,23 +16,6 @@ const ValidationResult = {
     OK: 0,
     INVALID: 1,
     ERROR: 2,
-}
-
-// Field Layout component for Username or Password
-const InputField = (props) => {
-    return (
-        <View>
-            <Text>{props.title}:</Text>
-                <TextInput
-                    style={styles.input}
-                    onChangeText={props.onChangeText}
-                    editable={props.editable}
-                    placeholder={props.placeholder}
-                    secureTextEntry={props.secureTextEntry}
-                />
-            <Text>{props.alert}</Text>
-        </View>
-    );
 }
 
 const LoginScreen = (props) => {
@@ -91,6 +75,10 @@ const LoginScreen = (props) => {
 
     }
 
+    const onCreateNewAccount = () => {
+        navigation.navigate('Registration');
+    }
+
     return (
       <View style={styles.container}>
         <Text style={styles.h1}>Sign In</Text>
@@ -98,32 +86,34 @@ const LoginScreen = (props) => {
         <View style={{pad: 20, width: "90%" }}>
 
             {/* Username Field */}
-            <InputField
+            <FeedbackTextInput
                 title="Username"
                 onChangeText={onUsernameChanged}
                 editable={!awaitingValidation}
-                alert={isUsernameBlank ? ALERT_FIELD_BLANK : null}
+                feedback={isUsernameBlank ? ALERT_FIELD_BLANK : null}
             />
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />
 
             {/* Password Field */}
-            <InputField
+            <FeedbackTextInput
                 title="Password"
                 onChangeText={onPasswordChanged}
                 editable={!awaitingValidation}
-                alert={isPasswordBlank ? ALERT_FIELD_BLANK : null}
+                feedback={isPasswordBlank ? ALERT_FIELD_BLANK : null}
                 secureTextEntry={true}
             />
 
             {/* Small Spacer */}
             <View style={ {margin: 10} } />
 
+            {/* Sign In Button */}
             <Button onPress={onSignInPress} title="Sign-In" disabled={awaitingValidation}>
                 {awaitingValidation ? "Signing In..." : "Sign In"}
             </Button>
             {
+                // Error/invalid message on signing in
                 validationResult === ValidationResult.INVALID ?
                     <Text style={styles.tcenter}>{ALERT_INVALID}</Text> :
                     validationResult === ValidationResult.ERROR ?
@@ -133,6 +123,8 @@ const LoginScreen = (props) => {
 
             {/* Divider */}
             <View style={styles.div}/>
+
+            <Button onPress={onCreateNewAccount}>Create an account</Button>
 
         </View>
 

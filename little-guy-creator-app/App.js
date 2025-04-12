@@ -3,12 +3,14 @@ import * as React from 'react';
 import { View, Text, Button } from 'react-native';
 import { createStaticNavigation } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Import all other screens
 import HomeScreen from './components/homeScreen.js';
 import CreateScreen from './components/createScreen.js';
 import EditScreen from './components/editScreen.js';
 import LoginScreen from './components/loginScreen.js';
+import RegistrationScreen from "./components/registrationScreen.js";
 
 // All the screens listed here for the navigator
 // **** be sure to add new pages here!
@@ -25,7 +27,8 @@ const RootStack = createNativeStackNavigator({
         },
         Edit: EditScreen,
         Create: CreateScreen,
-        'Sign In': LoginScreen
+        'Sign In': LoginScreen,
+        Registration: RegistrationScreen,
     },
 });
 
@@ -33,6 +36,8 @@ const RootStack = createNativeStackNavigator({
 const Navigation = createStaticNavigation(RootStack);
 
 export default function App() {
-    return <Navigation />; // Navigation container - everything goes inside this
+    return <GestureHandlerRootView>
+                <Navigation />
+            </GestureHandlerRootView>
 }
 
