@@ -8,6 +8,12 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  containerShort: {
+    marginTop: 30,
+    marginBottom: 30,
+    alignItems: "center",
+  },
+
   // ------ Headings -------
   h1: {
     fontSize: 23,
@@ -77,6 +83,10 @@ export const styles = StyleSheet.create({
     height: 1,
     backgroundColor: 'lightgray',
     width: '100%',
+  },
+
+  button: {
+    color: '#f194ff',
   },
 
   input: {
