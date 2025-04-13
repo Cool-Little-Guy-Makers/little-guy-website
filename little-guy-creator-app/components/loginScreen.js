@@ -70,7 +70,7 @@ const LoginScreen = (props) => {
             // TODO: store authentication data
 
             console.log("great!");
-            navigation.goBack();
+            navigation.popTo('Home',{loggedIn:true});
         }
 
     }
