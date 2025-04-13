@@ -3,30 +3,47 @@ import { View, Text, Image } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 
-import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, TextCell } from "./littleGuy.js";
-
+import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, retrieveAllLittleGuys, TextCell } from "./littleGuy.js";
+import {getUserData} from './user.js';
 import {styles} from '../styles.js';
 import { FlatList } from 'react-native-gesture-handler';
-
-const USER = "username" // Placeholder **
 
 
 function HomeScreen({route}) {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
-    let {loggedIn} = route.params;
+    const [USER,setUser] = useState("");
+    const [loggedIn,setLoggedIn] = useState(false)
+
+    // Retrieve LittleGuys from database
+    const [littleGuys, setLittleGuys] = useState([]);
+    const [otherLittleGuys, setOtherLittleGuys] = useState([]);
+    const [allLittleGuys, setAllLittleGuys] = useState([]);
+
+    // Get current user
+    useEffect( () => {
+        console.log("LoggedInStatus is: "+route.params.loggedInStatus)
+        const handleFetch = async () => {
+            result = await getUserData(); 
+            setUser(result.username);
+            setLoggedIn(result.username!="")
+            console.log("User is now: "+USER)
+            console.log("LoggedIn is now: "+loggedIn)
+        }
+        handleFetch()
+    }, [route]);
+ 
     // Add signin button to header
-    // TODO Once we are storing user auth: only do this conditionally, maybe do Sign Out otherwise
-    
     useEffect( () => {
         // Reload logged in from prev route's inputted params
-        if (!route.params?.loggedIn) {
+        console.log("For header, loggedIn is now: "+loggedIn)
+        if (!loggedIn) {
             // Use `setOptions` to update the button in App.js
             // Now the button includes an `onPress` handler to navigate
             navigation.setOptions({
                 headerRight: () => (
                 <Button onPress={() => navigation.navigate('Sign In')}>Sign In</Button>
-                ),
+                ), 
             });
         } else {
             navigation.setOptions({
@@ -37,12 +54,8 @@ function HomeScreen({route}) {
                 </View>
                 ),
             });
-        }
-    }, [route.params?.loggedIn]);
-
-     // Retrieve LittleGuys from database
-     const [littleGuys, setLittleGuys] = useState([]);
-     const [otherLittleGuys, setOtherLittleGuys] = useState([]);
+        } 
+    }, [route]);
 
     useEffect( () => {
         const handleFetch = async () => {
@@ -56,6 +69,14 @@ function HomeScreen({route}) {
         const handleFetch = async()=> {
             const secondResult = await retrieveLittleGuysExcept(USER);
             setOtherLittleGuys(secondResult);
+        }
+        handleFetch()
+    }, []);
+
+    useEffect( () => {
+        const handleFetch = async()=> {
+            const result = await retrieveAllLittleGuys(); 
+            setAllLittleGuys(result);
         }
         handleFetch()
     }, []);
@@ -79,28 +100,10 @@ function HomeScreen({route}) {
                 {/* Print all this USER's little guys into a table */}
                 <FlatList
                     data = {littleGuys}
-                    renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} />}
+                    renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
                     keyExtractor={item => item.id}
                     style = {{height: 220,flexGrow:0}}
                 />
-
-            {/* YOUR GUYS TABLE ---------- */}
-            <Text style = { styles.h1 } >Your Little Guys</Text>
-            {/* Header row */}
-            <View style={styles.table}>
-                <TextCell text="ID" style={styles.bold} />
-                <TextCell text="" style={styles.bold} />
-                <TextCell text="Name" style={styles.bold} />
-                <TextCell text="Variant" style={styles.bold} />
-                <TextCell text="Picture" style={styles.bold} />
-            </View>
-            {/* Print all this USER's little guys into a table */}
-            <FlatList
-                data = {littleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
-                keyExtractor={item => item.id}
-                style = {{height: 650,flexGrow:0}}
-            />
 
                 {/* Nav button to Create page */}
                 <Button
@@ -127,12 +130,21 @@ function HomeScreen({route}) {
                 <TextCell text="Picture" style={styles.bold} />
             </View>
             {/* Print all other little guys into a table */}
+            {loggedIn ? 
             <FlatList
                 data = {otherLittleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variantNum]} displayUser={true} />}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
                 keyExtractor={item => item.id}
                 style = {{height:"100%",flexGrow:0}}
             />
+            :
+            <FlatList
+                data = {allLittleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
+                keyExtractor={item => item.id}
+                style = {{height:"100%",flexGrow:0}}
+            />
+            }
         </View>
     );
 }

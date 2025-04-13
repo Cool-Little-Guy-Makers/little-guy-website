@@ -25,7 +25,9 @@ const RootStack = createNativeStackNavigator({
                 // Placeholder to prevent flicker, see HomeScreen for real button
                 headerRight: () => <Button title="">Sign In</Button>,
             },
-            initialParams: {loggedIn: true}
+            initialParams: {
+                loggedInStatus: false
+            }
         },
         Edit: EditScreen,
         Create: CreateScreen,

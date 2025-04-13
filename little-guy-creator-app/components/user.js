@@ -67,8 +67,19 @@ export const getUserData = async () => {
         const value = await AsyncStorage.getItem('username');
         if (value !== null) {
             userData.username = value;
+            return userData;
         }
       } catch (e) {
+        // error reading value
+      }
+}
+
+export const logOutUser = async () => {
+    try {
+        await AsyncStorage.removeItem('username');
+        console.log("Logged out")
+      } catch (e) {
+        console.log("Could not log out")
         // error reading value
       }
 }

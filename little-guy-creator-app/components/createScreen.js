@@ -4,8 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
 
-const USER = "username" // Placeholder **
-const FETCH_URL = ''
 
 function addNewLittleGuy(name,variantNum,navigation) {
     console.log("Name: "+name);
@@ -15,6 +13,7 @@ function addNewLittleGuy(name,variantNum,navigation) {
 }
 
 const sendAddToDatabase = async(name,variantNum) => {
+    const USER = getUserData()
     try {
         const response = await fetch(FETCH_URL, {
             method: 'POST',

@@ -4,8 +4,6 @@ import { useNavigation } from '@react-navigation/native';
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
 
-const USER = "username" // Placeholder **
-//const FETCH_URL = ''
 
 function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
     console.log("ID: "+littleGuyInfo[0])
@@ -16,25 +14,23 @@ function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
 }
 
 const sendEditToDatabase = async(name,variantNum,id) => {
-    /* try {
-        const response = await fetch(FETCH_URL, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                id: id,
-                username: USER,
-                guyName: name,
-                guyVariant: variantNum,
-            }),
-        });
-        const json = await response.json();
-        return json.movies;
-    } catch (error) {
-        console.error(error);
-    } */
+    /* 
+        const params = new URLSearchParams({username: u});
+        const url = `${baseURL}/guy/listUser?${params}`;
+    
+        try {
+            const response = await fetch(url);
+    
+            if (!response.ok) {
+                throw new Error(`Response status: ${response.status}`);
+            }
+    
+            return await response.json();
+    
+        } catch (error) {
+            console.log(error.message)
+        }
+        return []; */
 };
 
 function deleteLittleGuy(navigation,littleGuyInfo) {

@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
+import { logOutUser } from './user.js';
 import {styles} from '../styles.js';
 
 const LogoutScreen = () => {
@@ -14,9 +15,10 @@ const LogoutScreen = () => {
 
         {/* Sign Out Button */}
         <Button onPress={() => {
-            navigation.popTo('Home', {loggedIn: false})
-            }}>
-            <Text>Sign Out</Text>
+          logOutUser()
+          navigation.popTo('Home',{'loggedInStatus': 'false'})
+          }}>
+          <Text>Sign Out</Text>
         </Button>
             
 
