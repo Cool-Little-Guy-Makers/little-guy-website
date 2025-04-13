@@ -19,7 +19,7 @@ export const signInUser = async (username, password) => {
     });
 
     if (response.ok) {
-        AsyncStorage.setItem('username', username);
+        await AsyncStorage.setItem('username', username);
         // TODO: Store authentication token
 
     } else {
@@ -54,4 +54,21 @@ export const registerUser = async (username, password) => {
         throw new Error(`Response status: ${response.status}`);
     }
 
+}
+
+
+export const getUserData = async () => {
+    let userData = {
+        username: '',
+        // Add authentication token or similar
+    }
+
+    try {
+        const value = await AsyncStorage.getItem('username');
+        if (value !== null) {
+            userData.username = value;
+        }
+      } catch (e) {
+        // error reading value
+      }
 }
