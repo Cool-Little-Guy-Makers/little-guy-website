@@ -24,7 +24,7 @@ class Database
             $stmt->close();
             return $result;
         } catch(Exception $e) {
-            throw New Exception( $e->getMessage() );
+            throw new Exception( $e->getMessage() );
         }
         return false;
     }

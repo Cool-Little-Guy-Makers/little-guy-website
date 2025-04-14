@@ -48,5 +48,9 @@ class UserModel extends Database
     public function userIdMatch($id, $username) {
         return !empty($this->select("SELECT * FROM `little-guys` WHERE id = ? AND username = ?", ["is", $id, $username]));
     }
+
+    public function getOwner($id) {
+        return $this->select("SELECT `username` FROM `little-guys` WHERE id = ?", ["i", $id]);
+    }
 }
 ?>
