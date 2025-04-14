@@ -42,16 +42,7 @@ public function loginUser()
     }
 
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');
 }
 
         /** 
@@ -97,16 +88,7 @@ public function registerUser()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 201 Created')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '201 Created');
 }
 
     /** 
@@ -130,16 +112,7 @@ public function listAllGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');
 }
 /** 
 * "/guy/listUser" Endpoint - get list of little guys belonging to user
@@ -166,16 +139,7 @@ public function listUserGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');
 }
     /** 
 * "/guy/listNonUser" Endpoint - get list of little guys not belonging to user
@@ -202,16 +166,7 @@ public function listNonUserGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');
 }
 
     /** 
@@ -259,16 +214,7 @@ public function newGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 201 Created')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '201 Created');  
 }
 
 /** 
@@ -278,21 +224,44 @@ public function changeGuys()
 {
     $strErrorDesc = '';
     $requestMethod = $_SERVER["REQUEST_METHOD"];
-    $arrQueryStringParams = $this->getQueryStringParams();
-    if (strtoupper($requestMethod) == 'GET') {
+
+    $data = json_decode(file_get_contents('php://input'), true);
+    $id = $data['id'] ?? -1;
+    $name = $data['name'] ?? '';
+    $variant = $data['variant'] ?? -1;
+
+    if (strtoupper($requestMethod) == 'PUT') {
         try {
             $littleGuyModel = new UserModel();
-            if (isset($arrQueryStringParams['id']) &&
-                isset($arrQueryStringParams['username']) &&
-                isset($arrQueryStringParams['name']) &&
-                isset($arrQueryStringParams['variant'])) {
-                $guyUser = $arrQueryStringParams['username'];
-                $guyId = $arrQueryStringParams['id'];
-                $newName = $arrQueryStringParams['name'];
-                $newVariant = $arrQueryStringParams['variant'];
+
+            $owners = $littleGuyModel->getOwner($id);
+            
+            if (empty($owners)) {
+                $strErrorDesc = 'ID not found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            } else {
+                $username = $owners[0]['username']; // owners is array of assoc array
+
+                $auth = authenticate($username);
+
+                if (strlen($name) == 0 || $variant < 0) {
+                    $strErrorDesc = 'Invalid little guy';
+                    $strErrorHeader = 'HTTP/1.1 400 Bad Request';
+                } else if ($auth == 401) {
+                    $strErrorDesc = 'Invalid token format';
+                    $strErrorHeader = 'HTTP/1.1 401 Unauthorized';
+                } else if ($auth == 403) {
+                    $strErrorDesc = 'No permission for this user';
+                    $strErrorHeader = 'HTTP/1.1 403 Forbidden';
+                } else if ($auth == 404) {
+                    $strErrorDesc = 'User not found';
+                    $strErrorHeader = 'HTTP/1.1 404 Not Found';
+                } else {
+                    $resp = $littleGuyModel->editLittleGuy($id, $username, $name, $variant); 
+                    $responseData = json_encode($resp);
+                }
             }
-            $resp = $littleGuyModel->editLittleGuy($guyId, $guyUser, $newName, $newVariant); 
-            $responseData = json_encode($resp);
+
         } catch (Error $e) {
             $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -302,16 +271,7 @@ public function changeGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
-        $this->sendOutput(
-            $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
-        );
-    } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
-        );
-    }     
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');  
 }
 /** 
 * "/guy/trash" Endpoint - delete pre-existing little guy
@@ -320,17 +280,39 @@ public function trashGuys()
 {
     $strErrorDesc = '';
     $requestMethod = $_SERVER["REQUEST_METHOD"];
+
     $arrQueryStringParams = $this->getQueryStringParams();
-    if (strtoupper($requestMethod) == 'GET') {
+    $id = $arrQueryStringParams['id'] ?? -1;
+
+    if (strtoupper($requestMethod) == 'DELETE') {
         try {
             $littleGuyModel = new UserModel();
-            if (isset($arrQueryStringParams['id']) &&
-                isset($arrQueryStringParams['username'])) {
-                $guyUser = $arrQueryStringParams['username'];
-                $guyId = $arrQueryStringParams['id'];
+
+            $owners = $littleGuyModel->getOwner($id);
+            
+            if (empty($owners)) {
+                $strErrorDesc = 'ID not found';
+                $strErrorHeader = 'HTTP/1.1 404 Not Found';
+            } else {
+                $username = $owners[0]['username']; // owners is array of assoc array
+
+                $auth = authenticate($username);
+
+                if ($auth == 401) {
+                    $strErrorDesc = 'Invalid token format';
+                    $strErrorHeader = 'HTTP/1.1 401 Unauthorized';
+                } else if ($auth == 403) {
+                    $strErrorDesc = 'No permission for this user';
+                    $strErrorHeader = 'HTTP/1.1 403 Forbidden';
+                } else if ($auth == 404) {
+                    $strErrorDesc = 'User not found';
+                    $strErrorHeader = 'HTTP/1.1 404 Not Found';
+                } else {
+                    $resp = $littleGuyModel->deleteLittleGuy($id, $username); 
+                    $responseData = json_encode($resp);
+                }
             }
-            $resp = $littleGuyModel->deleteLittleGuy($guyId, $guyUser); 
-            $responseData = json_encode($resp);
+
         } catch (Error $e) {
             $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
             $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
@@ -340,16 +322,21 @@ public function trashGuys()
         $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
     }
     // send output 
-    if (!$strErrorDesc) {
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '204 No Content');     
+}
+
+private function doOutput($errorDesc, $responseData, $errorHeader, $okType) {
+    if (!$errorDesc) {
         $this->sendOutput(
             $responseData,
-            array('Content-Type: application/json', 'HTTP/1.1 200 OK')
+            array('Content-Type: application/json', 'HTTP/1.1 ' . $okType)
         );
     } else {
-        $this->sendOutput(json_encode(array('error' => $strErrorDesc)), 
-            array('Content-Type: application/json', $strErrorHeader)
+        $this->sendOutput(json_encode(array('error' => $errorDesc)), 
+            array('Content-Type: application/json', $errorHeader)
         );
-    }        
+    } 
 }
+
 }
 ?>
