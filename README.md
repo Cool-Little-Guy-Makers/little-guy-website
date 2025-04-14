@@ -12,6 +12,22 @@
 - [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
 - Using the REST API
 
+### HW 3: REST API Postman Screenshots
+#### Luca Guerrera:
+##### GET Request
+![img]()
+##### POST Request
+![img]()
+#### Maze Labowitz:
+##### GET Request
+![img]()
+##### POST Request
+![img]()
+#### Kate Lyman:
+##### GET Request
+![img]()
+##### POST Request
+![img]()
 ## Web Server and Frontend
 
 ### File Guide:
@@ -36,7 +52,7 @@
 
 ### How to run locally:
 
-1. Install XAMPP, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
+1. Install XAMPP and start your server, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
 ```sql
 CREATE DATABASE `app-db`;
 
@@ -66,3 +82,38 @@ From the landing page, use the far-right button on the navigation bar at the top
 You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
 
 ## Mobile Frontend
+### How to run locally
+1. Ensure you have installed Node.js and the npm CLI
+2. In your terminal, `cd` to the `/little-guy-creator-app/` folder
+3. Run `npm install` to install package dependencies
+Then, to run with Expo:
+4. Download Expo Go on your phone
+5. Ensure the backend server is also running (see above)
+6. Assuming you're running the backend server on your local computer, replace the contents of `/little-guy-creator-app/config.js` with 
+```js
+export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
+```
+7. Run `npx expo start`
+8. Follow the instructions to run it on your device
+### How to use the app:
+```js
+/TODO
+```
+
+## Using the REST API
+The following table describes API calls that can be made.
+
+Use the base URL `http://localhost/api/index.php`, where `localhost` can be replaced with however you are running the backend server.
+
+Protected calls require an authorization header `'Authorization': 'Bearer YOUR_TOKEN_HERE'`
+
+| Append to URL      | Request Type | Protected? | Request Body (JSON)       | Query Params | Returns (JSON or Status Code)                                                                                                                                                             |
+| ------------------ | ------------ | ---------- | ------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `/guy/listAll`     | GET          |            |                           |              | `200 OK` + array of all little guys                                                                                                                                                       |
+| `/guy/listUser`    | GET          |            |                           | `username`   | `200 OK` + array of all little guys belonging to `username`                                                                                                                               |
+| `/guy/listNonUser` | GET          |            |                           | `username`   | `200 OK` + array of all little guys belonging to everyone except `username`                                                                                                               |
+| `/guy/new`         | POST         | Yes        | `username, name, variant` |              | `201 CREATED` or `400 BAD REQUEST` (name or variant is blank) or `401 UNAUTHORIZED` (no authorization given) or `403 FORBIDDEN` (user not authorized) or `404 NOT FOUND` (user not found) |
+| `/guy/change`      | PUT          | Yes        | `id, name, variant`       |              | `200 OK` or `400 BAD REQUEST` (name or variant is blank) or `401 UNAUTHORIZED` (no authorization given) or `403 FORBIDDEN` (user not authorized) or `404 NOT FOUND` (id not found)        |
+| `/guy/trash`       | DELETE       | Yes        |                           | `id`         | `204 NO CONTENT` (successfully deleted) or `401 UNAUTHORIZED` (no authorization given) or `403 FORBIDDEN` (user not authorized) or `404 NOT FOUND` (id not found)                         |
+| `/user/register`   | POST         |            | `username, password`      |              | `201 CREATED` or `400 BAD REQUEST` (usename or password is blank or too short) or `409 CONFLICT` (username already taken)                                                                 |
+| `/user/login`      | POST         |            | `username, password`      |              | `200 OK` + username and authentication token, or `401 UNAUTHORIZED` (username or password is incorrect)                                                                                   
