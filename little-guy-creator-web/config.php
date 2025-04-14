@@ -1,11 +1,13 @@
 <?php
 
-    // CHANGE THESE FIELDS
-    $hostname = "localhost"; // replace with MySQL hostname on control panel
-    $username = "root"; // replace with MySQL username on control panel
-    $password = ""; // replace with password
+    require_once("./api/inc/config.php");
 
-    $db = mysqli_connect($hostname,$username,$password,"app-db");    
+    // CHANGE THESE FIELDS
+    $hostname = DB_HOST; // replace with MySQL hostname on control panel
+    $username = DB_USERNAME; // replace with MySQL username on control panel
+    $password = DB_PASSWORD; // replace with password
+
+    $db = mysqli_connect($hostname,$username,$password,DB_DATABASE_NAME);    
 
     if (mysqli_connect_errno()) {
         echo "<h1>ERROR: Failed to connect to MySQL: " . mysqli_connect_error() . "<h1>";
