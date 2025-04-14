@@ -8,48 +8,58 @@
 ### To Use Online: [online link](https://littleguycreator.great-site.net/)
 
 ### Chapters:
-- [Web Server and Frontend](#web-server-and-frontend) (`/little-guy-creator-web/`)
+- [Web Server Backend and Web Frontend](#web-server-backend-and-web-frontend) (`/little-guy-creator-web/`)
 - [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
 - Using the REST API
 
 ### HW 3: REST API Postman Screenshots
-#### Luca Guerrera:
+#### ==Luca Guerrera==:
 ##### GET Request
 ![img]()
 ##### POST Request
 ![img]()
-#### Maze Labowitz:
+#### ==Maze Labowitz==:
 ##### GET Request
 ![img]()
 ##### POST Request
 ![img]()
-#### Kate Lyman:
+#### ==Kate Lyman==:
 ##### GET Request
 ![img]()
 ##### POST Request
 ![img]()
-## Web Server and Frontend
+## Web Server Backend and Web Frontend
 
 ### File Guide:
-- README.md: description of the project.
-- ad.html: a site advertising green beans, used in the landing page.
-- checksignin.php: verifies a sign in attempt, setting the current user/isloggedin variables.
-- config.php: connect to the database. MODIFY THESE FIELDS ON YOUR LOCAL MACHINE.
-- createaccount.php: inserts new credentials into the user database after a successful registration attempt.
-- createguyhelper.php: inserts little guy data into database after creation.
-- creator.php: form for creating a little guy.
-- delete.php: remove little guy information when deleted.
-- editguyhelper.php: change data in little guy database after edit.
-- editor.php: form for editing a little guy.
-- favicon.ico: icon for little guy website.
-- home.php: main page for showing your little guys and other users' little guys.
-- index.php: landing page.
-- logout.php: logs user out by destroying the session. Redirects to landing page.
-- registration.php: form for making an account.
-- signin.php: form for signing into an account.
-- style.css: visual information for html.
-- under-construction-notice.html: under construction page for portions of the app not yet developed.
+In `/little-guy-creator-web/`
+- `ad.html`: a site advertising green beans, used in the landing page.
+- `checksignin.php`: verifies a sign in attempt, setting the current user/isloggedin variables.
+- `config.php`: connect to the database. (do not modify directly--it is sourced from the REST API config.php file, see later)
+- `createaccount.php`: inserts new credentials into the user database after a successful registration attempt.
+- `createguyhelper.php`: inserts little guy data into database after creation.
+- `creator.php`: form for creating a little guy.
+- `delete.php`: remove little guy information when deleted.
+- `editguyhelper.php`: change data in little guy database after edit.
+- `editor.php`: form for editing a little guy.
+- `favicon.ico`: icon for little guy website.
+- `home.php`: main page for showing your little guys and other users' little guys.
+- `index.php`: landing page.
+- `logout.php`: logs user out by destroying the session. Redirects to landing page.
+- `registration.php`: form for making an account.
+- `signin.php`: form for signing into an account.
+- `style.css`: visual information for html.
+- `under-construction-notice.html`: under construction page for portions of the app not yet developed.
 
+### REST API File Guide:
+In `/little-guy-creator-web/api/`
+- `index.php`: entry point for REST API calls
+- `Controller/Api/BaseController.php`: helper methods for API requests
+- `Controller/Api/LittleGuyController.php`: handles specific implementation details for each type of API request (see table below)
+- `inc/authenticate.php`: authentication function
+- `inc/bootstrap.php`: loads necessary files
+- `inc/config.php`: database configuration (Replace this with your database's details!)
+- `Model/Database.php`: generic methods to interact with SQL queries
+- `Model/UserModel.php`: methods for base useful single-query requests for the program
 ### How to run locally:
 
 1. Install XAMPP and start your server, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
@@ -71,9 +81,9 @@ CREATE TABLE `app-db`.`little-guys`(
 );
 ```
 
-2. In the little-guy-website repository, edit config.php and replace the $hostname, $username, and $password fields to match your user account (information found under the user accounts tab in phpmyadmin).
+2. Edit the file `/little-guy-creator-web/api/inc/config.php` and replace the definitions for host, username, and password to match your user account (information found under the accounts tab in phpmyadmin).
 
-3. Put the little-guy-website repository into the htdocs folder on your machine (located in the xampp folder). Put all files straight into htdocs, not in its own folder.
+3. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). Put all files straight into htdocs, not in its own folder.
 
 ### How to use the site:
 
@@ -82,23 +92,33 @@ From the landing page, use the far-right button on the navigation bar at the top
 You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
 
 ## Mobile Frontend
+### ==File Guide:==
 ### How to run locally
 1. Ensure you have installed Node.js and the npm CLI
+
 2. In your terminal, `cd` to the `/little-guy-creator-app/` folder
+
 3. Run `npm install` to install package dependencies
+
 Then, to run with Expo:
 4. Download Expo Go on your phone
+
 5. Ensure the backend server is also running (see above)
+
 6. Assuming you're running the backend server on your local computer, replace the contents of `/little-guy-creator-app/config.js` with 
 ```js
 export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
 ```
+
 7. Run `npx expo start`
+
 8. Follow the instructions to run it on your device
-### How to use the app:
-```js
-/TODO
-```
+### ==How to use the app:==
+ - sign in/create account
+- explain home page
+- explain create guy page
+- explain edit guy page
+	- edit or delete a guy
 
 ## Using the REST API
 The following table describes API calls that can be made.
