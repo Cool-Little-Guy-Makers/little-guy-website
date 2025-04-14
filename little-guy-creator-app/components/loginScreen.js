@@ -74,7 +74,6 @@ const LoginScreen = (props) => {
         if (loginResponse === ValidationResult.OK) {
             // TODO: store authentication data
 
-            console.log("great!");
             navigation.popTo('Home',{'loggedInStatus':'true'});
         }
 
