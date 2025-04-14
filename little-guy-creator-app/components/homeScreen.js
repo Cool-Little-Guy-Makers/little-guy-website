@@ -1,6 +1,6 @@
-import { useState, useEffect, forceUpdate } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { View, Text, Image } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 
 import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, retrieveAllLittleGuys, TextCell } from "./littleGuy.js";
@@ -20,18 +20,33 @@ function HomeScreen({route}) {
     const [otherLittleGuys, setOtherLittleGuys] = useState([]);
     const [allLittleGuys, setAllLittleGuys] = useState([]);
 
-    // Get current user
-    useEffect( () => {
-        console.log("LoggedInStatus is: "+route.params.loggedInStatus)
-        const handleFetch = async () => {
-            result = await getUserData(); 
-            setUser(result.username);
-            setLoggedIn(result.username!="")
-            console.log("User is now: "+USER)
-            console.log("LoggedIn is now: "+loggedIn)
-        }
-        handleFetch()
-    }, [route]);
+    
+
+    useFocusEffect(
+        useCallback(() => {
+            let isActive = true;
+            // Do something when the screen is focused
+            console.log("LoggedInStatus is: "+route.params.loggedInStatus)
+            const handleFetch = async () => {
+                try {
+                    result = await getUserData(); 
+                    if(isActive) {
+                        setUser(result.username);
+                        setLoggedIn(result.username!="")
+                        console.log("User is now: "+USER)
+                        console.log("LoggedIn is now: "+loggedIn)
+                    }
+                } catch (e) {
+                    // Handle error
+                    console.log("Error in fetching user data for HomeScreen: "+e)
+                }
+            }
+            handleFetch()
+            return () => {
+                isActive = false;
+            };
+        }, [route.params.loggedInStatus])
+    );
  
     // Add signin button to header
     useEffect( () => {
