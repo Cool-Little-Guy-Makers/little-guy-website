@@ -19,8 +19,11 @@ export const signInUser = async (username, password) => {
     });
 
     if (response.ok) {
+        const data = await response.json();
         await AsyncStorage.setItem('username', username);
-        // TODO: Store authentication token
+        // after backend is updated: change to 
+        //await AsyncStorage.setItem('username', data.username);
+        await AsyncStorage.setItem('token', data.token);
 
     } else {
         if (response.status === 401) {
@@ -58,17 +61,25 @@ export const registerUser = async (username, password) => {
 
 
 export const getUserData = async () => {
+    // Returns blanks if no user is signed in
     let userData = {
         username: '',
-        // Add authentication token or similar
+        token: '',
     }
 
     try {
         const value = await AsyncStorage.getItem('username');
         if (value !== null) {
             userData.username = value;
-            return userData;
         }
+
+        const token = await AsyncStorage.getItem('token');
+        if (value !== null) {
+            userData.token = token;
+        }
+
+        return userData;
+
       } catch (e) {
         // error reading value
       }
@@ -77,6 +88,7 @@ export const getUserData = async () => {
 export const logOutUser = async () => {
     try {
         await AsyncStorage.removeItem('username');
+        await AsyncStorage.removeItem('token');
         console.log("Logged out")
       } catch (e) {
         console.log("Could not log out")

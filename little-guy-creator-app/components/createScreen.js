@@ -3,6 +3,8 @@ import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
+import { getUserData } from './user.js';
+import { baseURL } from '../config.js';
 
 
 function addNewLittleGuy(name,variantNum,navigation) {
@@ -13,22 +15,25 @@ function addNewLittleGuy(name,variantNum,navigation) {
 }
 
 const sendAddToDatabase = async(name,variantNum) => {
-    const USER = getUserData()
     try {
-        const response = await fetch(FETCH_URL, {
+        const userData = await getUserData();
+        const url = baseURL + '/guy/new';
+        
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
             },
             body: JSON.stringify({
-                username: USER,
+                username: userData.username,
                 name: name,
                 variant: variantNum,
             }),
         });
-        const json = await response.json();
-        return json.movies;
+        // const json = await response.json();
+        // return json.movies;
     } catch (error) {
         console.error(error);
     }

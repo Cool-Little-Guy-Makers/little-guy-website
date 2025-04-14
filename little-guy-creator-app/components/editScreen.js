@@ -3,34 +3,39 @@ import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
+import { getUserData } from './user.js';
+import { baseURL } from '../config.js';
 
 
 function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
-    console.log("ID: "+littleGuyInfo[0])
-    console.log("Name: "+name)
-    console.log("Variant num: "+variantNum)
+    console.log("ID: "+littleGuyInfo[0]);
+    console.log("Name: "+name);
+    console.log("Variant num: "+variantNum);
     navigation.popTo('Home');
     sendEditToDatabase(name,variantNum,littleGuyInfo[0]);
 }
 
 const sendEditToDatabase = async(name,variantNum,id) => {
-    /* 
-        const params = new URLSearchParams({username: u});
-        const url = `${baseURL}/guy/listUser?${params}`;
-    
-        try {
-            const response = await fetch(url);
-    
-            if (!response.ok) {
-                throw new Error(`Response status: ${response.status}`);
-            }
-    
-            return await response.json();
-    
-        } catch (error) {
-            console.log(error.message)
-        }
-        return []; */
+    try {
+        const userData = await getUserData();
+        const url = baseURL + '/guy/change';
+        
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
+            },
+            body: JSON.stringify({
+                id: id,
+                name: name,
+                variant: variantNum,
+            }),
+        });
+    } catch (error) {
+        console.error(error);
+    }
 };
 
 function deleteLittleGuy(navigation,littleGuyInfo) {
@@ -46,28 +51,29 @@ function deleteLittleGuy(navigation,littleGuyInfo) {
             sendDeleteToDatabase(littleGuyInfo[0]); 
         }},
       ]);
-
-    
 }
 
 const sendDeleteToDatabase = async(id) => {
-    /* try {
-        const response = await fetch(FETCH_URL, {
+    const params = new URLSearchParams({id: id});
+    const url = `${baseURL}/guy/trash?${params}`;
+
+    try {
+        const userData = await getUserData();
+
+        const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
             },
-            body: JSON.stringify({
-                id: id,
-                username: USER, // needed?
-            }),
         });
-        const json = await response.json();
-        return json.movies;
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
     } catch (error) {
-        console.error(error);
-    } */
+        console.log(error.message)
+    }
 }
 
 function EditScreen ({route}) {
