@@ -4,6 +4,8 @@ import { Button } from '@react-navigation/elements';
 import {styles} from '../styles.js';
 import { useNavigation } from '@react-navigation/native';
 
+import { baseURL } from '../config.js';
+
 const USER = "username" // Placeholder **
 
 // Helper function that returns a text cell for a table with the inputted text and style
@@ -64,141 +66,58 @@ export default function LittleGuy ({data,displayUser=false}) {
 }
 
 
-// Placeholder ** - fill in w/ functionality
-// Returns an array of LittleGuys from the database with the username "u".
-// Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
+// Returns an array of LittleGuys from the database with the username u.
+/**
+ * 
+ * @param {string} u - username
+ * @returns {Array<LittleGuy>} - Array of little guys in the format {id: 1, username: "user", name: "example", variant: 2}
+ */
 export const retrieveLittleGuys = async(u) => {
-    return [
-        {   
-            id: 1,
-            username: u,
-            name: "Bob",
-            variantNum: 0
-        },
-        {   
-            id: 3,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 11,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 12,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 13,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 14,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 15,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 16,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 17,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-        {   
-            id: 18,
-            username: u,
-            name: "Bill",
-            variantNum: 2
-        },
-    ]
+
+    const params = new URLSearchParams({username: u});
+    const url = `${baseURL}/guy/listUser?${params}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.log(error.message)
+    }
+    return [];
+
 }
 
 
-
-// Placeholder again ** - fill in w/ functionality
-// Returns an array of LittleGuys from the database where the user is NOT "u".
-// Database will give [ID#, username, littleguyname, variant#], which is sent to LittleGuy.
-// Must also set displayUser to true for all LittleGuys here.
+// Returns an array of LittleGuys from the database where the username is NOT u.
+/**
+ * 
+ * @param {string} u - username
+ * @returns {Array<LittleGuy>} - Array of little guys in the format {id: 1, username: "user", name: "example", variant: 2}
+ */
 export const retrieveLittleGuysExcept = async(u) => {
-    guyInfo = [
-        {   
-            id: 5,
-            username: "someoneElse",
-            name: "Sally",
-            variantNum: 1
-        },
-        {   
-            id: 10,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 19,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 20,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 21,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 22,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 23,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-        {   
-            id: 24,
-            username: "someoneElse",
-            name: "Al",
-            variantNum: 2
-        },
-    ]
 
-    /* try {
-        await new Promise(resolve => setTimeout(resolve,1000))
-        return guyInfo
+    const params = new URLSearchParams({username: u});
+    const url = `${baseURL}/guy/listNonUser?${params}`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.log(error.message)
     }
-    catch {
-        console.log("Could not retrieve little guys.")
-        return ["ERROR","ERROR","ERROR","ERROR"]
-    } */
-   return guyInfo;
+    return [];
     
 }
 

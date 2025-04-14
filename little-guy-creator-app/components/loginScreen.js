@@ -5,6 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 import {styles} from '../styles.js';
 import FeedbackTextInput from './feedbackTextInput.js';
+import { signInUser } from './user.js';
 
 // Error messages
 const ALERT_FIELD_BLANK = "This field is required.";
@@ -56,11 +57,15 @@ const LoginScreen = (props) => {
         let loginResponse;
 
         try {
-            await new Promise(resolve => setTimeout(resolve, 1000));
+            await signInUser(username, password);
             loginResponse = ValidationResult.OK;
 
-        } catch (err) {
-            loginResponse = ValidationResult.ERROR;
+        } catch (error) {
+            if (error.cause === 401) {
+                loginResponse = ValidationResult.INVALID;
+            } else {
+                loginResponse = ValidationResult.ERROR;
+            }
         }
 
         setAwaitingValidation(false);
@@ -69,7 +74,6 @@ const LoginScreen = (props) => {
         if (loginResponse === ValidationResult.OK) {
             // TODO: store authentication data
 
-            console.log("great!");
             navigation.goBack();
         }
 
