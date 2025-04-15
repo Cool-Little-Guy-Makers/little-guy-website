@@ -15,20 +15,27 @@
 ### HW 3: REST API Postman Screenshots
 #### Luca Guerrera:
 ##### GET Request
-![img]()
+<img width="800" alt="luca-getrq" src="https://github.com/user-attachments/assets/8aed751d-435f-474a-87cd-95c7970183c4" />
+
 ##### POST Request
-![img]()
+<img width="800" alt="luca-postrq" src="https://github.com/user-attachments/assets/b3f8f5ed-6dba-4c7d-8eb1-e387f17a3d30" />
+
 #### Maze Labowitz:
 ##### GET Request
-![img]()
+<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/ca19668e-5f64-4b79-81f8-13bb5919680f" />
+
 ##### POST Request
-![img]()
+<img width="800" alt="Screenshot 2025-04-12 at 11 53 58 PM" src="https://github.com/user-attachments/assets/26172d9c-0d74-4aad-a449-82515a07cad5" />
+
 #### Kate Lyman:
 ##### GET Request
-![img]()
+<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/c73fbb8e-a3c4-41cc-8a03-64bd1bd28c11" />
+
 ##### POST Request
-![img]()
+<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/0ac52167-9c9e-4745-ac4c-66123631e4a7" />
+
 ## Web Server Backend and Web Frontend
+
 
 ### File Guide:
 In `/little-guy-creator-web/`
