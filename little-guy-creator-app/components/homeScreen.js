@@ -34,6 +34,7 @@ function HomeScreen({route}) {
                 setLoggedIn(userLoggedIn);
                 console.log("User is now: "+ userData.username);
                 console.log("LoggedIn is now: "+ userLoggedIn);
+                console.log(userData.token);
             } catch (e) {
                 // Handle error
                 console.log("Error in fetching user data for HomeScreen: "+e);

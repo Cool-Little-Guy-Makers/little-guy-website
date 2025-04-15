@@ -21,11 +21,10 @@ export const signInUser = async (username, password) => {
 
     if (response.ok) {
         const data = await response.json();
-        await AsyncStorage.setItem('username', username);
-        global.reloadHomeScreen()
-        // after backend is updated: change to 
-        //await AsyncStorage.setItem('username', data.username);
-        //await AsyncStorage.setItem('token', data.token);
+        await AsyncStorage.setItem('username', data.username);
+        await AsyncStorage.setItem('token', data.token);
+        console.log(data.token);
+        global.reloadHomeScreen();
 
     } else {
         if (response.status === 401) {
@@ -75,10 +74,10 @@ export const getUserData = async () => {
             userData.username = value;
         }
 
-        // const token = await AsyncStorage.getItem('token');
-        // if (value !== null) {
-        //     userData.token = token;
-        // }
+        const token = await AsyncStorage.getItem('token');
+        if (value !== null) {
+            userData.token = token;
+        }
 
         return userData;
 
@@ -90,7 +89,7 @@ export const getUserData = async () => {
 export const logOutUser = async () => {
     try {
         await AsyncStorage.removeItem('username');
-        //await AsyncStorage.removeItem('token');
+        await AsyncStorage.removeItem('token');
         console.log("Logged out")
         global.reloadHomeScreen()
       } catch (e) {
