@@ -24,7 +24,10 @@ public function loginUser()
             // Should only have one, but could have more if something went wrong
             if ($userDatas > 0 && password_verify($password, $userDatas[0]['password'])) {
                 $userValid = true;
-                $responseData = json_encode(true);
+
+                $userToken = get_authentication_token($username);
+                $userReturnData = array("username" => $userDatas[0]['username'], "token" => $userToken);
+                $responseData = json_encode($userReturnData);
             }
 
             if (!$userValid) {
@@ -307,9 +310,12 @@ public function trashGuys()
                 } else if ($auth == 404) {
                     $strErrorDesc = 'User not found';
                     $strErrorHeader = 'HTTP/1.1 404 Not Found';
-                } else {
+                } else if ($auth == 200) {
                     $resp = $littleGuyModel->deleteLittleGuy($id, $username); 
                     $responseData = json_encode($resp);
+                } else {
+                    $strErrorDesc = $auth;
+                    $strErrorHeader = 'HTTP/1.1 404 Not Found';
                 }
             }
 

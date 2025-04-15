@@ -62,7 +62,7 @@ In `/little-guy-creator-web/api/`
 - `index.php`: entry point for REST API calls
 - `Controller/Api/BaseController.php`: helper methods for API requests
 - `Controller/Api/LittleGuyController.php`: handles specific implementation details for each type of API request (see table below)
-- `inc/authenticate.php`: authentication function
+- `inc/authenticate.php`: handles authentication with JWTs
 - `inc/bootstrap.php`: loads necessary files
 - `inc/config.php`: database configuration (Replace this with your database's details!)
 - `Model/Database.php`: generic methods to interact with SQL queries
@@ -88,9 +88,24 @@ CREATE TABLE `app-db`.`little-guys`(
 );
 ```
 
-2. Edit the file `/little-guy-creator-web/api/inc/config.php` and replace the definitions for host, username, and password to match your user account (information found under the accounts tab in phpmyadmin).
+2. Install [Composer](https://getcomposer.org/)
 
-3. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). **Put all files straight into htdocs, not in its own folder.**
+3. Edit the file `/little-guy-creator-web/api/inc/config.php`. It currently looks like this:
+```php
+<?php
+define("DB_HOST", "localhost");
+define("DB_USERNAME", "root");
+define("DB_PASSWORD", "");
+define("DB_DATABASE_NAME", "app-db");
+define("SECRET_KEY", "your-secret-key");
+define("TOKEN_ISSUER", "little-guy-creator");
+?>
+```
+Replace the definitions for host, username, and password to match your user account (information found under the accounts tab in phpmyadmin). Replace the definition for secret key with a long, random string of characters—this is the key used to generate authentication tokens. You may optionally change the definition for token issuer.
+
+4. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). **Put all files straight into htdocs, not in its own folder.**
+
+5. In your terminal, `cd` into htdocs then run the command `composer install`
 
 ### How to use the site:
 
