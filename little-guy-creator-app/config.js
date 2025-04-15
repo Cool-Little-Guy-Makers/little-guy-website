@@ -1,1 +1,1 @@
-export const baseURL = 'http://YOUR_IP_ADDRESS/little-guy-creator-web/api/index.php'
+export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'

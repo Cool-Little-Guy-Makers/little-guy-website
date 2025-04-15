@@ -10,20 +10,20 @@
 ### Chapters:
 - [Web Server Backend and Web Frontend](#web-server-backend-and-web-frontend) (`/little-guy-creator-web/`)
 - [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
-- Using the REST API
+- [Using the REST API](#using-the-rest-api)
 
 ### HW 3: REST API Postman Screenshots
-#### ==Luca Guerrera==:
+#### Luca Guerrera:
 ##### GET Request
 ![img]()
 ##### POST Request
 ![img]()
-#### ==Maze Labowitz==:
+#### Maze Labowitz:
 ##### GET Request
 ![img]()
 ##### POST Request
 ![img]()
-#### ==Kate Lyman==:
+#### Kate Lyman:
 ##### GET Request
 ![img]()
 ##### POST Request
@@ -83,7 +83,7 @@ CREATE TABLE `app-db`.`little-guys`(
 
 2. Edit the file `/little-guy-creator-web/api/inc/config.php` and replace the definitions for host, username, and password to match your user account (information found under the accounts tab in phpmyadmin).
 
-3. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). Put all files straight into htdocs, not in its own folder.
+3. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). **Put all files straight into htdocs, not in its own folder.**
 
 ### How to use the site:
 
@@ -92,18 +92,27 @@ From the landing page, use the far-right button on the navigation bar at the top
 You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
 
 ## Mobile Frontend
-### ==File Guide:==
+### File Guide:
 In `/little-guy-creator-app/`
-- `App.js`
-- `app.json`
-- `config.js`
-- `index.js`
+- `App.js`: Contains the root level native navigation stack
+- `app.json`: app base data
+- `config.js`: stores base url for http requests
+- `index.js`: entry point for the mobile frontend
 - `package.json` and `package-lock.json`: dependency data for `npm install` command
-- `styles.js`
+- `styles.js`: visual styles for components
 
-Components in `/little-guy-creator-app/components/`
-- h
-### How to run locally
+Files in `/little-guy-creator-app/components/`
+- `createScreen.js`: screen for creating a new little guy, contains helper functions
+- `editScreen.js`: screen for editing a little guy, contains edit and delete helper functions
+- `feedbackTextInput.js`: variant on TextInput with a line of text for feedback, i.e. for username and password fields that need to conform to different constraints
+- `homeScreen.js`: home screen, containing little guys and buttons to sign in/out, create and edit little guys
+- `inputScreen.js`: base screen for creating a little guy, used in createScreen and editScreen
+- `littleGuy.js`: functions and a component to help display little guys on the home page
+- `loginScreen.js`: screen for user log-in
+- `logoutScreen.js`: screen for user log-out
+- `registrationScreen.js`: screen to create a new account. Accessible from login screen.
+- `user.js`: helper functions for dealing with user data (signing in, handling a token, etc.)
+### How to run locally:
 1. Ensure you have installed Node.js and the npm CLI
 
 2. In your terminal, `cd` to the `/little-guy-creator-app/` folder
@@ -111,11 +120,12 @@ Components in `/little-guy-creator-app/components/`
 3. Run `npm install` to install package dependencies
 
 Then, to run with Expo:
+
 4. Download Expo Go on your phone
 
 5. Ensure the backend server is also running (see above)
 
-6. Assuming you're running the backend server on your local computer, replace the contents of `/little-guy-creator-app/config.js` with 
+6. Assuming you're running the backend server on your local computer, replace `YOUR_IP_ADDRESS_HERE` in `/little-guy-creator-app/config.js` with the IP address of your computer.
 ```js
 export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
 ```
@@ -123,13 +133,17 @@ export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
 7. Run `npx expo start`
 
 8. Follow the instructions to run it on your device
-### ==How to use the app:==
- - sign in/create account
-- explain home page
-- explain create guy page
-- explain edit guy page
-	- edit or delete a guy
+### How to use the app:
 
+While not signed in, the home page displays all users' little guys and a "Sign In" button in the top right. While signed in, the home page displays your little guys and other users' little guys in two distinct sections, and your username and a "Sign Out" button in the top right. *You may need to scroll in each section to see all little guys.*
+
+**Create an account**: Press "Sign In" in the upper right, then press "Create an account" and follow the instructions. After creating an account, you will be automatically signed in.
+
+**Sign In/Sign Out**: Press "Sign In" or "Sign out" in the top right of the Home page.
+
+**To create or edit a little guy**, press "Create a New Little Guy" or press the "Edit" button for one of your current little guys. Then, choose a name and variant for your little guy and press submit.
+
+**To delete a little guy**, press "Edit" for one of your current little guys, then press Delete Little Guy.
 ## Using the REST API
 The following table describes API calls that can be made.
 

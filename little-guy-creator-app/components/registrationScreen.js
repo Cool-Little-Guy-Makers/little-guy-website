@@ -5,7 +5,7 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { Button } from '@react-navigation/elements';
 import {styles} from '../styles.js';
 import FeedbackTextInput from './feedbackTextInput.js';
-import { registerUser } from './user.js';
+import { signInUser, registerUser } from './user.js';
 
 // Error messages (frontend alerts)
 const ALERT_FIELD_BLANK = "This field is required.";
@@ -137,9 +137,8 @@ const RegistrationScreen = (props) => {
             try {
                 await signInUser(username, password);
             } catch (error) {
-
+                console.log(error.message)
             }
-            global.reloadHomeScreen()
             navigation.popTo('Home');
         }
     }
