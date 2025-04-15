@@ -2,7 +2,7 @@ import { View, Text, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
-import {styles} from '../styles.js';
+import { styles } from '../styles.js';
 import { getUserData } from './user.js';
 import { baseURL } from '../config.js';
 
@@ -11,8 +11,8 @@ function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
     console.log("ID: "+littleGuyInfo[0]);
     console.log("Name: "+name);
     console.log("Variant num: "+variantNum);
-    navigation.popTo('Home');
     sendEditToDatabase(name,variantNum,littleGuyInfo[0]);
+    navigation.popTo('Home');
 }
 
 const sendEditToDatabase = async(name,variantNum,id) => {
@@ -33,6 +33,7 @@ const sendEditToDatabase = async(name,variantNum,id) => {
                 variant: variantNum,
             }),
         });
+        global.reloadHomeScreen()
     } catch (error) {
         console.error(error);
     }
@@ -47,8 +48,8 @@ function deleteLittleGuy(navigation,littleGuyInfo) {
         },
         {text: 'Yes', onPress: () => {
             console.log("ID to be deleted: "+littleGuyInfo[0]);
-            navigation.popTo('Home');
             sendDeleteToDatabase(littleGuyInfo[0]); 
+            navigation.popTo('Home');
         }},
       ]);
 }
@@ -70,6 +71,7 @@ const sendDeleteToDatabase = async(id) => {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
+        global.reloadHomeScreen()
 
     } catch (error) {
         console.log(error.message)

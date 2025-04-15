@@ -5,7 +5,7 @@ import { Button } from '@react-navigation/elements';
 import { logOutUser } from './user.js';
 import {styles} from '../styles.js';
 
-const LogoutScreen = () => {
+const LogoutScreen = ({route}) => {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
 
@@ -16,7 +16,7 @@ const LogoutScreen = () => {
         {/* Sign Out Button */}
         <Button onPress={() => {
           logOutUser()
-          navigation.popTo('Home',{'loggedInStatus': 'false'})
+          navigation.popTo('Home')
           }}>
           <Text>Sign Out</Text>
         </Button>

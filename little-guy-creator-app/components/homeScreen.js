@@ -1,11 +1,11 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useContext } from 'react';
 import { View, Text, Image } from 'react-native';
 import { useNavigation, useFocusEffect } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 
 import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, retrieveAllLittleGuys, TextCell } from "./littleGuy.js";
-import {getUserData} from './user.js';
-import {styles} from '../styles.js';
+import { getUserData, loggedInContext } from './user.js';
+import { styles } from '../styles.js';
 import { FlatList } from 'react-native-gesture-handler';
 
 
@@ -14,42 +14,31 @@ function HomeScreen({route}) {
     const navigation = useNavigation();
     const [USER,setUser] = useState("");
     const [loggedIn,setLoggedIn] = useState(false)
+    //const loggedIn = useContext()
 
     // Retrieve LittleGuys from database
     const [littleGuys, setLittleGuys] = useState([]);
     const [otherLittleGuys, setOtherLittleGuys] = useState([]);
     const [allLittleGuys, setAllLittleGuys] = useState([]);
 
-    
 
-    useFocusEffect(
-        useCallback(() => {
-            let isActive = true;
-            // Do something when the screen is focused
-            console.log("LoggedInStatus is: "+route.params.loggedInStatus)
-            const handleFetch = async () => {
-                try {
-                    result = await getUserData(); 
-                    if(isActive) {
-                        setUser(result.username);
-                        setLoggedIn(result.username!="")
-                        console.log("User is now: "+USER)
-                        console.log("LoggedIn is now: "+loggedIn)
-                    }
-                } catch (e) {
-                    // Handle error
-                    console.log("Error in fetching user data for HomeScreen: "+e)
-                }
+    global.reloadHomeScreen = async () => {
+        const fetchUserData = async () => {
+            try {
+                result = await getUserData(); 
+                setUser(result.username);
+                setLoggedIn(result.username!="");
+                console.log("User is now: "+USER);
+                console.log("LoggedIn is now: "+loggedIn);
+            } catch (e) {
+                // Handle error
+                console.log("Error in fetching user data for HomeScreen: "+e);
             }
-            handleFetch()
-            return () => {
-                isActive = false;
-            };
-        }, [route.params.loggedInStatus])
-    );
- 
-    // Add signin button to header
-    useEffect( () => {
+        }
+        await fetchUserData();
+        await fetchLittleGuys();
+        
+
         // Reload logged in from prev route's inputted params
         console.log("For header, loggedIn is now: "+loggedIn)
         if (!loggedIn) {
@@ -70,32 +59,21 @@ function HomeScreen({route}) {
                 ),
             });
         } 
-    }, [route]);
+    }
 
+    const fetchLittleGuys = async () => {
+        const result = await retrieveLittleGuys(USER);
+        setLittleGuys(result);
+        const secondResult = await retrieveLittleGuysExcept(USER);
+        setOtherLittleGuys(secondResult);
+        const thirdResult = await retrieveAllLittleGuys(); 
+        setAllLittleGuys(thirdResult);
+    }
+ 
     useEffect( () => {
-        const handleFetch = async () => {
-            const result = await retrieveLittleGuys(USER);
-            setLittleGuys(result);
-        }
-        handleFetch()
-    }, []);
-    
-    useEffect( () => {
-        const handleFetch = async()=> {
-            const secondResult = await retrieveLittleGuysExcept(USER);
-            setOtherLittleGuys(secondResult);
-        }
-        handleFetch()
-    }, []);
-
-    useEffect( () => {
-        const handleFetch = async()=> {
-            const result = await retrieveAllLittleGuys(); 
-            setAllLittleGuys(result);
-        }
-        handleFetch()
-    }, []);
-
+        global.reloadHomeScreen()
+    }, []
+    )
 
     // Display
     return (

@@ -10,8 +10,8 @@ import { baseURL } from '../config.js';
 function addNewLittleGuy(name,variantNum,navigation) {
     console.log("Name: "+name);
     console.log("Variant num: "+variantNum);
-    navigation.popTo('Home');
     sendAddToDatabase(name,variantNum);
+    navigation.popTo('Home');
 }
 
 const sendAddToDatabase = async(name,variantNum) => {
@@ -32,6 +32,7 @@ const sendAddToDatabase = async(name,variantNum) => {
                 variant: variantNum,
             }),
         });
+        global.reloadHomeScreen()
         // const json = await response.json();
         // return json.movies;
     } catch (error) {
