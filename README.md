@@ -93,6 +93,16 @@ You may Create a little guy using the link titled "Create a new Little Guy". Aft
 
 ## Mobile Frontend
 ### ==File Guide:==
+In `/little-guy-creator-app/`
+- `App.js`
+- `app.json`
+- `config.js`
+- `index.js`
+- `package.json` and `package-lock.json`: dependency data for `npm install` command
+- `styles.js`
+
+Components in `/little-guy-creator-app/components/`
+- h
 ### How to run locally
 1. Ensure you have installed Node.js and the npm CLI
 
