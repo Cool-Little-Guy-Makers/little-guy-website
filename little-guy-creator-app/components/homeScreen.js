@@ -23,25 +23,39 @@ function HomeScreen({route}) {
 
 
     global.reloadHomeScreen = async () => {
+        let userData;
+        let userLoggedIn;
+
         const fetchUserData = async () => {
             try {
-                result = await getUserData(); 
-                setUser(result.username);
-                setLoggedIn(result.username!="");
-                console.log("User is now: "+USER);
-                console.log("LoggedIn is now: "+loggedIn);
+                userData = await getUserData(); 
+                userLoggedIn = (userData.username !== "");
+                setUser(userData.username);
+                setLoggedIn(userLoggedIn);
+                console.log("User is now: "+ userData.username);
+                console.log("LoggedIn is now: "+ userLoggedIn);
             } catch (e) {
                 // Handle error
                 console.log("Error in fetching user data for HomeScreen: "+e);
             }
         }
+
+        const fetchLittleGuys = async () => {
+            const result = await retrieveLittleGuys(userData.username);
+            setLittleGuys(result);
+            const secondResult = await retrieveLittleGuysExcept(userData.username);
+            setOtherLittleGuys(secondResult);
+            const thirdResult = await retrieveAllLittleGuys(); 
+            setAllLittleGuys(thirdResult);
+        }
+
         await fetchUserData();
         await fetchLittleGuys();
         
 
         // Reload logged in from prev route's inputted params
-        console.log("For header, loggedIn is now: "+loggedIn)
-        if (!loggedIn) {
+        console.log("For header, loggedIn is now: "+ userLoggedIn)
+        if (!userLoggedIn) {
             // Use `setOptions` to update the button in App.js
             // Now the button includes an `onPress` handler to navigate
             navigation.setOptions({
@@ -53,21 +67,12 @@ function HomeScreen({route}) {
             navigation.setOptions({
                 headerRight: () => ( 
                 <View>
-                    <Text style={styles.tcenter}>{USER}</Text>
+                    <Text style={styles.tcenter}>{userData.username}</Text>
                     <Button onPress={() => navigation.navigate('Sign Out')}>Sign Out</Button>
                 </View>
                 ),
             });
         } 
-    }
-
-    const fetchLittleGuys = async () => {
-        const result = await retrieveLittleGuys(USER);
-        setLittleGuys(result);
-        const secondResult = await retrieveLittleGuysExcept(USER);
-        setOtherLittleGuys(secondResult);
-        const thirdResult = await retrieveAllLittleGuys(); 
-        setAllLittleGuys(thirdResult);
     }
  
     useEffect( () => {
