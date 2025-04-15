@@ -1,3 +1,4 @@
+import { createContext } from "react";
 import { baseURL } from "../config"
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -19,8 +20,12 @@ export const signInUser = async (username, password) => {
     });
 
     if (response.ok) {
+        const data = await response.json();
         await AsyncStorage.setItem('username', username);
-        // TODO: Store authentication token
+        global.reloadHomeScreen()
+        // after backend is updated: change to 
+        //await AsyncStorage.setItem('username', data.username);
+        //await AsyncStorage.setItem('token', data.token);
 
     } else {
         if (response.status === 401) {
@@ -53,14 +58,15 @@ export const registerUser = async (username, password) => {
         }
         throw new Error(`Response status: ${response.status}`);
     }
-
+    global.reloadHomeScreen()
 }
 
 
 export const getUserData = async () => {
+    // Returns blanks if no user is signed in
     let userData = {
         username: '',
-        // Add authentication token or similar
+        //token: '',
     }
 
     try {
@@ -68,7 +74,28 @@ export const getUserData = async () => {
         if (value !== null) {
             userData.username = value;
         }
+
+        // const token = await AsyncStorage.getItem('token');
+        // if (value !== null) {
+        //     userData.token = token;
+        // }
+
+        return userData;
+
       } catch (e) {
         // error reading value
       }
 }
+
+export const logOutUser = async () => {
+    try {
+        await AsyncStorage.removeItem('username');
+        //await AsyncStorage.removeItem('token');
+        console.log("Logged out")
+        global.reloadHomeScreen()
+      } catch (e) {
+        console.log("Could not log out") 
+        // error reading value
+      }
+}
+

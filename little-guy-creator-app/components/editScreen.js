@@ -2,39 +2,41 @@ import { View, Text, Button, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
-import {styles} from '../styles.js';
+import { styles } from '../styles.js';
+import { getUserData } from './user.js';
+import { baseURL } from '../config.js';
 
-const USER = "username" // Placeholder **
-//const FETCH_URL = ''
 
 function editLittleGuy(name,variantNum,navigation,littleGuyInfo) {
-    console.log("ID: "+littleGuyInfo[0])
-    console.log("Name: "+name)
-    console.log("Variant num: "+variantNum)
-    navigation.popTo('Home');
+    console.log("ID: "+littleGuyInfo[0]);
+    console.log("Name: "+name);
+    console.log("Variant num: "+variantNum);
     sendEditToDatabase(name,variantNum,littleGuyInfo[0]);
+    navigation.popTo('Home');
 }
 
 const sendEditToDatabase = async(name,variantNum,id) => {
-    /* try {
-        const response = await fetch(FETCH_URL, {
-            method: 'POST',
+    try {
+        const userData = await getUserData();
+        const url = baseURL + '/guy/change';
+        
+        const response = await fetch(url, {
+            method: 'PUT',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
             },
             body: JSON.stringify({
                 id: id,
-                username: USER,
-                guyName: name,
-                guyVariant: variantNum,
+                name: name,
+                variant: variantNum,
             }),
         });
-        const json = await response.json();
-        return json.movies;
+        global.reloadHomeScreen()
     } catch (error) {
         console.error(error);
-    } */
+    }
 };
 
 function deleteLittleGuy(navigation,littleGuyInfo) {
@@ -46,32 +48,34 @@ function deleteLittleGuy(navigation,littleGuyInfo) {
         },
         {text: 'Yes', onPress: () => {
             console.log("ID to be deleted: "+littleGuyInfo[0]);
-            navigation.popTo('Home');
             sendDeleteToDatabase(littleGuyInfo[0]); 
+            navigation.popTo('Home');
         }},
       ]);
-
-    
 }
 
 const sendDeleteToDatabase = async(id) => {
-    /* try {
-        const response = await fetch(FETCH_URL, {
+    const params = new URLSearchParams({id: id});
+    const url = `${baseURL}/guy/trash?${params}`;
+
+    try {
+        const userData = await getUserData();
+
+        const response = await fetch(url, {
             method: 'DELETE',
             headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
             },
-            body: JSON.stringify({
-                id: id,
-                username: USER, // needed?
-            }),
         });
-        const json = await response.json();
-        return json.movies;
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        global.reloadHomeScreen()
+
     } catch (error) {
-        console.error(error);
-    } */
+        console.log(error.message)
+    }
 }
 
 function EditScreen ({route}) {

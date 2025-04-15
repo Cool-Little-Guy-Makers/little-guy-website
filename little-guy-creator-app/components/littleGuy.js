@@ -6,7 +6,6 @@ import { useNavigation } from '@react-navigation/native';
 
 import { baseURL } from '../config.js';
 
-const USER = "username" // Placeholder **
 
 // Helper function that returns a text cell for a table with the inputted text and style
 // Note: styleName is called as styles.styleName (assumed to be a custom style)
@@ -121,3 +120,21 @@ export const retrieveLittleGuysExcept = async(u) => {
     
 }
 
+
+export const retrieveAllLittleGuys = async() => {
+    const url = `${baseURL}/guy/listAll`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        return await response.json();
+
+    } catch (error) {
+        console.log(error.message)
+    }
+    return [];
+}

@@ -19,7 +19,7 @@ const ValidationResult = {
     ERROR: 2,
 }
 
-const LoginScreen = (props) => {
+const LoginScreen = ({route}) => {
     // Connect to the current navigation object (made in App.js)
     const navigation = useNavigation();
 
@@ -73,8 +73,7 @@ const LoginScreen = (props) => {
 
         if (loginResponse === ValidationResult.OK) {
             // TODO: store authentication data
-
-            navigation.goBack();
+            navigation.popTo('Home');
         }
 
     }

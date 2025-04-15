@@ -3,33 +3,38 @@ import { useNavigation } from '@react-navigation/native';
 
 import InputScreen from './inputScreen.js';
 import {styles} from '../styles.js';
+import { getUserData } from './user.js';
+import { baseURL } from '../config.js';
 
-const USER = "username" // Placeholder **
-const FETCH_URL = ''
 
 function addNewLittleGuy(name,variantNum,navigation) {
     console.log("Name: "+name);
     console.log("Variant num: "+variantNum);
-    navigation.popTo('Home');
     sendAddToDatabase(name,variantNum);
+    navigation.popTo('Home');
 }
 
 const sendAddToDatabase = async(name,variantNum) => {
     try {
-        const response = await fetch(FETCH_URL, {
+        const userData = await getUserData();
+        const url = baseURL + '/guy/new';
+        
+        const response = await fetch(url, {
             method: 'POST',
             headers: {
                 Accept: 'application/json',
                 'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
             },
             body: JSON.stringify({
-                username: USER,
+                username: userData.username,
                 name: name,
                 variant: variantNum,
             }),
         });
-        const json = await response.json();
-        return json.movies;
+        global.reloadHomeScreen()
+        // const json = await response.json();
+        // return json.movies;
     } catch (error) {
         console.error(error);
     }
