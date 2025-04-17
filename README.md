@@ -105,7 +105,7 @@ Replace the definitions for host, username, and password to match your user acco
 
 4. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). **Put all files straight into htdocs, not in its own folder.**
 
-5. In your terminal, `cd` into htdocs then run the command `composer install`
+5. In your terminal, `cd` into `htdocs/api/` then run the command `composer install`
 
 ### How to use the site:
 
