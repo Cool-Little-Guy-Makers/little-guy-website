@@ -94,6 +94,8 @@ From the landing page, use the far-right button on the navigation bar at the top
 
 You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
 
+*Insert world specifics*
+
 ## Mobile Frontend
 ### File Guide:
 **UPDATE AS FILES ARE ADDED.**
@@ -174,6 +176,7 @@ Press "Edit" for one of your current little guys, then press Delete Little Guy.
 *Insert specifics.*
 
 ## Using the REST API
+**UPDATE AS PARAMETERS ARE ADDED.**
 The following table describes API calls that can be made.
 
 Use the base URL `http://localhost/api/index.php`, where `localhost` can be replaced with however you are running the backend server.
