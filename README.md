@@ -12,32 +12,12 @@
 - [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
 - [Using the REST API](#using-the-rest-api)
 
-### HW 3: REST API Postman Screenshots
-#### Luca Guerrera:
-##### GET Request
-<img width="800" alt="luca-getrq" src="https://github.com/user-attachments/assets/8aed751d-435f-474a-87cd-95c7970183c4" />
-
-##### POST Request
-<img width="800" alt="luca-postrq" src="https://github.com/user-attachments/assets/b3f8f5ed-6dba-4c7d-8eb1-e387f17a3d30" />
-
-#### Maze Labowitz:
-##### GET Request
-<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/ca19668e-5f64-4b79-81f8-13bb5919680f" />
-
-##### POST Request
-<img width="800" alt="Screenshot 2025-04-12 at 11 53 58 PM" src="https://github.com/user-attachments/assets/26172d9c-0d74-4aad-a449-82515a07cad5" />
-
-#### Kate Lyman:
-##### GET Request
-<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/c73fbb8e-a3c4-41cc-8a03-64bd1bd28c11" />
-
-##### POST Request
-<img width="800" alt="Screenshot 2025-04-12 at 11 54 28 PM" src="https://github.com/user-attachments/assets/0ac52167-9c9e-4745-ac4c-66123631e4a7" />
 
 ## Web Server Backend and Web Frontend
 
 
 ### File Guide:
+**UPDATE AS FILES ARE ADDED.**
 In `/little-guy-creator-web/`
 - `ad.html`: a site advertising green beans, used in the landing page.
 - `checksignin.php`: verifies a sign in attempt, setting the current user/isloggedin variables.
@@ -58,6 +38,7 @@ In `/little-guy-creator-web/`
 - `under-construction-notice.html`: under construction page for portions of the app not yet developed.
 
 ### REST API File Guide:
+**UPDATE AS FILES ARE ADDED.**
 In `/little-guy-creator-web/api/`
 - `index.php`: entry point for REST API calls
 - `Controller/Api/BaseController.php`: helper methods for API requests
@@ -68,7 +49,7 @@ In `/little-guy-creator-web/api/`
 - `Model/Database.php`: generic methods to interact with SQL queries
 - `Model/UserModel.php`: methods for base useful single-query requests for the program
 ### How to run locally:
-
+**UPDATE AS PARAMETERS ARE ADDED.**
 1. Install XAMPP and start your server, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
 ```sql
 CREATE DATABASE `app-db`;
@@ -115,6 +96,8 @@ You may Create a little guy using the link titled "Create a new Little Guy". Aft
 
 ## Mobile Frontend
 ### File Guide:
+**UPDATE AS FILES ARE ADDED.**
+
 In `/little-guy-creator-app/`
 - `App.js`: Contains the root level native navigation stack
 - `app.json`: app base data
@@ -159,13 +142,37 @@ export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
 
 While not signed in, the home page displays all users' little guys and a "Sign In" button in the top right. While signed in, the home page displays your little guys and other users' little guys in two distinct sections, and your username and a "Sign Out" button in the top right. *You may need to scroll in each section to see all little guys.*
 
-**Create an account**: Press "Sign In" in the upper right, then press "Create an account" and follow the instructions. After creating an account, you will be automatically signed in.
+**Creating an account**: 
 
-**Sign In/Sign Out**: Press "Sign In" or "Sign out" in the top right of the Home page.
+Press "Sign In" in the upper right, then press "Create an account" and follow the instructions. After creating an account, you will be automatically signed in.
 
-**To create or edit a little guy**, press "Create a New Little Guy" or press the "Edit" button for one of your current little guys. Then, choose a name and variant for your little guy and press submit.
+**Sign In/Sign Out**: 
 
-**To delete a little guy**, press "Edit" for one of your current little guys, then press Delete Little Guy.
+Press "Sign In" or "Sign out" in the top right of the Home page.
+
+**Creating a little guy**: 
+
+Press "Create a New Little Guy". This will bring you to a page where you can customize your new little guy with preset heads, faces, bodies, arms, and legs. All colors can be picked with a hex code, except for the face details which may only be black or white.
+*Insert specifics.*
+
+**Editing a little guy**:
+
+While in your world, click on a pre-existing little guy you would like to edit. Press the "edit" button. This will bring you to a page similar to the original create page.
+*Insert specifics.*
+
+**Deleting a little guy**: 
+
+Press "Edit" for one of your current little guys, then press Delete Little Guy.
+*Insert specifics.*
+
+**Your world**:
+
+*Insert specifics.*
+
+**Visiting other users' worlds**:
+
+*Insert specifics.*
+
 ## Using the REST API
 The following table describes API calls that can be made.
 
