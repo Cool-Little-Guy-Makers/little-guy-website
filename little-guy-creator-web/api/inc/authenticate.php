@@ -13,15 +13,15 @@ use \Firebase\JWT\Key;
  * 
  */
 function authenticate($user) {
-    $headers = array_change_key_case(getallheaders(), CASE_LOWER);
+    $headers = getallheaders();
 
     // Case for authorization header missing
-    if (!isset($headers['authorization'])) {
+    if (!isset($headers['Authorization'])) {
         return 401;
     }
 
     // Case for invalid token format
-    $authHeader = $headers['authorization'];
+    $authHeader = $headers['Authorization'];
     //$authHeader = "Bearer ". get_authentication_token($user);
     if (strpos($authHeader, 'Bearer ') !== 0) {
         return 401;
@@ -39,7 +39,7 @@ function authenticate($user) {
 
         // Test token
         $decoded = JWT::decode($jwt, new Key(SECRET_KEY, 'HS256'));
-        if ($decoded->sub == strtolower($user)) {
+        if ($decoded->sub == $user) {
             // User OK
             return 200;
             //200;
@@ -60,7 +60,7 @@ function get_authentication_token($user) {
         "iss" => TOKEN_ISSUER,
         "iat" => time(),
         "exp" => time() + (86400 * 36500), // token valid for 100 years
-        "sub" => strtolower($user),
+        "sub" => $user
     ];
     return JWT::encode($payload, SECRET_KEY, 'HS256');
 }
