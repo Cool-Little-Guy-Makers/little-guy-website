@@ -63,7 +63,17 @@ CREATE TABLE `app-db`.`little-guys`(
     id INT(11) PRIMARY KEY AUTO_INCREMENT,
     username VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    variant INT(1) NOT NULL,
+    head_variant INT(2) NOT NULL,
+    head_hex INT(8) NOT NULL,
+    face_variant INT(2) NOT NULL,
+    face_color INT(1) NOT NULL,
+    body_variant INT(2) NOT NULL,
+    body_hex INT(8) NOT NULL,
+    arms_variant INT(2) NOT NULL,
+    arms_hex INT(8) NOT NULL,
+    legs_variant INT(2) NOT NULL,
+    legs_hex INT(8) NOT NULL,
+    iq VARCHAR(255) NOT NULL,
     FOREIGN KEY (username) REFERENCES `users`(username)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
