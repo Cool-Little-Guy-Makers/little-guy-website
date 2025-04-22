@@ -184,7 +184,17 @@ public function newGuys()
     $data = json_decode(file_get_contents('php://input'), true);
     $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
-    $variant = $data['variant'] ?? -1;
+    $head_var = $data['head_variant'] ?? -1;
+    $head_hex = $data['head_hex'] ?? -1;
+    $face_var = $data['face_variant'] ?? -1;
+    $face_col = $data['face_color'] ?? -1;
+    $body_var = $data['body_variant'] ?? -1;
+    $body_hex = $data['body_hex'] ?? -1;
+    $arms_var = $data['arms_variant'] ?? -1;
+    $arms_hex = $data['arms_hex'] ?? -1;
+    $legs_var = $data['legs_variant'] ?? -1;
+    $legs_hex = $data['legs_hex'] ?? -1;
+    $iq = $data['iq'] ?? '';
 
     if (strtoupper($requestMethod) == 'POST') {
         try {
@@ -193,6 +203,12 @@ public function newGuys()
 
             if (strlen($name) == 0 || $variant < 0) {
                 $strErrorDesc = 'Invalid little guy';
+                $strErrorHeader = 'HTTP/1.1 400 Bad Request';
+            } else if () { #CHECK VARIANTS
+                $strErrorDesc = 'Invalid variant';
+                $strErrorHeader = 'HTTP/1.1 400 Bad Request';
+            } else if { #CHECK HEX CODES
+                $strErrorDesc = 'Invalid hex code';
                 $strErrorHeader = 'HTTP/1.1 400 Bad Request';
             } else if ($auth == 401) {
                 $strErrorDesc = 'Invalid token format';
@@ -342,6 +358,19 @@ private function doOutput($errorDesc, $responseData, $errorHeader, $okType) {
             array('Content-Type: application/json', $errorHeader)
         );
     } 
+}
+
+private function checkVariants($variantArray) {
+    for ($i = 0; i += 1; i < count($variantArray)) {
+        if ($variantArray[i] < 0) {
+            echo false;
+        }
+    }
+    echo true;
+}
+
+private function checkHexCodes($hexArray) {
+
 }
 
 }
