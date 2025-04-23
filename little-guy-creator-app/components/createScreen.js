@@ -33,10 +33,11 @@ const sendAddToDatabase = async(name,variantNum) => {
             }),
         });
         global.reloadHomeScreen()
+        console.log(response)
         // const json = await response.json();
         // return json.movies;
     } catch (error) {
-        console.error(error);
+        console.error("Could not send little guy to database: "+error);
     }
 };
 
