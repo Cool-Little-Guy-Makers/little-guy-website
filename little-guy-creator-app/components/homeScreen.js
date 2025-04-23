@@ -32,6 +32,9 @@ function HomeScreen({route}) {
                 userLoggedIn = (userData.username !== "");
                 setUser(userData.username);
                 setLoggedIn(userLoggedIn);
+                console.log("User is now: "+ userData.username);
+                console.log("LoggedIn is now: "+ userLoggedIn);
+                console.log(userData.token);
             } catch (e) {
                 // Handle error
                 console.log("Error in fetching user data for HomeScreen: "+e);
@@ -52,6 +55,7 @@ function HomeScreen({route}) {
         
 
         // Reload logged in from prev route's inputted params
+        console.log("For header, loggedIn is now: "+ userLoggedIn)
         if (!userLoggedIn) {
             // Use `setOptions` to update the button in App.js
             // Now the button includes an `onPress` handler to navigate
