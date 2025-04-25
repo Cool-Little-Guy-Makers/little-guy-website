@@ -55,13 +55,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
   },
 
-  // ------- Misc --------
-  // Adds margin above and below
-  cushion: {
-    marginTop: 15,
-    marginBottom: 0,
-  },
-
+  // ------ Images ------
   // Icon sizing
   icon: {
     width: 50,
@@ -74,6 +68,19 @@ export const styles = StyleSheet.create({
     marginTop: 0,
     resizeMode: "contain",
     width: 300,
+  },
+
+  // Images in creator screen list
+  listImage: {
+    width: 50,
+    height: 70,
+  },
+
+  // ------- Misc --------
+  // Adds margin above and below
+  cushion: {
+    marginTop: 15,
+    marginBottom: 0,
   },
 
   // Divider bar
