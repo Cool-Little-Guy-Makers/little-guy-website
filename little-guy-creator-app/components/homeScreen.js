@@ -85,87 +85,68 @@ function HomeScreen({route}) {
     // Display
     return (
         <View style={styles.container}>
+            {loggedIn ? 
+            // YOUR GUYS TABLE ---------- 
             <View style={{alignItems:"center"}}>
-                <LittleGuyImage width={360} variant={{
-                    head: 0,
-                    head_color: "#ffffff",
-                    face: 0,
-                    face_color: "black",
-                    body: 0,
-                    body_color: "#ffffff",
-                    arms: 0,
-                    arms_color: "#ffffff",
-                    legs: 0,
-                    legs_color: "#ffffff"
-                }}/>
+                <Text style = { styles.h1 } >Your Little Guys</Text>
+                {/* Header row */}
+                <View style={styles.table}>
+                    <TextCell text="ID" style={styles.bold} />
+                    <TextCell text="" style={styles.bold} />
+                    <TextCell text="Name" style={styles.bold} />
+                    <TextCell text="Variant" style={styles.bold} />
+                    <TextCell text="Picture" style={styles.bold} />
+                </View>
+                {/* Print all this USER's little guys into a table */}
+                <FlatList
+                    data = {littleGuys}
+                    renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
+                    keyExtractor={item => item.id}
+                    style = {{height: 220,flexGrow:0}}
+                />
+
+                {/* Nav button to Create page */}
+                <Button
+                    style = {styles.cushion}
+                    onPress={() => navigation.navigate('Create')}>
+                    <Text>Create a New Little Guy</Text>
+                </Button>
+            </View> :
+            null
+            }
+            
+            {/* Divider */}
+            {loggedIn ? <View style={styles.div}/> : null}
+
+
+            {/* OTHER GUYS TABLE ------------ */}
+            {loggedIn ? <Text style = { styles.h2 } >Other Little Guys</Text> : <Text style = { styles.h2 } >Little Guys</Text>}
+            {/* Header row */}
+            <View style={styles.table}>
+                <TextCell text="ID" style={styles.bold} />
+                <TextCell text="User" style={styles.bold} />
+                <TextCell text="Name" style={styles.bold} />
+                <TextCell text="Variant" style={styles.bold} />
+                <TextCell text="Picture" style={styles.bold} />
             </View>
+            {/* Print all other little guys into a table */}
+            {loggedIn ? 
+            <FlatList
+                data = {otherLittleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
+                keyExtractor={item => item.id}
+                style = {{height:"100%",flexGrow:0}}
+            />
+            :
+            <FlatList
+                data = {allLittleGuys}
+                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
+                keyExtractor={item => item.id}
+                style = {{height:"100%",flexGrow:0}}
+            />
+            }
         </View>
     );
-
-    // return (
-    //     <View style={styles.container}>
-    //         {loggedIn ? 
-    //         // YOUR GUYS TABLE ---------- 
-    //         <View style={{alignItems:"center"}}>
-    //             <Text style = { styles.h1 } >Your Little Guys</Text>
-    //             {/* Header row */}
-    //             <View style={styles.table}>
-    //                 <TextCell text="ID" style={styles.bold} />
-    //                 <TextCell text="" style={styles.bold} />
-    //                 <TextCell text="Name" style={styles.bold} />
-    //                 <TextCell text="Variant" style={styles.bold} />
-    //                 <TextCell text="Picture" style={styles.bold} />
-    //             </View>
-    //             {/* Print all this USER's little guys into a table */}
-    //             <FlatList
-    //                 data = {littleGuys}
-    //                 renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
-    //                 keyExtractor={item => item.id}
-    //                 style = {{height: 220,flexGrow:0}}
-    //             />
-
-    //             {/* Nav button to Create page */}
-    //             <Button
-    //                 style = {styles.cushion}
-    //                 onPress={() => navigation.navigate('Create')}>
-    //                 <Text>Create a New Little Guy</Text>
-    //             </Button>
-    //         </View> :
-    //         null
-    //         }
-            
-    //         {/* Divider */}
-    //         {loggedIn ? <View style={styles.div}/> : null}
-
-
-    //         {/* OTHER GUYS TABLE ------------ */}
-    //         {loggedIn ? <Text style = { styles.h2 } >Other Little Guys</Text> : <Text style = { styles.h2 } >Little Guys</Text>}
-    //         {/* Header row */}
-    //         <View style={styles.table}>
-    //             <TextCell text="ID" style={styles.bold} />
-    //             <TextCell text="User" style={styles.bold} />
-    //             <TextCell text="Name" style={styles.bold} />
-    //             <TextCell text="Variant" style={styles.bold} />
-    //             <TextCell text="Picture" style={styles.bold} />
-    //         </View>
-    //         {/* Print all other little guys into a table */}
-    //         {loggedIn ? 
-    //         <FlatList
-    //             data = {otherLittleGuys}
-    //             renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
-    //             keyExtractor={item => item.id}
-    //             style = {{height:"100%",flexGrow:0}}
-    //         />
-    //         :
-    //         <FlatList
-    //             data = {allLittleGuys}
-    //             renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
-    //             keyExtractor={item => item.id}
-    //             style = {{height:"100%",flexGrow:0}}
-    //         />
-    //         }
-    //     </View>
-    // );
 }
 
 export default HomeScreen;

@@ -1,5 +1,5 @@
 import React from "react";
-import { Canvas, Circle, FitBox, Image, rect, useImage } from "@shopify/react-native-skia";
+import { Canvas, BlendColor, FitBox, Image, Group, rect, useImage} from "@shopify/react-native-skia";
 import { getGuyAsset } from "../assets/assetList";
 
 // Number of digits for the end of variant asset filenames, i.e. the number 5 with variantDigits 2 --> "05"
@@ -30,16 +30,16 @@ const AssetImage = ({bodyPart, num}) => {
 
 /**
  * Renders a Little Guy, where variant contains the following values defined:
- * head
- * head_color
- * face
- * face_color
- * body
- * body_color
- * arms
- * arms_color
- * legs
- * legs_color
+ * head_variant
+ * head_hex
+ * face_variant
+ * face_color // named differently because it is only black or white
+ * body_variant
+ * body_hex
+ * arms_variant
+ * arms_hex
+ * legs_variant
+ * legs_hex
  */
 const LittleGuyImage = ({width, height, variant}) => {
     const w = width ?? guyWidth;
@@ -48,11 +48,36 @@ const LittleGuyImage = ({width, height, variant}) => {
     return (
         <Canvas style={{ width: w, height: h }}>
             <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={rect(0, 0, w, h)} fit="fill">
-                <AssetImage bodyPart="legs" num={variant.legs} />
-                <AssetImage bodyPart="arms" num={variant.arms} />
-                <AssetImage bodyPart="body" num={variant.body} />
-                <AssetImage bodyPart="head" num={variant.head} />
-                <AssetImage bodyPart="face" num={variant.face} />
+                {/**Legs group */}
+                <Group>
+                    <BlendColor color={variant.legs_hex} mode="modulate"/>
+                    <AssetImage bodyPart="legs" num={variant.legs_variant}/>
+                </Group>
+
+                {/**Arms group */}
+                <Group>
+                    <BlendColor color={variant.arms_hex} mode="modulate"/>
+                    <AssetImage bodyPart="arms" num={variant.arms_variant}/>
+                </Group>
+
+                {/**Body group */}
+                <Group>
+                    <BlendColor color={variant.body_hex} mode="modulate"/>
+                    <AssetImage bodyPart="body" num={variant.body_variant}/>
+                </Group>
+
+                {/**Head group */}
+                <Group>
+                    <BlendColor color={variant.head_hex} mode="modulate"/>
+                    <AssetImage bodyPart="head" num={variant.head_variant}/>
+                </Group>
+
+                {/**Face group */}
+                <Group>
+                    <BlendColor color={variant.face_color} mode="srcIn"/>
+                    <AssetImage bodyPart="face" num={variant.face_variant}/>
+                </Group>
+
             </FitBox>
         </Canvas>
     );
