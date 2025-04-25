@@ -117,6 +117,7 @@ In `/little-guy-creator-app/`
 - `index.js`: entry point for the mobile frontend
 - `package.json` and `package-lock.json`: dependency data for `npm install` command
 - `styles.js`: visual styles for components
+- `assets/assetList.js`: loads asset files
 
 Files in `/little-guy-creator-app/components/`
 - `createScreen.js`: screen for creating a new little guy, contains helper functions
@@ -129,6 +130,7 @@ Files in `/little-guy-creator-app/components/`
 - `logoutScreen.js`: screen for user log-out
 - `registrationScreen.js`: screen to create a new account. Accessible from login screen.
 - `user.js`: helper functions for dealing with user data (signing in, handling a token, etc.)
+- `littleGuyImage.js`: component to render a custom little guy image, given a little guy variant object
 ### How to run locally:
 1. Ensure you have installed Node.js and the npm CLI
 
