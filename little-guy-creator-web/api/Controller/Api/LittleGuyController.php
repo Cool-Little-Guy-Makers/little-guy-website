@@ -184,16 +184,19 @@ public function newGuys()
     $data = json_decode(file_get_contents('php://input'), true);
     $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
-    $head_var = $data['head_variant'] ?? -1;
-    $head_hex = $data['head_hex'] ?? '';
-    $face_var = $data['face_variant'] ?? -1;
-    $face_col = $data['face_color'] ?? '';
-    $body_var = $data['body_variant'] ?? -1;
-    $body_hex = $data['body_hex'] ?? '';
-    $arms_var = $data['arms_variant'] ?? -1;
-    $arms_hex = $data['arms_hex'] ?? '';
-    $legs_var = $data['legs_variant'] ?? -1;
-    $legs_hex = $data['legs_hex'] ?? '';
+
+    $variant = $data['variant'];
+    $head_var = $variant['head_variant'] ?? -1;
+    $head_hex = $variant['head_hex'] ?? '';
+    $face_var = $variant['face_variant'] ?? -1;
+    $face_col = $variant['face_color'] ?? '';
+    $body_var = $variant['body_variant'] ?? -1;
+    $body_hex = $variant['body_hex'] ?? '';
+    $arms_var = $variant['arms_variant'] ?? -1;
+    $arms_hex = $variant['arms_hex'] ?? '';
+    $legs_var = $variant['legs_variant'] ?? -1;
+    $legs_hex = $variant['legs_hex'] ?? ''; 
+
     $iq = $data['iq'] ?? '';
 
     $variantList = array(
@@ -263,16 +266,18 @@ public function changeGuys()
     $id = $data['id'] ?? -1;
     $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
-    $head_var = $data['head_variant'] ?? -1;
-    $head_hex = $data['head_hex'] ?? '';
-    $face_var = $data['face_variant'] ?? -1;
-    $face_col = $data['face_color'] ?? '';
-    $body_var = $data['body_variant'] ?? -1;
-    $body_hex = $data['body_hex'] ?? '';
-    $arms_var = $data['arms_variant'] ?? -1;
-    $arms_hex = $data['arms_hex'] ?? '';
-    $legs_var = $data['legs_variant'] ?? -1;
-    $legs_hex = $data['legs_hex'] ?? '';    
+
+    $variant = $data['variant'];
+    $head_var = $variant['head_variant'] ?? -1;
+    $head_hex = $variant['head_hex'] ?? '';
+    $face_var = $variant['face_variant'] ?? -1;
+    $face_col = $variant['face_color'] ?? '';
+    $body_var = $variant['body_variant'] ?? -1;
+    $body_hex = $variant['body_hex'] ?? '';
+    $arms_var = $variant['arms_variant'] ?? -1;
+    $arms_hex = $variant['arms_hex'] ?? '';
+    $legs_var = $variant['legs_variant'] ?? -1;
+    $legs_hex = $variant['legs_hex'] ?? '';    
 
     $variantList = array(
         0 => $head_var,
