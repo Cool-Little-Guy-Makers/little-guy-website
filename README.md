@@ -64,7 +64,7 @@ CREATE TABLE `app-db`.`little-guys`(
     username VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
     head_variant INT(2) NOT NULL,
-    head_hex VARCHAR(6) NOT NULL,
+    head_hex VARCHAR(8) NOT NULL,
     face_variant INT(2) NOT NULL,
     face_color VARCHAR(8) NOT NULL,
     body_variant INT(2) NOT NULL,
