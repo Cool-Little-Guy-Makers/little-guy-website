@@ -28,9 +28,9 @@ class UserModel extends Database
         return $this->select("SELECT * FROM `little-guys` WHERE username != ?", ["s", $username]);
     }
 
-    public function createLittleGuy($username, $guyName, $guyVariant) 
+    public function createLittleGuy($username, $guyName, $head_var, $head_hex, $face_var, $face_col, $body_var, $body_hex, $arms_var, $arms_hex, $legs_var, $legs_hex, $iq) 
     {
-        return $this->insert("INSERT INTO `little-guys` (`username`, `name`, `variant`) VALUES (?, ?, ?)", ["sss", $username, $guyName, $guyVariant]);
+        return $this->insert("INSERT INTO `little-guys` (`username`, `name`, `head_var`, `head_hex`, `face_var`, `face_col`, `body_var`, `body_hex`, `arms_var`, `arms_hex`, `legs_var`, `legs_hex`, `iq`) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)", ["ssiiiiiiiiiis", $username, $guyName, $head_var, $head_hex, $face_var, $face_col, $body_var, $body_hex, $arms_var, $arms_hex, $legs_var, $legs_hex, $iq]);
     }
 
     public function editLittleGuy($id, $username, $guyName, $guyVariant)

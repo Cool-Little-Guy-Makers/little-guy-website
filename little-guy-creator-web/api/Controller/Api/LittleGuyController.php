@@ -185,15 +185,15 @@ public function newGuys()
     $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
     $head_var = $data['head_variant'] ?? -1;
-    $head_hex = $data['head_hex'] ?? -1;
+    $head_hex = hexdec($data['head_hex']) ?? -1;
     $face_var = $data['face_variant'] ?? -1;
-    $face_col = $data['face_color'] ?? -1;
+    $face_col = hexdec($data['face_color']) ?? -1;
     $body_var = $data['body_variant'] ?? -1;
-    $body_hex = $data['body_hex'] ?? -1;
+    $body_hex = hexdec($data['body_hex']) ?? -1;
     $arms_var = $data['arms_variant'] ?? -1;
-    $arms_hex = $data['arms_hex'] ?? -1;
+    $arms_hex = hexdec($data['arms_hex']) ?? -1;
     $legs_var = $data['legs_variant'] ?? -1;
-    $legs_hex = $data['legs_hex'] ?? -1;
+    $legs_hex = hexdec($data['legs_hex']) ?? -1;
     $iq = $data['iq'] ?? '';
 
     $variantList = array(
