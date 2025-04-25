@@ -185,15 +185,15 @@ public function newGuys()
     $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
     $head_var = $data['head_variant'] ?? -1;
-    $head_hex = hexdec($data['head_hex']) ?? -1;
+    $head_hex = $data['head_hex'] ?? '';
     $face_var = $data['face_variant'] ?? -1;
-    $face_col = hexdec($data['face_color']) ?? -1;
+    $face_col = $data['face_color'] ?? '';
     $body_var = $data['body_variant'] ?? -1;
-    $body_hex = hexdec($data['body_hex']) ?? -1;
+    $body_hex = $data['body_hex'] ?? '';
     $arms_var = $data['arms_variant'] ?? -1;
-    $arms_hex = hexdec($data['arms_hex']) ?? -1;
+    $arms_hex = $data['arms_hex'] ?? '';
     $legs_var = $data['legs_variant'] ?? -1;
-    $legs_hex = hexdec($data['legs_hex']) ?? -1;
+    $legs_hex = $data['legs_hex'] ?? '';
     $iq = $data['iq'] ?? '';
 
     $variantList = array(
@@ -201,14 +201,14 @@ public function newGuys()
         1 => $face_var,
         2 => $body_var,
         3 => $arms_var,
-        4 => $legs_var,
+        4 => $legs_var
     );
 
     $hexList = array(
         0 => $head_hex,
         1 => $body_hex,
         2 => $arms_hex,
-        3 => $legs_hex,
+        3 => $legs_hex
     );
 
     if (strtoupper($requestMethod) == 'POST') {
@@ -216,14 +216,14 @@ public function newGuys()
             $littleGuyModel = new UserModel();
             $auth = authenticate($username);
 
-            if (strlen($name) == 0 || $variant < 0) {
+            if (strlen($name) == 0) {
                 $strErrorDesc = 'Invalid little guy';
                 $strErrorHeader = 'HTTP/1.1 400 Bad Request';
-            } else if (verifyVariants($variantList)) { #CHECK VARIANTS
+            } else if ($this->verifyVariants($variantList) !== "OK") { #CHECK VARIANTS
                 $strErrorDesc = 'Invalid variant';
                 $strErrorHeader = 'HTTP/1.1 400 Bad Request';
-            } else if (verifyHexCodes($hexList)) { #CHECK HEX CODES
-                $strErrorDesc = 'Invalid hex code';
+            } else if ($this->verifyHexCodes($hexList) !== "OK") { #CHECK HEX CODES
+                $strErrorDesc = $this->verifyHexCodes($hexList);
                 $strErrorHeader = 'HTTP/1.1 400 Bad Request';
             } else if ($auth == 401) {
                 $strErrorDesc = 'Invalid token format';
@@ -235,7 +235,7 @@ public function newGuys()
                 $strErrorDesc = 'User not found';
                 $strErrorHeader = 'HTTP/1.1 404 Not Found';
             } else {
-                $resp = $littleGuyModel->createLittleGuy($username, $name, $variant); 
+                $resp = $littleGuyModel->createLittleGuy($username, $name, $head_var, $head_hex, $face_var, $face_col, $body_var, $body_hex, $arms_var, $arms_hex, $legs_var, $legs_hex, $iq); 
                 $responseData = json_encode($resp);
             }
 
@@ -261,31 +261,32 @@ public function changeGuys()
 
     $data = json_decode(file_get_contents('php://input'), true);
     $id = $data['id'] ?? -1;
+    $username = $data['username'] ?? '';
     $name = $data['name'] ?? '';
     $head_var = $data['head_variant'] ?? -1;
-    $head_hex = $data['head_hex'] ?? -1;
+    $head_hex = $data['head_hex'] ?? '';
     $face_var = $data['face_variant'] ?? -1;
-    $face_col = $data['face_color'] ?? -1;
+    $face_col = $data['face_color'] ?? '';
     $body_var = $data['body_variant'] ?? -1;
-    $body_hex = $data['body_hex'] ?? -1;
+    $body_hex = $data['body_hex'] ?? '';
     $arms_var = $data['arms_variant'] ?? -1;
-    $arms_hex = $data['arms_hex'] ?? -1;
+    $arms_hex = $data['arms_hex'] ?? '';
     $legs_var = $data['legs_variant'] ?? -1;
-    $legs_hex = $data['legs_hex'] ?? -1;
+    $legs_hex = $data['legs_hex'] ?? '';    
 
     $variantList = array(
         0 => $head_var,
         1 => $face_var,
         2 => $body_var,
         3 => $arms_var,
-        4 => $legs_var,
+        4 => $legs_var
     );
 
     $hexList = array(
         0 => $head_hex,
         1 => $body_hex,
         2 => $arms_hex,
-        3 => $legs_hex,
+        3 => $legs_hex
     );
 
     if (strtoupper($requestMethod) == 'PUT') {
@@ -305,11 +306,11 @@ public function changeGuys()
                 if (strlen($name) == 0) {
                     $strErrorDesc = 'Invalid little guy';
                     $strErrorHeader = 'HTTP/1.1 400 Bad Request';
-                } else if (verifyVariants($variantList)) { #CHECK VARIANTS
+                } else if ($this->verifyVariants($variantList) != "OK") { #CHECK VARIANTS
                     $strErrorDesc = 'Invalid variant';
                     $strErrorHeader = 'HTTP/1.1 400 Bad Request';
-                } else if (verifyHexCodes($hexList)) { #CHECK HEX CODES
-                    $strErrorDesc = 'Invalid hex code';
+                } else if ($this->verifyHexCodes($hexList) != "OK") { #CHECK HEX CODES
+                    $strErrorDesc = $this->verifyHexCodes($hexList);
                     $strErrorHeader = 'HTTP/1.1 400 Bad Request';
                 } else if ($auth == 401) {
                     $strErrorDesc = 'Invalid token format';
@@ -321,7 +322,7 @@ public function changeGuys()
                     $strErrorDesc = 'User not found';
                     $strErrorHeader = 'HTTP/1.1 404 Not Found';
                 } else {
-                    $resp = $littleGuyModel->editLittleGuy($id, $username, $name, $variant); 
+                    $resp = $littleGuyModel->editLittleGuy($id, $username, $name, $head_var, $head_hex, $face_var, $face_col, $body_var, $body_hex, $arms_var, $arms_hex, $legs_var, $legs_hex); 
                     $responseData = json_encode($resp);
                 }
             }
@@ -406,21 +407,29 @@ private function doOutput($errorDesc, $responseData, $errorHeader, $okType) {
 }
 
 private function verifyVariants($variantArray) {
-    for ($i = 0; i += 1; i < count($variantArray)) {
-        if ($variantArray[i] < 0) {
-            return false;
+    
+    for ($i = 0; $i < count($variantArray); $i += 1) {
+        if ($variantArray[$i] < 0) {
+            return "variant failed";
         }
     }
-    return true;
-}
+    return "OK";
+    }
 
 private function verifyHexCodes($hexArray) {
-    for ($i = 0; i += 1; i < count($hexArray)) {
-        if (ctype_xdigit($hexArray[i]) == false) {
-            return false;
+    
+    for ($i = 0; $i < count($hexArray); $i += 1) {
+        try {
+            if (ctype_xdigit($hexArray[$i]) == false) {
+                return "hex failed";
+            }
+        } catch (Error $e) {
+            return $e;
         }
+
     }
-    return true;
+        
+    return "OK";
 }
 
 }
