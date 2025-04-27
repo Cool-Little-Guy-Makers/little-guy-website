@@ -8,20 +8,21 @@ import { getUserData } from './user.js';
 import { baseURL } from '../config.js';
 import React from 'react';
 import { FlatList, Pressable } from 'react-native-gesture-handler';
+import { getGuyAsset } from '../assets/assetList.js'
 
 function CreatorScreen () {
     const navigation = useNavigation();
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
-    //const images = getImages();
+    const headImage = getGuyAsset('head',0);
     //console.log(images.head[0]);
 
     const renderScene = SceneMap({
         head: OptionsPage,
         face: OptionsPage,
         body: OptionsPage,
-        hands: OptionsPage,
-        feet: OptionsPage,
+        arms: OptionsPage,
+        legs: OptionsPage,
     });
     
     
@@ -29,8 +30,8 @@ function CreatorScreen () {
         { key: 'head', title: 'Head' },
         { key: 'face', title: 'Face' },
         { key: 'body', title: 'Body' },
-        { key: 'hands', title: 'Hands' },
-        { key: 'feet', title: 'Feet' },
+        { key: 'arms', title: 'Arms' },
+        { key: 'legs', title: 'Legs' },
     ];
 
     return (
@@ -48,95 +49,55 @@ function CreatorScreen () {
     )
 };
 
+function getImageFiles(bodyPart) {
+    let images = [];
+    let imgFile = 0;
+    for(let i=0;i>-1;i++){
+        imgFile = getGuyAsset(bodyPart,i);
+        if(imgFile!=null) {
+            images[i] = imgFile;
+        } else {
+            break;
+        }
+    }
+    return images;
+}
+
+const headImages = getImageFiles('head')
+const faceImages = getImageFiles('face')
+const bodyImages = getImageFiles('body')
+const armsImages = getImageFiles('arms')
+const legsImages = getImageFiles('legs')
+
 
 const OptionsPage = ({route}) => (
-    <View style={{ flex: 1, backgroundColor: '#673ab7' }}>
+    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <FlatList
-            data = {getImageFiles(route.key)}
-            renderItem = {({imgFile,i}) => {
-                <Pressable onPress={changeGuyImage(imgFile)} key={i}>
-                    <Image style={styles.listImage} source={imgFile}/>
+            data = {
+                route.key=="head" ? headImages :
+                route.key=="face" ? faceImages :
+                route.key=="body" ? bodyImages :
+                route.key=="arms" ? armsImages :
+                route.key=="legs" ? legsImages :
+                null
+            }
+            renderItem = {({item}) => 
+                <Pressable onPress={() => changeGuyImage(item)}>
+                    <Image style={styles.listImage} source={item}/>
                 </Pressable>
-            }}
-            keyExtractor={item => null}
-            style = {{height: 220,flexGrow:0}}
+            }
+            keyExtractor={(item) => item}
+            numColumns={5}
         />
     </View>
 );
 
-const changeGuyImage = (imageSrc) => {
+
+const changeGuyImage = (imageFile) => {
     // change main guy image for the relavent part to imageSrc
+    console.log("touched a "+imageFile+" button!")
 };
 
-function getImageButtons(){
-    let images = getImageFiles();
-    let pressables = [];
-
-    // for each image
-    for(i=0;i<images.length;i++){
-        pressables[i] = (
-            <Pressable onPress={changeGuyImage(images[i].source)}>
-                {images[i]}
-            </Pressable>
-        )
-    }
-
-    return pressables;
-}
-
-function getImageFiles(bodyPart) {
-    let images = [];
-    // let imgArray = [];
-    // let imageSrcs = [];
-
-    for(let i=0;true;i++) {
-        try {
-            images[i]=getAsset(bodyPart, i);
-        } catch {
-            break;
-        }
-    }
-
-
-    // let name = "";
-    // let globalIndex = 0;
-
-    // for(let i=0;i<5;i++) {
-    //     switch(i){
-    //         case 0:
-    //             name = "head";
-    //             imageSrcs = (require.context('../assets/little-guys/head', false, /\.png/)).keys();
-    //             console.log(imageSrcs)
-    //             break;
-    //         case 1:
-    //             name = "face";
-    //             imageSrcs = (require.context('../assets/little-guys/face', false, /\.png/)).keys();
-    //             break;
-    //         case 2:
-    //             name = "body";
-    //             imageSrcs = (require.context('../assets/little-guys/body', false, /\.png/)).keys();
-    //             break;
-    //         case 3:
-    //             name = "hands";
-    //             imageSrcs = (require.context('../assets/little-guys/hands', false, /\.png/)).keys();
-    //             break;
-    //         case 4:
-    //             name = "feet";
-    //             imageSrcs = (require.context('../assets/little-guys/feet', false, /\.png/)).keys();
-    //     }
-    //     // Turn source strings into the relative path to this file
-    //     imageSrcs = imageSrcs.map((stringSrc) => ('../assets/little-guys/'+name+stringSrc.replace(".","")))
-    //     // Make the Image components from the paths
-    //     imgArray = imageSrcs.map((src, i) => (
-    //         <Image style={styles.listImage} source={src} key={i+globalIndex}/>
-    //     ));
-    //     images[name] = imgArray;
-    //     console.log("adding "+name)
-    //     globalIndex = imgArray.length+globalIndex;
-    // }
-
-    return images;
-}
 
 
 export default CreatorScreen;

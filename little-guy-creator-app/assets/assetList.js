@@ -42,5 +42,6 @@ const assets = {
 
 // This function is 0 indexed for num
 export const getGuyAsset = (bodyPart, num) => {
+    if (typeof assets[bodyPart][num+1] == undefined) {return null}
     return assets[bodyPart][num+1];
 }

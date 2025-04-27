@@ -72,8 +72,8 @@ export const styles = StyleSheet.create({
 
   // Images in creator screen list
   listImage: {
-    width: 50,
-    height: 70,
+    width: 80,
+    height: 112,
   },
 
   // ------- Misc --------

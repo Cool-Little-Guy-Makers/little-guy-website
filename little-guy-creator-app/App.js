@@ -8,6 +8,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 // Import all other screens
 import HomeScreen from './components/homeScreen.js';
 import CreateScreen from './components/createScreen.js';
+import CreatorScreen from "./components/creatorScreen.js";
 import EditScreen from './components/editScreen.js';
 import LoginScreen from './components/loginScreen.js';
 import LogoutScreen from './components/logoutScreen.js';
@@ -18,7 +19,7 @@ import RegistrationScreen from "./components/registrationScreen.js";
 // https://reactnavigation.org/docs/hello-react-navigation
 
 const RootStack = createNativeStackNavigator({
-    initialRouteName: 'Home',
+    initialRouteName: 'Creator',
     screens: {
         Home: {
             screen: HomeScreen,
@@ -29,6 +30,7 @@ const RootStack = createNativeStackNavigator({
         },
         Edit: EditScreen,
         Create: CreateScreen,
+        Creator: CreatorScreen,
         'Sign In': LoginScreen,
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,
