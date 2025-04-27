@@ -37,7 +37,7 @@ function CreatorScreen () {
     return (
         <View style = {{flex: 1}}>
             <View style = {{flex:0.7}}>
-                <Text>Hi</Text>
+                <Text>(Little Guy goes here)</Text>
             </View>
             <TabView
                 navigationState={{ index, routes }}

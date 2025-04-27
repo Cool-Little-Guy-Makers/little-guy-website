@@ -19,7 +19,7 @@ import RegistrationScreen from "./components/registrationScreen.js";
 // https://reactnavigation.org/docs/hello-react-navigation
 
 const RootStack = createNativeStackNavigator({
-    initialRouteName: 'Creator',
+    initialRouteName: 'Home',
     screens: {
         Home: {
             screen: HomeScreen,
@@ -29,8 +29,7 @@ const RootStack = createNativeStackNavigator({
             }
         },
         Edit: EditScreen,
-        Create: CreateScreen,
-        Creator: CreatorScreen,
+        Create: CreatorScreen,
         'Sign In': LoginScreen,
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,
