@@ -11,12 +11,11 @@ import { FlatList, Pressable } from 'react-native-gesture-handler';
 import { getGuyAsset } from '../assets/assetList.js'
 
 function CreatorScreen () {
-    const navigation = useNavigation();
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
-    const headImage = getGuyAsset('head',0);
-    //console.log(images.head[0]);
 
+    // Tab view setup - creating the page for each tab screen 
+    // (same page but automatically loads the correct assets)
     const renderScene = SceneMap({
         head: OptionsPage,
         face: OptionsPage,
@@ -25,7 +24,7 @@ function CreatorScreen () {
         legs: OptionsPage,
     });
     
-    
+    // Tab view setup - the list of screens
     const routes = [
         { key: 'head', title: 'Head' },
         { key: 'face', title: 'Face' },
@@ -37,6 +36,7 @@ function CreatorScreen () {
     return (
         <View style = {{flex: 1}}>
             <View style = {{flex:0.7}}>
+                {/* This is where the layered little guy image will go */}
                 <Text>(Little Guy goes here)</Text>
             </View>
             <TabView
@@ -49,6 +49,7 @@ function CreatorScreen () {
     )
 };
 
+// Makes an array of the correct asset files according to the string bodyPart
 function getImageFiles(bodyPart) {
     let images = [];
     let imgFile = 0;
@@ -63,6 +64,7 @@ function getImageFiles(bodyPart) {
     return images;
 }
 
+// Make all the arrays
 const headImages = getImageFiles('head')
 const faceImages = getImageFiles('face')
 const bodyImages = getImageFiles('body')
@@ -70,6 +72,7 @@ const armsImages = getImageFiles('arms')
 const legsImages = getImageFiles('legs')
 
 
+// The layout for the tab screen
 const OptionsPage = ({route}) => (
     <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
         <FlatList
@@ -92,12 +95,11 @@ const OptionsPage = ({route}) => (
     </View>
 );
 
-
+// Placeholder function for modifying the layered little guy image
 const changeGuyImage = (imageFile) => {
-    // change main guy image for the relavent part to imageSrc
-    console.log("touched a "+imageFile+" button!")
+    // imageFile is logged as the ID of the image
+    console.log("touched a button with image ID "+imageFile)
 };
-
 
 
 export default CreatorScreen;
