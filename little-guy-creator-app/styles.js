@@ -96,11 +96,13 @@ export const styles = StyleSheet.create({
     color: '#f194ff',
   },
 
-  input: {
+  inputName: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    minWidth: 110,
+    marginRight: 30,
   },
 
   errorText: {
