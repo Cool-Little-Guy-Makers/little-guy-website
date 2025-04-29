@@ -20,6 +20,7 @@ import RegistrationScreen from "./components/registrationScreen.js";
 
 const RootStack = createNativeStackNavigator({
     initialRouteName: 'Home',
+    initialRouteName: 'Home',
     screens: {
         Home: {
             screen: HomeScreen,
