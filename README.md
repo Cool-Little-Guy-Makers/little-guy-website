@@ -205,3 +205,45 @@ Protected calls require an authorization header `'Authorization': 'Bearer YOUR_T
 | `/guy/trash`       | DELETE       | Yes        |                           | `id`         | `204 NO CONTENT` (successfully deleted) or `401 UNAUTHORIZED` (no authorization given) or `403 FORBIDDEN` (user not authorized) or `404 NOT FOUND` (id not found)                         |
 | `/user/register`   | POST         |            | `username, password`      |              | `201 CREATED` or `400 BAD REQUEST` (usename or password is blank or too short) or `409 CONFLICT` (username already taken)                                                                 |
 | `/user/login`      | POST         |            | `username, password`      |              | `200 OK` + username and authentication token, or `401 UNAUTHORIZED` (username or password is incorrect)                                                                                   
+### Example NEW and CHANGE request bodies:
+
+NEW: 
+```json
+{
+    "username" : "myUserName",
+    "name": "guyName",
+    "variant" : {
+        "head_variant" : 1,
+        "head_hex" : "#FFFFFF",
+        "face_variant" : 1,
+        "face_color" : "#FFFFFF",
+        "body_variant" : 1,
+        "body_hex" : "#FFFFFF",
+        "arms_variant" : 1,
+        "arms_hex" : "#FFFFFF",
+        "legs_variant" : 1,
+        "legs_hex" : "#FFFFFF"  
+    }    
+}
+```
+
+CHANGE: 
+```json
+{
+    "id" : 0,
+    "username" : "myUserName",
+    "name": "newName",
+    "variant" : {
+        "head_variant" : 1,
+        "head_hex" : "#FFFFFF",
+        "face_variant" : 1,
+        "face_color" : "#FFFFFF",
+        "body_variant" : 1,
+        "body_hex" : "#FFFFFF",
+        "arms_variant" : 1,
+        "arms_hex" : "#FFFFFF",
+        "legs_variant" : 1,
+        "legs_hex" : "#FFFFFF"  
+    }    
+}
+```
