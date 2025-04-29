@@ -2,6 +2,7 @@ import { useState, useReducer, useCallback } from 'react';
 import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import InputScreen from './inputScreen.js';
+
 import { TabView, SceneMap } from 'react-native-tab-view';
 import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
 
@@ -26,6 +27,7 @@ function CreatorScreen () {
     const renderScene = ({route}) => {
         return <OptionsSection props={{key:route.key, updateGuy:updateVariant}} />;
     };
+
     
     // Tab view setup - the list of screens
     const routes = [
@@ -110,6 +112,7 @@ function CreatorScreen () {
             </View>
 
             {/* Tabs with body part options */}
+
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
