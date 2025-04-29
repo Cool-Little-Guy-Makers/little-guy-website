@@ -419,13 +419,14 @@ private function verifyVariants($variantArray) {
         }
     }
     return "OK";
-    }
+}
 
 private function verifyHexCodes($hexArray) {
     
     for ($i = 0; $i < count($hexArray); $i += 1) {
+        $currentHex = substr($hexArray[$i], 1, (strlen($hexArray[$i]) - 1));
         try {
-            if (ctype_xdigit($hexArray[$i]) == false) {
+            if (ctype_xdigit($currentHex) == false or strlen($currentHex) !== 6) {
                 return "hex failed";
             }
         } catch (Error $e) {
