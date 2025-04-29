@@ -195,8 +195,7 @@ function OptionsSection({props}) {
                     <ColorPicker style={{ alignSelf:"center", padding:20}} value={guyHex} onCompleteJS={(onSelectColor)}>
                         <Preview />
                         <Panel1 />
-                        <HueSlider />
-                        <OpacitySlider />
+                        <HueSlider style={{marginBottom:30}}/>
                         <Swatches />
                     </ColorPicker>
 
