@@ -3,6 +3,7 @@ import { View, Text, TextInput, useWindowDimensions, Image } from 'react-native'
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 import InputScreen from './inputScreen.js';
+
 import { TabView, SceneMap } from 'react-native-tab-view';
 
 import { styles } from '../styles.js';
@@ -25,6 +26,7 @@ function CreatorScreen () {
     const renderScene = ({route}) => {
         return <OptionsPage props={{key:route.key, updateGuy:updateVariant}} />;
     };
+
     
     // Tab view setup - the list of screens
     const routes = [
@@ -100,6 +102,7 @@ function CreatorScreen () {
             </View>
 
             {/* Tabs with body part options */}
+
             <TabView
                 navigationState={{ index, routes }}
                 renderScene={renderScene}
@@ -155,7 +158,6 @@ const OptionsPage = ({props}) => (
         />
     </View>
 );
-
 
 function addNewLittleGuy(name,variant,navigation) {
     console.log("Name: "+name);
