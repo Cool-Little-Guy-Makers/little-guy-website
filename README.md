@@ -213,16 +213,16 @@ NEW:
     "username" : "myUserName",
     "name": "guyName",
     "variant" : {
-        "head_variant" : 1,
-        "head_hex" : "#FFFFFF",
-        "face_variant" : 1,
-        "face_color" : "#FFFFFF",
-        "body_variant" : 1,
-        "body_hex" : "#FFFFFF",
-        "arms_variant" : 1,
-        "arms_hex" : "#FFFFFF",
-        "legs_variant" : 1,
-        "legs_hex" : "#FFFFFF"  
+        "head_variant" : 0,
+        "head_hex" : "#ffffff",
+        "face_variant" : 0,
+        "face_color" : "#ffffff",
+        "body_variant" : 0,
+        "body_hex" : "#ffffff",
+        "arms_variant" : 0,
+        "arms_hex" : "#ffffff",
+        "legs_variant" : 0,
+        "legs_hex" : "#ffffff"  
     }    
 }
 ```
@@ -234,16 +234,16 @@ CHANGE:
     "username" : "myUserName",
     "name": "newName",
     "variant" : {
-        "head_variant" : 1,
-        "head_hex" : "#FFFFFF",
-        "face_variant" : 1,
-        "face_color" : "#FFFFFF",
-        "body_variant" : 1,
-        "body_hex" : "#FFFFFF",
-        "arms_variant" : 1,
-        "arms_hex" : "#FFFFFF",
-        "legs_variant" : 1,
-        "legs_hex" : "#FFFFFF"  
+        "head_variant" : 0,
+        "head_hex" : "#ffffff",
+        "face_variant" : 0,
+        "face_color" : "#ffffff",
+        "body_variant" : 0,
+        "body_hex" : "#ffffff",
+        "arms_variant" : 0,
+        "arms_hex" : "#ffffff",
+        "legs_variant" : 0,
+        "legs_hex" : "#ffffff"  
     }    
 }
 ```

@@ -1,5 +1,5 @@
 import { useState, useReducer, useCallback } from 'react';
-import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal } from 'react-native';
+import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import InputScreen from './inputScreen.js';
 
@@ -106,7 +106,7 @@ function CreatorScreen () {
                         value={name}
                         placeholder='Name'
                     />
-                    <Button title="Create my Guy" onPress={()=>{addNewLittleGuy(name,variant,navigation)}} />
+                    <Button title="Create my Guy" onPress={()=>{tryAddLittleGuy(name,variant,navigation)}} />
                 </View>
                 <LittleGuyImage variant={variant}/>
             </View>
@@ -155,7 +155,7 @@ function OptionsSection({props}) {
     const [guyHex, setGuyHex] = useState('#ffffff')
 
     const onSelectColor = ({ hex }) => {
-        setGuyHex(hex);
+        setGuyHex(hex.substring(0,7)); // Only 6-digit hex, not 8-digit with opacity
     };
     const submitGuyColor = () => {
         props.updateGuy(props.key,guyHex);
@@ -221,6 +221,14 @@ function OptionsSection({props}) {
 
 // ------ Adding guy to database ------
 
+function tryAddLittleGuy(name,variant,navigation) {
+    if(name == "" || name == null) {
+        Alert.alert("Please enter a name.");
+    } else {
+        addNewLittleGuy(name,variant,navigation);
+    }
+}
+
 function addNewLittleGuy(name,variant,navigation) {
     console.log("Name: "+name);
     console.log("Variant head: "+variant.head_variant);
@@ -247,6 +255,7 @@ const sendAddToDatabase = async(name,variantObj) => {
                 variant: variantObj,
             }),
         });
+        console.log("Response: "+response)
         global.reloadHomeScreen()
     } catch (error) {
         console.error(error);

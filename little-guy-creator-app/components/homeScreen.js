@@ -7,6 +7,7 @@ import LittleGuy, { retrieveLittleGuys, retrieveLittleGuysExcept, retrieveAllLit
 import { getUserData, loggedInContext } from './user.js';
 import { styles } from '../styles.js';
 import { FlatList } from 'react-native-gesture-handler';
+import LittleGuyImage from './littleGuyImage.js';
 
 
 function HomeScreen({route}) {
