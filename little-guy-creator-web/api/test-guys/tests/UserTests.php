@@ -11,13 +11,13 @@ class UserTests extends TestCase
     }
 
     public function testGet_UserList() {
-      $response = $this->client->request('GET', 'little-guy-website/little-guy-creator-web/api/index.php/user/list');
+      $response = $this->client->request('GET', 'api/index.php/user/list');
       $this->assertEquals(200, $response->getStatusCode());
    }
 
    
    public function testPost_CreateUser() {
-    $response = $this->client->request('POST', 'little-guy-website/little-guy-creator-web/api/index.php/user/register', [
+    $response = $this->client->request('POST', 'api/index.php/user/register', [
         'headers' => [
             'Authorization' => 'Bearer your_token_here',
         ],
@@ -32,7 +32,7 @@ class UserTests extends TestCase
     
     
     public function testPost_LoginUser() {
-        $response = $this->client->request('POST', 'little-guy-website/little-guy-creator-web/api/index.php/user/login', [
+        $response = $this->client->request('POST', 'api/index.php/user/login', [
             'headers' => [
                 'Authorization' => 'Bearer your_token_here',
             ],
@@ -45,7 +45,7 @@ class UserTests extends TestCase
     }
     
     public function testPost_Failed() {
-        $response = $this->client->request('POST', 'little-guy-website/little-guy-creator-web/api/index.php/user/login', [
+        $response = $this->client->request('POST', 'api/index.php/user/login', [
             'headers' => [
                 'Authorization' => 'Bearer your_token_here',
             ],
