@@ -1,18 +1,13 @@
-import { useState, useEffect, useReducer, useCallback } from 'react';
-import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal, Alert } from 'react-native';
+import { useState, useReducer, useCallback } from 'react';
+import { View, Button, TextInput, useWindowDimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import InputScreen from './inputScreen.js';
-
-import { TabView, SceneMap } from 'react-native-tab-view';
-import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
+import { TabView } from 'react-native-tab-view';
 
 import { styles } from '../styles.js';
-import { getUserData } from './user.js';
-import { baseURL } from '../config.js';
 import React from 'react';
-import { FlatList, Pressable } from 'react-native-gesture-handler';
-import { getGuyAsset } from '../assets/assetList.js'
 import LittleGuyImage from './littleGuyImage.js'
+import OptionsSection from './optionsSection.js';
+import { trySubmitLittleGuy, deleteLittleGuy } from './creatorHelpers.js';
 
 function CreatorScreen ({route}) {
     const navigation = useNavigation();
@@ -27,8 +22,7 @@ function CreatorScreen ({route}) {
         return <OptionsSection props={{key:route.key, updateGuy:updateVariant}} />;
     };
 
-    
-    // Tab view setup - the list of screens
+    // The list of screens in the tabview
     const routes = [
         { key: 'head', title: 'Head' },
         { key: 'face', title: 'Face' },
@@ -36,6 +30,7 @@ function CreatorScreen ({route}) {
         { key: 'arms', title: 'Arms' },
         { key: 'legs', title: 'Legs' },
     ];
+
 
     // ----- Variant Tracking ------
 
@@ -74,19 +69,19 @@ function CreatorScreen ({route}) {
         guyId = data.id;
         starterName = data.name;
         editMode = true;
-    } catch { /* do nothing */ }
+    } catch { }
 
 
-    // Variant of the layered little guy, updated with reducer (more complex version of setState)
+    // Variant info for the layered little guy, updated with reducer (more complex version of useState)
     const [variant, dispatch] = useReducer(reducer, starterVariant);
     const [name,setName] = useState(starterName);
 
 
-    // Updates the variant based on the action specified
-    // The action has the new info, and prevValue is the previous variant
+    // Like setState, the reducer updates the variant with new information based on the action type specified
+    // The action has the type (a string) and the new info, and prevValue is the previous variant
     function reducer(prevValue, action) {
-        const bodyPart = action.type.substring(7,11)
-        const fieldToChange = action.type.substring(7)
+        const bodyPart = action.type.substring(7,11) // grabbing name of the body part
+        const fieldToChange = action.type.substring(7) // grabbing the name of the key to be changed in variant
         
         if(
             (bodyPart=='head' || 
@@ -104,11 +99,12 @@ function CreatorScreen ({route}) {
     }
 
     // Callback function called from the options screen to update the variant of the layered little guy
+    // Note: face must have no #, aka it's not a hex code. Set it to "black" or "white".
     const updateVariant = useCallback((bodyPart,num) => {
         if(typeof num=="string" && num.includes('#')) { 
             // Update hex code for body part
             dispatch({type: 'update_'+bodyPart+'_hex', [bodyPart+'_hex']:num})
-        } else if(typeof num=="string") {
+        } else if(typeof num=="string") { 
             dispatch({type: 'update_'+bodyPart+'_color', [bodyPart+'_color']:num})
         } else {
             // Update body part
@@ -152,222 +148,6 @@ function CreatorScreen ({route}) {
         </View>
     );
 };
-
-
-
-// Makes an array of the correct asset files according to the string bodyPart
-function getImageFiles(bodyPart) {
-    let images = [];
-    let imgFile = 0;
-    for(let i=0;i>-1;i++){
-        imgFile = getGuyAsset(bodyPart,i);
-        if(imgFile!=null) {
-            images[i] = {image: imgFile, index: i};
-        } else {
-            break;
-        }
-    }
-    return images;
-}
-
-// Make all the arrays
-const headImages = getImageFiles('head')
-const faceImages = getImageFiles('face')
-const bodyImages = getImageFiles('body')
-const armsImages = getImageFiles('arms')
-const legsImages = getImageFiles('legs')
-
-
-// Screen with all body part options listed
-function OptionsSection({props}) {
-
-    // ----- Color Picker ------
-
-    const [showModal, setShowModal] = useState(false);
-    const [guyHex, setGuyHex] = useState('#ffffff')
-
-    const onSelectColor = ({ hex }) => {
-        setGuyHex(hex.substring(0,7)); // Only 6-digit hex, not 8-digit with opacity
-    };
-    const submitGuyColor = () => {
-        props.updateGuy(props.key,guyHex);
-        setShowModal(false);
-    };
-
-    const submitThisColor = (color) => {
-        props.updateGuy(props.key,color);
-    }
-
-    // ---------- Options Section -----------
-    return (
-    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
-        <FlatList
-            style={{ height:'10%' }}
-            data = {
-                props.key=="head" ? headImages :
-                props.key=="face" ? faceImages :
-                props.key=="body" ? bodyImages :
-                props.key=="arms" ? armsImages :
-                props.key=="legs" ? legsImages :
-                null
-            }
-            renderItem = {({item}) => 
-                <Pressable onPress={() => props.updateGuy(props.key,item.index)}>
-                    <Image style={styles.listImage} source={item.image}/>
-                </Pressable>
-            }
-            keyExtractor={(item) => item.image}
-            numColumns={5}
-        />
-        {props.key!="face" ? 
-        // Default colorpicker
-        <View style={{flex:0.2, alignItems:"center"}}>
-            <Button title='Color Picker' onPress={() => setShowModal(true)} />
-
-            <Modal visible={showModal} animationType='slide' >
-                <View style={{flex:0.9, justifyContent:"center", alignSelf:'center', width:'90%'}}>
-                    <ColorPicker style={{ alignSelf:"center", padding:20}} value={guyHex} onCompleteJS={(onSelectColor)}>
-                        <Preview />
-                        <Panel1 />
-                        <HueSlider style={{marginBottom:30}}/>
-                        <Swatches />
-                    </ColorPicker>
-
-                    <Button title='Ok' onPress={submitGuyColor} />
-                </View>
-            </Modal>
-        </View>
-        : 
-        // Special color buttons for face (white and black only)
-        <View style={{flex:0.2, alignSelf:"center"}}>
-            <View style={{flexDirection:"row", gap:40}}>
-                <Button title='Black' onPress={() => submitThisColor("black")} />
-                <Button title='White' onPress={() => submitThisColor("white")} />
-            </View>
-        </View> } 
-    </View>
-    );
-}
-
-
-// ------ Validate little guy ------
-
-function trySubmitLittleGuy(type,name,variant,id,navigation) {
-    if(name == "" || name == null) {
-        Alert.alert("Please enter a name.");
-    } else {
-        if(type=='add') { addNewLittleGuy(name,variant,navigation); } 
-        else if(type=='edit') { editLittleGuy(name,variant,id,navigation); }
-    }
-}
-
-
-// ------ Adding guy to database ------
-
-function addNewLittleGuy(name,variant,navigation) {
-    console.log("Adding little guy with name: "+name);
-    sendAddToDatabase(name,variant);
-    navigation.popTo('Home');
-}
-
-const sendAddToDatabase = async(name,variantObj) => {
-    try {
-        const userData = await getUserData();
-        const url = baseURL + '/guy/new';
-        
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${userData.token}`,
-            },
-            body: JSON.stringify({
-                username: userData.username,
-                name: name,
-                variant: variantObj,
-            }),
-        });
-        global.reloadHomeScreen()
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-
-// ------ Editing guy in database ------
-
-function editLittleGuy(name,variant,id,navigation) {
-    console.log("Editing little guy with ID: "+id+" and name: "+name);
-    sendEditToDatabase(name,variant,id);
-    navigation.popTo('Home');
-}
-
-const sendEditToDatabase = async(name,variant,id) => {
-    try {
-        const userData = await getUserData();
-        const url = baseURL + '/guy/change';
-        
-        const response = await fetch(url, {
-            method: 'PUT',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${userData.token}`,
-            },
-            body: JSON.stringify({
-                id: id,
-                name: name,
-                variant: variant,
-            }),
-        });
-        global.reloadHomeScreen()
-    } catch (error) {
-        console.error(error);
-    }
-};
-
-
-// ------ Deleting guy from database ------
-
-function deleteLittleGuy(name,id,navigation) {
-    Alert.alert('Are you sure?', "Do you want to delete "+name+"? This can't be undone.", [
-        {
-          text: 'Cancel',
-          onPress: () => null,
-          style: 'cancel',
-        },
-        {text: 'Yes', onPress: () => {
-            console.log("ID to be deleted: "+id);
-            sendDeleteToDatabase(id); 
-            navigation.popTo('Home');
-        }},
-      ]);
-}
-
-const sendDeleteToDatabase = async(id) => {
-    const params = new URLSearchParams({id: id});
-    const url = `${baseURL}/guy/trash?${params}`;
-
-    try {
-        const userData = await getUserData();
-
-        const response = await fetch(url, {
-            method: 'DELETE',
-            headers: {
-                'Authorization': `Bearer ${userData.token}`,
-            },
-        });
-
-        if (!response.ok) {
-            throw new Error(`Response status: ${response.status}`);
-        }
-        global.reloadHomeScreen()
-
-    } catch (error) {
-        console.log(error.message)
-    }
-}
 
 
 export default CreatorScreen;
