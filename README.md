@@ -78,7 +78,6 @@ CREATE TABLE `app-db`.`little-guys`(
         ON DELETE CASCADE ON UPDATE CASCADE
 );
 
-INSERT INTO users VALUES ('UsernameForTesting', 'SeCrEtPaSsWoRd1234!@#$');
 ```
 
 2. Install [Composer](https://getcomposer.org/)
