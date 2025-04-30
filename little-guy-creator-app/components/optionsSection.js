@@ -57,8 +57,38 @@ function OptionsSection({props}) {
     // ---------- Options Section -----------
     return (
     <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
+        {props.key!="face" ? 
+
+        // Default colorpicker
+        <View style={styles.colorPickerButton}>
+            <Button title='Change Color' onPress={() => setShowModal(true)} />
+
+            <Modal visible={showModal} animationType='slide' >
+                <View style={{flex:0.9, justifyContent:"center", alignSelf:'center', width:'90%'}}>
+                    <ColorPicker style={{ alignSelf:"center", padding:20}} value={guyHex} onCompleteJS={(onSelectColor)}>
+                        <Preview />
+                        <Panel1 />
+                        <HueSlider style={{marginBottom:30}}/>
+                        <Swatches />
+                    </ColorPicker>
+
+                    <Button title='Ok' onPress={submitGuyColor} />
+                </View>
+            </Modal>
+        </View>
+
+        : 
+        // Special color buttons for face (white and black only)
+        <View style={styles.colorPickerButton}>
+            <View style={{flexDirection:"row", gap:40}}>
+                <Button title='Black' onPress={() => submitThisColor("black")} />
+                <Button title='White' onPress={() => submitThisColor("white")} />
+            </View>
+        </View> 
+        } 
+
         <FlatList
-            style={{ height:'10%' }}
+            style={{ height:'10%'}}
             data = {
                 props.key=="head" ? headImages :
                 props.key=="face" ? faceImages :
@@ -75,35 +105,6 @@ function OptionsSection({props}) {
             keyExtractor={(item) => item.image}
             numColumns={5}
         />
-
-        {props.key!="face" ? 
-
-        // Default colorpicker
-        <View style={{flex:0.2, alignItems:"center"}}>
-            <Button title='Color Picker' onPress={() => setShowModal(true)} />
-
-            <Modal visible={showModal} animationType='slide' >
-                <View style={{flex:0.9, justifyContent:"center", alignSelf:'center', width:'90%'}}>
-                    <ColorPicker style={{ alignSelf:"center", padding:20}} value={guyHex} onCompleteJS={(onSelectColor)}>
-                        <Preview />
-                        <Panel1 />
-                        <HueSlider style={{marginBottom:30}}/>
-                        <Swatches />
-                    </ColorPicker>
-
-                    <Button title='Ok' onPress={submitGuyColor} />
-                </View>
-            </Modal>
-        </View>
-        
-        : 
-        // Special color buttons for face (white and black only)
-        <View style={{flex:0.2, alignSelf:"center"}}>
-            <View style={{flexDirection:"row", gap:40}}>
-                <Button title='Black' onPress={() => submitThisColor("black")} />
-                <Button title='White' onPress={() => submitThisColor("white")} />
-            </View>
-        </View> } 
     </View>
     );
 }

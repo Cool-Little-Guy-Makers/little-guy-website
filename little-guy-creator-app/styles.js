@@ -96,6 +96,13 @@ export const styles = StyleSheet.create({
     color: '#f194ff',
   },
 
+  colorPickerButton: {
+    flex:0.15, 
+    alignItems:"center", 
+    justifyContent:"flex-end",
+    marginTop:5,
+  },
+
   inputName: {
     height: 40,
     margin: 12,
