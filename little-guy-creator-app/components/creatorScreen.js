@@ -1,24 +1,18 @@
 import { useState, useReducer, useCallback } from 'react';
-import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal, Alert } from 'react-native';
+import { View, Button, TextInput, useWindowDimensions, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-import InputScreen from './inputScreen.js';
-
-import { TabView, SceneMap } from 'react-native-tab-view';
-import ColorPicker, { Panel1, Swatches, Preview, OpacitySlider, HueSlider } from 'reanimated-color-picker';
+import { TabView } from 'react-native-tab-view';
 
 import { styles } from '../styles.js';
-import { getUserData } from './user.js';
-import { baseURL } from '../config.js';
 import React from 'react';
-import { FlatList, Pressable } from 'react-native-gesture-handler';
-import { getGuyAsset } from '../assets/assetList.js'
 import LittleGuyImage from './littleGuyImage.js'
+import OptionsSection from './optionsSection.js';
+import { trySubmitLittleGuy, deleteLittleGuy } from './creatorHelpers.js';
 
-function CreatorScreen () {
+function CreatorScreen ({route}) {
     const navigation = useNavigation();
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
-
     
     // ----- Tab View Setup ------
 
@@ -28,8 +22,7 @@ function CreatorScreen () {
         return <OptionsSection props={{key:route.key, updateGuy:updateVariant}} />;
     };
 
-    
-    // Tab view setup - the list of screens
+    // The list of screens in the tabview
     const routes = [
         { key: 'head', title: 'Head' },
         { key: 'face', title: 'Face' },
@@ -38,46 +31,11 @@ function CreatorScreen () {
         { key: 'legs', title: 'Legs' },
     ];
 
+
     // ----- Variant Tracking ------
 
-    // Updates the variant based on the action specified
-    // The action has the new info, and s has the previous info
-    function reducer(variant, action) {
-        const bodyPart = action.type.substring(7,11)
-        const fieldToChange = action.type.substring(7)
-        
-        if(
-            (bodyPart=='head' || 
-            bodyPart=='body' ||
-            bodyPart=='face' ||
-            bodyPart=='arms' ||
-            bodyPart=='legs') ) // checking that a valid body part is named
-        {
-            console.log("Field to change: "+fieldToChange)
-            console.log("Action: "+action[fieldToChange])
-            return {
-                ...variant,
-                [fieldToChange]: action[fieldToChange]
-            }
-        }
-        throw Error('When updating the variant in the creator, an unknown action was requested.');
-    }
-
-    // Callback function called from the options screen to update the variant of the layered little guy
-    const updateVariant = useCallback((bodyPart,num) => {
-        if(typeof num=="string" && num.includes('#')) { 
-            // Update hex code for body part
-            dispatch({type: 'update_'+bodyPart+'_hex', [bodyPart+'_hex']:num})
-        } else if(typeof num=="string") {
-            dispatch({type: 'update_'+bodyPart+'_color', [bodyPart+'_color']:num})
-        } else {
-            // Update body part
-            dispatch({type: 'update_'+bodyPart+'_variant', [bodyPart+'_variant']:num})
-        }
-    }, [variant])
-
-    // Variant of the layered little guy, updated with reducer (more complex version of setState)
-    const [variant, dispatch] = useReducer(reducer, {
+    // Assume in create mode only
+    let starterVariant = {
         head_variant: 0,
         head_hex: '#ffffff',
         face_variant: 0,
@@ -88,9 +46,72 @@ function CreatorScreen () {
         arms_hex: '#ffffff',
         legs_variant: 0,
         legs_hex: '#ffffff'
-    });
+    };
+    let starterName = '';
+    let guyId = null;
+    let editMode = false;
 
-    const [name,setName] = useState('');
+    // If came from edit button, replace those values
+    try {
+        let data = route.params.guy;
+        starterVariant = {
+            "head_variant": data.head_variant,
+            "head_hex": data.head_hex,
+            "face_variant": data.face_variant,
+            "face_color": data.face_color,
+            "body_variant": data.body_variant,
+            "body_hex": data.body_hex,
+            "arms_variant": data.arms_variant,
+            "arms_hex": data.arms_hex,
+            "legs_variant": data.legs_variant,
+            "legs_hex": data.legs_hex,
+        };
+        guyId = data.id;
+        starterName = data.name;
+        editMode = true;
+    } catch { }
+
+
+    // Variant info for the layered little guy, updated with reducer (more complex version of useState)
+    const [variant, dispatch] = useReducer(reducer, starterVariant);
+    const [name,setName] = useState(starterName);
+
+
+    // Like setState, the reducer updates the variant with new information based on the action type specified
+    // The action has the type (a string) and the new info, and prevValue is the previous variant
+    function reducer(prevValue, action) {
+        const bodyPart = action.type.substring(7,11) // grabbing name of the body part
+        const fieldToChange = action.type.substring(7) // grabbing the name of the key to be changed in variant
+        
+        if(
+            (bodyPart=='head' || 
+            bodyPart=='body' ||
+            bodyPart=='face' ||
+            bodyPart=='arms' ||
+            bodyPart=='legs') ) // checking that a valid body part is named
+        {
+            return {
+                ...prevValue,
+                [fieldToChange]: action[fieldToChange]
+            }
+        }
+        throw Error('When updating the variant in the creator, an unknown action was requested.');
+    }
+
+    // Callback function called from the options screen to update the variant of the layered little guy
+    // Note: face must have no #, aka it's not a hex code. Set it to "black" or "white".
+    const updateVariant = useCallback((bodyPart,num) => {
+        if(typeof num=="string" && num.includes('#')) { 
+            // Update hex code for body part
+            dispatch({type: 'update_'+bodyPart+'_hex', [bodyPart+'_hex']:num})
+        } else if(typeof num=="string") { 
+            dispatch({type: 'update_'+bodyPart+'_color', [bodyPart+'_color']:num})
+        } else {
+            // Update body part
+            dispatch({type: 'update_'+bodyPart+'_variant', [bodyPart+'_variant']:num})
+        }
+    }, [variant])
+
 
 
     // ----------- Creator Screen ----------------
@@ -106,7 +127,12 @@ function CreatorScreen () {
                         value={name}
                         placeholder='Name'
                     />
-                    <Button title="Create my Guy" onPress={()=>{tryAddLittleGuy(name,variant,navigation)}} />
+                    {editMode ? <View style={{gap: 10}}>
+                        <Button title="Save Changes" onPress={()=>{trySubmitLittleGuy('edit',name,variant,guyId,navigation)}} />
+                        <Button title="Delete this Guy" onPress={()=>{deleteLittleGuy(name,guyId,navigation)}} color="red" />
+                    </View>
+                    : <Button title="Create my Guy" onPress={()=>{trySubmitLittleGuy('add',name,variant,null,navigation)}} />
+                    }
                 </View>
                 <LittleGuyImage variant={variant}/>
             </View>
@@ -121,145 +147,6 @@ function CreatorScreen () {
             />
         </View>
     );
-};
-
-// Makes an array of the correct asset files according to the string bodyPart
-function getImageFiles(bodyPart) {
-    let images = [];
-    let imgFile = 0;
-    for(let i=0;i>-1;i++){
-        imgFile = getGuyAsset(bodyPart,i);
-        if(imgFile!=null) {
-            images[i] = {image: imgFile, index: i};
-        } else {
-            break;
-        }
-    }
-    return images;
-}
-
-// Make all the arrays
-const headImages = getImageFiles('head')
-const faceImages = getImageFiles('face')
-const bodyImages = getImageFiles('body')
-const armsImages = getImageFiles('arms')
-const legsImages = getImageFiles('legs')
-
-
-// Screen with all body part options listed
-function OptionsSection({props}) {
-
-    // ----- Color Picker ------
-
-    const [showModal, setShowModal] = useState(false);
-    const [guyHex, setGuyHex] = useState('#ffffff')
-
-    const onSelectColor = ({ hex }) => {
-        setGuyHex(hex.substring(0,7)); // Only 6-digit hex, not 8-digit with opacity
-    };
-    const submitGuyColor = () => {
-        props.updateGuy(props.key,guyHex);
-        setShowModal(false);
-    };
-
-    const submitThisColor = (color) => {
-        console.log("Submitting "+color+" for "+props.key)
-        props.updateGuy(props.key,color);
-    }
-
-    // ---------- Options Section -----------
-    return (
-    <View style={{ flex: 1, backgroundColor: '#ffffff' }}>
-        <FlatList
-            style={{ height:'10%' }}
-            data = {
-                props.key=="head" ? headImages :
-                props.key=="face" ? faceImages :
-                props.key=="body" ? bodyImages :
-                props.key=="arms" ? armsImages :
-                props.key=="legs" ? legsImages :
-                null
-            }
-            renderItem = {({item}) => 
-                <Pressable onPress={() => props.updateGuy(props.key,item.index)}>
-                    <Image style={styles.listImage} source={item.image}/>
-                </Pressable>
-            }
-            keyExtractor={(item) => item.image}
-            numColumns={5}
-        />
-        {props.key!="face" ? 
-        // Default colorpicker
-        <View style={{flex:0.2, alignItems:"center"}}>
-            <Button title='Color Picker' onPress={() => setShowModal(true)} />
-
-            <Modal visible={showModal} animationType='slide' >
-                <View style={{flex:0.9, justifyContent:"center", alignSelf:'center', width:'90%'}}>
-                    <ColorPicker style={{ alignSelf:"center", padding:20}} value={guyHex} onCompleteJS={(onSelectColor)}>
-                        <Preview />
-                        <Panel1 />
-                        <HueSlider style={{marginBottom:30}}/>
-                        <Swatches />
-                    </ColorPicker>
-
-                    <Button title='Ok' onPress={submitGuyColor} />
-                </View>
-            </Modal>
-        </View>
-        : 
-        // Special color buttons for face (white and black only)
-        <View style={{flex:0.2, alignSelf:"center"}}>
-            <View style={{flexDirection:"row", gap:40}}>
-                <Button title='Black' onPress={() => submitThisColor("black")} />
-                <Button title='White' onPress={() => submitThisColor("white")} />
-            </View>
-        </View> } 
-    </View>
-    );
-}
-
-
-// ------ Adding guy to database ------
-
-function tryAddLittleGuy(name,variant,navigation) {
-    if(name == "" || name == null) {
-        Alert.alert("Please enter a name.");
-    } else {
-        addNewLittleGuy(name,variant,navigation);
-    }
-}
-
-function addNewLittleGuy(name,variant,navigation) {
-    console.log("Name: "+name);
-    console.log("Variant head: "+variant.head_variant);
-    console.log("Variant head color: "+variant.head_hex);
-    sendAddToDatabase(name,variant);
-    navigation.popTo('Home');
-}
-
-const sendAddToDatabase = async(name,variantObj) => {
-    try {
-        const userData = await getUserData();
-        const url = baseURL + '/guy/new';
-        
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                Accept: 'application/json',
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${userData.token}`,
-            },
-            body: JSON.stringify({
-                username: userData.username,
-                name: name,
-                variant: variantObj,
-            }),
-        });
-        console.log("Response: "+response)
-        global.reloadHomeScreen()
-    } catch (error) {
-        console.error(error);
-    }
 };
 
 

@@ -5,6 +5,7 @@ import {styles} from '../styles.js';
 import { useNavigation } from '@react-navigation/native';
 
 import { baseURL } from '../config.js';
+import LittleGuyImage from './littleGuyImage.js';
 
 
 // Helper function that returns a text cell for a table with the inputted text and style
@@ -17,8 +18,8 @@ function EditButton({littleGuyInfo}) {
     const navigation = useNavigation();
     return (
         <Button 
-            style={{height:40,marginTop:15}} 
-            onPress={() => navigation.navigate('Edit', {guy: littleGuyInfo})}>
+            style={{height:40, width: "25%", marginTop:15}} 
+            onPress={() => navigation.navigate('Creator', {guy: littleGuyInfo})}>
         <Text>Edit</Text>
         </Button>
     )
@@ -27,26 +28,21 @@ function EditButton({littleGuyInfo}) {
 // LittleGuy component who takes data from the database and displays a row of
 // information about themself.
 export default function LittleGuy ({data,displayUser=false}) {
-    const id = data[0];
-    const username = data[1];
-    const name = data[2];
-    const variantNum = data[3];
-    let variantDesc = "";
-    let iconSrc = "";
-
-    // Translate variantNum to correct variantDesc
-    if(variantNum == 0) {
-        variantDesc = "Blue and Pink";
-        iconSrc = require("../assets/little-guys/little-guy0.png");
-    }
-    else if (variantNum == 1) {
-        variantDesc = "Purple and Yellow";
-        iconSrc = require("../assets/little-guys/little-guy1.png");
-    }
-    else if (variantNum == 2) {
-        variantDesc = "Green";
-        iconSrc = require("../assets/little-guys/little-guy2.png");
-    }
+    const id = data.id;
+    const username = data.username;
+    const name = data.name;
+    const variant = {
+        "head_variant": data.head_variant,
+        "head_hex": data.head_hex,
+        "face_variant": data.face_variant,
+        "face_color": data.face_color,
+        "body_variant": data.body_variant,
+        "body_hex": data.body_hex,
+        "arms_variant": data.arms_variant,
+        "arms_hex": data.arms_hex,
+        "legs_variant": data.legs_variant,
+        "legs_hex": data.legs_hex,
+    };
 
     // Return row of table with info about LittleGuy
     return(
@@ -55,9 +51,8 @@ export default function LittleGuy ({data,displayUser=false}) {
             {/* Only displays username if displayUser was set to true in props */}
             {displayUser ? <TextCell text={username} style={styles.tcenter} /> : <EditButton littleGuyInfo={data}/> }
             <TextCell text={name} style={styles.tcenter} />
-            <TextCell text={variantDesc} style={styles.tcenter} />
             <View style={styles.cell}>
-                <Image style={styles.icon} source={iconSrc} />
+                <LittleGuyImage width={72} height={80} variant={variant}/>
             </View>
 
         </View>

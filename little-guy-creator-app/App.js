@@ -7,9 +7,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 // Import all other screens
 import HomeScreen from './components/homeScreen.js';
-import CreateScreen from './components/createScreen.js';
 import CreatorScreen from "./components/creatorScreen.js";
-import EditScreen from './components/editScreen.js';
 import LoginScreen from './components/loginScreen.js';
 import LogoutScreen from './components/logoutScreen.js';
 import RegistrationScreen from "./components/registrationScreen.js";
@@ -29,8 +27,7 @@ const RootStack = createNativeStackNavigator({
                 headerRight: () => <Button title="">Sign In</Button>,
             }
         },
-        Edit: EditScreen,
-        Create: CreatorScreen,
+        Creator: CreatorScreen,
         'Sign In': LoginScreen,
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,
