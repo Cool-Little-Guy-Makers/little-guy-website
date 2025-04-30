@@ -50,7 +50,7 @@ export const styles = StyleSheet.create({
   // Cell of the above table
   cell: {
     //flex: 1,
-    width: "20%",
+    width: "25%",
     alignItems: 'center',
     justifyContent: 'center',
   },

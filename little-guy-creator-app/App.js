@@ -30,7 +30,7 @@ const RootStack = createNativeStackNavigator({
             }
         },
         Edit: EditScreen,
-        Create: CreatorScreen,
+        Creator: CreatorScreen,
         'Sign In': LoginScreen,
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,

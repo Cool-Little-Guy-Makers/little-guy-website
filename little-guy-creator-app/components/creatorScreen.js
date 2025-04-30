@@ -1,4 +1,4 @@
-import { useState, useReducer, useCallback } from 'react';
+import { useState, useEffect, useReducer, useCallback } from 'react';
 import { View, Button, Text, TextInput, useWindowDimensions, Image, Modal, Alert } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import InputScreen from './inputScreen.js';
@@ -14,11 +14,10 @@ import { FlatList, Pressable } from 'react-native-gesture-handler';
 import { getGuyAsset } from '../assets/assetList.js'
 import LittleGuyImage from './littleGuyImage.js'
 
-function CreatorScreen () {
+function CreatorScreen ({route}) {
     const navigation = useNavigation();
     const layout = useWindowDimensions();
     const [index, setIndex] = useState(0);
-
     
     // ----- Tab View Setup ------
 
@@ -40,9 +39,52 @@ function CreatorScreen () {
 
     // ----- Variant Tracking ------
 
+    // Assume in create mode only
+    let starterVariant = {
+        head_variant: 0,
+        head_hex: '#ffffff',
+        face_variant: 0,
+        face_color: '#000000', // only black or white
+        body_variant: 0,
+        body_hex: '#ffffff',
+        arms_variant: 0,
+        arms_hex: '#ffffff',
+        legs_variant: 0,
+        legs_hex: '#ffffff'
+    };
+    let starterName = '';
+    let guyId = null;
+    let editMode = false;
+
+    // If came from edit button, replace those values
+    try {
+        let data = route.params.guy;
+        starterVariant = {
+            "head_variant": data.head_variant,
+            "head_hex": data.head_hex,
+            "face_variant": data.face_variant,
+            "face_color": data.face_color,
+            "body_variant": data.body_variant,
+            "body_hex": data.body_hex,
+            "arms_variant": data.arms_variant,
+            "arms_hex": data.arms_hex,
+            "legs_variant": data.legs_variant,
+            "legs_hex": data.legs_hex,
+        };
+        guyId = data.id;
+        starterName = data.name;
+        editMode = true;
+    } catch { /* do nothing */ }
+
+
+    // Variant of the layered little guy, updated with reducer (more complex version of setState)
+    const [variant, dispatch] = useReducer(reducer, starterVariant);
+    const [name,setName] = useState(starterName);
+
+
     // Updates the variant based on the action specified
-    // The action has the new info, and s has the previous info
-    function reducer(variant, action) {
+    // The action has the new info, and prevValue is the previous variant
+    function reducer(prevValue, action) {
         const bodyPart = action.type.substring(7,11)
         const fieldToChange = action.type.substring(7)
         
@@ -53,10 +95,8 @@ function CreatorScreen () {
             bodyPart=='arms' ||
             bodyPart=='legs') ) // checking that a valid body part is named
         {
-            console.log("Field to change: "+fieldToChange)
-            console.log("Action: "+action[fieldToChange])
             return {
-                ...variant,
+                ...prevValue,
                 [fieldToChange]: action[fieldToChange]
             }
         }
@@ -76,21 +116,6 @@ function CreatorScreen () {
         }
     }, [variant])
 
-    // Variant of the layered little guy, updated with reducer (more complex version of setState)
-    const [variant, dispatch] = useReducer(reducer, {
-        head_variant: 0,
-        head_hex: '#ffffff',
-        face_variant: 0,
-        face_color: '#000000', // only black or white
-        body_variant: 0,
-        body_hex: '#ffffff',
-        arms_variant: 0,
-        arms_hex: '#ffffff',
-        legs_variant: 0,
-        legs_hex: '#ffffff'
-    });
-
-    const [name,setName] = useState('');
 
 
     // ----------- Creator Screen ----------------
@@ -106,7 +131,12 @@ function CreatorScreen () {
                         value={name}
                         placeholder='Name'
                     />
-                    <Button title="Create my Guy" onPress={()=>{tryAddLittleGuy(name,variant,navigation)}} />
+                    {editMode ? <View style={{gap: 10}}>
+                        <Button title="Save Changes" onPress={()=>{trySubmitLittleGuy('edit',name,variant,guyId,navigation)}} />
+                        <Button title="Delete this Guy" onPress={()=>{deleteLittleGuy(name,guyId,navigation)}} color="red" />
+                    </View>
+                    : <Button title="Create my Guy" onPress={()=>{trySubmitLittleGuy('add',name,variant,null,navigation)}} />
+                    }
                 </View>
                 <LittleGuyImage variant={variant}/>
             </View>
@@ -122,6 +152,8 @@ function CreatorScreen () {
         </View>
     );
 };
+
+
 
 // Makes an array of the correct asset files according to the string bodyPart
 function getImageFiles(bodyPart) {
@@ -163,7 +195,6 @@ function OptionsSection({props}) {
     };
 
     const submitThisColor = (color) => {
-        console.log("Submitting "+color+" for "+props.key)
         props.updateGuy(props.key,color);
     }
 
@@ -219,20 +250,22 @@ function OptionsSection({props}) {
 }
 
 
-// ------ Adding guy to database ------
+// ------ Validate little guy ------
 
-function tryAddLittleGuy(name,variant,navigation) {
+function trySubmitLittleGuy(type,name,variant,id,navigation) {
     if(name == "" || name == null) {
         Alert.alert("Please enter a name.");
     } else {
-        addNewLittleGuy(name,variant,navigation);
+        if(type=='add') { addNewLittleGuy(name,variant,navigation); } 
+        else if(type=='edit') { editLittleGuy(name,variant,id,navigation); }
     }
 }
 
+
+// ------ Adding guy to database ------
+
 function addNewLittleGuy(name,variant,navigation) {
-    console.log("Name: "+name);
-    console.log("Variant head: "+variant.head_variant);
-    console.log("Variant head color: "+variant.head_hex);
+    console.log("Adding little guy with name: "+name);
     sendAddToDatabase(name,variant);
     navigation.popTo('Home');
 }
@@ -255,12 +288,86 @@ const sendAddToDatabase = async(name,variantObj) => {
                 variant: variantObj,
             }),
         });
-        console.log("Response: "+response)
         global.reloadHomeScreen()
     } catch (error) {
         console.error(error);
     }
 };
+
+
+// ------ Editing guy in database ------
+
+function editLittleGuy(name,variant,id,navigation) {
+    console.log("Editing little guy with ID: "+id+" and name: "+name);
+    sendEditToDatabase(name,variant,id);
+    navigation.popTo('Home');
+}
+
+const sendEditToDatabase = async(name,variant,id) => {
+    try {
+        const userData = await getUserData();
+        const url = baseURL + '/guy/change';
+        
+        const response = await fetch(url, {
+            method: 'PUT',
+            headers: {
+                Accept: 'application/json',
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${userData.token}`,
+            },
+            body: JSON.stringify({
+                id: id,
+                name: name,
+                variant: variant,
+            }),
+        });
+        global.reloadHomeScreen()
+    } catch (error) {
+        console.error(error);
+    }
+};
+
+
+// ------ Deleting guy from database ------
+
+function deleteLittleGuy(name,id,navigation) {
+    Alert.alert('Are you sure?', "Do you want to delete "+name+"? This can't be undone.", [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {text: 'Yes', onPress: () => {
+            console.log("ID to be deleted: "+id);
+            sendDeleteToDatabase(id); 
+            navigation.popTo('Home');
+        }},
+      ]);
+}
+
+const sendDeleteToDatabase = async(id) => {
+    const params = new URLSearchParams({id: id});
+    const url = `${baseURL}/guy/trash?${params}`;
+
+    try {
+        const userData = await getUserData();
+
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Authorization': `Bearer ${userData.token}`,
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+        global.reloadHomeScreen()
+
+    } catch (error) {
+        console.log(error.message)
+    }
+}
 
 
 export default CreatorScreen;

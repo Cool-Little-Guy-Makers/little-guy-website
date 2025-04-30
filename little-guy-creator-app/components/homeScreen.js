@@ -33,9 +33,7 @@ function HomeScreen({route}) {
                 userLoggedIn = (userData.username !== "");
                 setUser(userData.username);
                 setLoggedIn(userLoggedIn);
-                console.log("User is now: "+ userData.username);
-                console.log("LoggedIn is now: "+ userLoggedIn);
-                console.log(userData.token);
+                console.log("Auth token is: "+userData.token);
             } catch (e) {
                 // Handle error
                 console.log("Error in fetching user data for HomeScreen: "+e);
@@ -56,7 +54,6 @@ function HomeScreen({route}) {
         
 
         // Reload logged in from prev route's inputted params
-        console.log("For header, loggedIn is now: "+ userLoggedIn)
         if (!userLoggedIn) {
             // Use `setOptions` to update the button in App.js
             // Now the button includes an `onPress` handler to navigate
@@ -94,21 +91,20 @@ function HomeScreen({route}) {
                     <TextCell text="ID" style={styles.bold} />
                     <TextCell text="" style={styles.bold} />
                     <TextCell text="Name" style={styles.bold} />
-                    <TextCell text="Variant" style={styles.bold} />
                     <TextCell text="Picture" style={styles.bold} />
                 </View>
                 {/* Print all this USER's little guys into a table */}
                 <FlatList
                     data = {littleGuys}
-                    renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} />}
+                    renderItem = {({item}) => <LittleGuy data={item} />}
                     keyExtractor={item => item.id}
                     style = {{height: 220,flexGrow:0}}
                 />
 
-                {/* Nav button to Create page */}
+                {/* Nav button to Creator page */}
                 <Button
                     style = {styles.cushion}
-                    onPress={() => navigation.navigate('Create')}>
+                    onPress={() => navigation.navigate('Creator')}>
                     <Text>Create a New Little Guy</Text>
                 </Button>
             </View> :
@@ -126,21 +122,20 @@ function HomeScreen({route}) {
                 <TextCell text="ID" style={styles.bold} />
                 <TextCell text="User" style={styles.bold} />
                 <TextCell text="Name" style={styles.bold} />
-                <TextCell text="Variant" style={styles.bold} />
                 <TextCell text="Picture" style={styles.bold} />
             </View>
             {/* Print all other little guys into a table */}
             {loggedIn ? 
             <FlatList
                 data = {otherLittleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
+                renderItem = {({item}) => <LittleGuy data={item} displayUser={true} />}
                 keyExtractor={item => item.id}
                 style = {{height:"100%",flexGrow:0}}
             />
             :
             <FlatList
                 data = {allLittleGuys}
-                renderItem = {({item}) => <LittleGuy data={[item.id,item.username,item.name,item.variant]} displayUser={true} />}
+                renderItem = {({item}) => <LittleGuy data={item} displayUser={true} />}
                 keyExtractor={item => item.id}
                 style = {{height:"100%",flexGrow:0}}
             />
