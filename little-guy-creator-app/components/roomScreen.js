@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../styles.js';
 import { Canvas, Circle, Oval, vec, } from '@shopify/react-native-skia';
 import { LittleGuySubImage } from './littleGuyImage.js';
@@ -10,27 +10,44 @@ const guysJSON = '[{"id":1,"username":"maze","name":"Skater","head_variant":3,"h
 
 function RoomScreen(props) {
 
-    let guys = [];
+    //const {height: windowHeight, width} = useWindowDimensions();
+    //const headerHeight = useHeaderHeight();
+    //const height = windowHeight - headerHeight;
+
+    const width = 200;
+    const height = 200;
+
+    const [guys, setGuys] = useState([]);
 
     useEffect( () => {
-        guys = JSON.parse(guysJSON);
+        const result = JSON.parse(guysJSON);
 
+        // Assign a random initial position
+        result.forEach((guy) => {
+            guy.x = Math.floor(Math.random() * width);
+            guy.y = Math.floor(Math.random() * height);
+        });
+
+        // Y-sorting: guys with a smaller y (higher up on screen) should come earier in the array
+        result.sort((guy1, guy2) => {
+            let diffY = guy1.y - guy2.y;
+            if (diffY == 0) {
+                diffY = (guy1.id < guy2.id) ? -1 : 1;
+            }
+            return diffY;
+        });
+
+        const resultAsGuys = result.map((guy) => (<LittleGuySubImage variant={guy} cx={guy.x} cy={guy.y} width={90} height={100} key={guy.id}/>));
+        setGuys(resultAsGuys);
     }, []);
 
     
-    const {height: windowHeight, width} = useWindowDimensions();
-    const headerHeight = useHeaderHeight();
-    const height = windowHeight - headerHeight;
-
     // Display
     return (
         <View style={styles.fullScreen}>
             <Canvas style={{width, height}}>
-                <Oval x={0} y={headerHeight} width={width} height={height} color="cyan" />
-                {
-                    guys[0] ?
-                    <LittleGuySubImage variant={guys[0]} cx={width/2} cy={height/2} width={90} height={100}/> : null
-                }
+                {/* <Oval x={0} y={headerHeight} width={width} height={height} color="cyan" /> */}
+                {guys}
                 
             </Canvas>
         </View>
