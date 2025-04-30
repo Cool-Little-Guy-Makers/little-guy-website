@@ -8,7 +8,7 @@ import React from 'react';
 import { FlatList, Pressable } from 'react-native-gesture-handler';
 import { getGuyAsset } from '../assets/assetList.js'
 
-// Screen with all body part options listed
+
 function OptionsSection({props}) {
 
     // ----- Assets ------
@@ -107,3 +107,5 @@ function OptionsSection({props}) {
     </View>
     );
 }
+
+export default OptionsSection;
