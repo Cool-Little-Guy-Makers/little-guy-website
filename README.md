@@ -120,14 +120,14 @@ In `/little-guy-creator-app/`
 - `assets/assetList.js`: loads asset files
 
 Files in `/little-guy-creator-app/components/`
-- `creatorScreen.js`: screen for creating a new little guy, contains the Options section that displays all possible body parts and allows recoloring, and the add to database function
-- `editScreen.js`: screen for editing a little guy, contains edit and delete helper functions
+- `creatorHelpers.js`: helper functions to add, edit, and delete little guys from the database
+- `creatorScreen.js`: screen for creating a new little guy or editing an existing little guy, with tabs for each body part (each is an optionsSection)
 - `feedbackTextInput.js`: variant on TextInput with a line of text for feedback, i.e. for username and password fields that need to conform to different constraints
 - `homeScreen.js`: home screen, containing little guys and buttons to sign in/out, create and edit little guys
-- `inputScreen.js`: base screen for creating a little guy, used in createScreen and editScreen
 - `littleGuy.js`: functions and a component to help display little guys on the home page
 - `loginScreen.js`: screen for user log-in
 - `logoutScreen.js`: screen for user log-out
+- `optionsSection.js`: displays all the options for one body part which can be selected and recolored
 - `registrationScreen.js`: screen to create a new account. Accessible from login screen.
 - `user.js`: helper functions for dealing with user data (signing in, handling a token, etc.)
 - `littleGuyImage.js`: component to render a custom little guy image, given a little guy variant object
@@ -216,7 +216,7 @@ NEW:
         "head_variant" : 0,
         "head_hex" : "#ffffff",
         "face_variant" : 0,
-        "face_color" : "#ffffff",
+        "face_color" : "black",
         "body_variant" : 0,
         "body_hex" : "#ffffff",
         "arms_variant" : 0,
@@ -237,7 +237,7 @@ CHANGE:
         "head_variant" : 0,
         "head_hex" : "#ffffff",
         "face_variant" : 0,
-        "face_color" : "#ffffff",
+        "face_color" : "black",
         "body_variant" : 0,
         "body_hex" : "#ffffff",
         "arms_variant" : 0,
