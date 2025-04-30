@@ -77,6 +77,8 @@ CREATE TABLE `app-db`.`little-guys`(
     FOREIGN KEY (username) REFERENCES `users`(username)
         ON DELETE CASCADE ON UPDATE CASCADE
 );
+
+INSERT INTO users VALUES ('UsernameForTesting', 'SeCrEtPaSsWoRd1234!@#$');
 ```
 
 2. Install [Composer](https://getcomposer.org/)
