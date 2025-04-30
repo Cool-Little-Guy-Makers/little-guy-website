@@ -120,7 +120,7 @@ In `/little-guy-creator-app/`
 - `assets/assetList.js`: loads asset files
 
 Files in `/little-guy-creator-app/components/`
-- `createScreen.js`: screen for creating a new little guy, contains helper functions
+- `creatorScreen.js`: screen for creating a new little guy, contains the Options section that displays all possible body parts and allows recoloring, and the add to database function
 - `editScreen.js`: screen for editing a little guy, contains edit and delete helper functions
 - `feedbackTextInput.js`: variant on TextInput with a line of text for feedback, i.e. for username and password fields that need to conform to different constraints
 - `homeScreen.js`: home screen, containing little guys and buttons to sign in/out, create and edit little guys
