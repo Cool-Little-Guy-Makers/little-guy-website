@@ -47,40 +47,55 @@ const LittleGuyImage = ({width, height, variant}) => {
 
     return (
         <Canvas style={{ width: w, height: h }}>
-            <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={rect(0, 0, w, h)} fit="fill">
-                {/**Legs group */}
-                <Group>
-                    <BlendColor color={variant.legs_hex} mode="modulate"/>
-                    <AssetImage bodyPart="legs" num={variant.legs_variant}/>
-                </Group>
-
-                {/**Arms group */}
-                <Group>
-                    <BlendColor color={variant.arms_hex} mode="modulate"/>
-                    <AssetImage bodyPart="arms" num={variant.arms_variant}/>
-                </Group>
-
-                {/**Body group */}
-                <Group>
-                    <BlendColor color={variant.body_hex} mode="modulate"/>
-                    <AssetImage bodyPart="body" num={variant.body_variant}/>
-                </Group>
-
-                {/**Head group */}
-                <Group>
-                    <BlendColor color={variant.head_hex} mode="modulate"/>
-                    <AssetImage bodyPart="head" num={variant.head_variant}/>
-                </Group>
-
-                {/**Face group */}
-                <Group>
-                    <BlendColor color={variant.face_color} mode="srcIn"/>
-                    <AssetImage bodyPart="face" num={variant.face_variant}/>
-                </Group>
-
-            </FitBox>
+            <LittleGuySubImage width={w} height={h} variant={variant} cx={w/2} cy={h/2}/>
         </Canvas>
     );
 }
 
+// Little guy image as a fitbox (for use when multiple little guys needs to be in a canvas)
+const LittleGuySubImage = ({width, height, variant, cx, cy}) => {
+    const w = width ?? guyWidth;
+    const h = height ?? guyHeight;
+
+    const x = cx - (w/2);
+    const y = cy - (h/2);
+
+    return (
+        <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={rect(x, y, w, h)} fit="fill">
+            {/**Legs group */}
+            <Group>
+                <BlendColor color={variant.legs_hex} mode="modulate"/>
+                <AssetImage bodyPart="legs" num={variant.legs_variant}/>
+            </Group>
+
+            {/**Arms group */}
+            <Group>
+                <BlendColor color={variant.arms_hex} mode="modulate"/>
+                <AssetImage bodyPart="arms" num={variant.arms_variant}/>
+            </Group>
+
+            {/**Body group */}
+            <Group>
+                <BlendColor color={variant.body_hex} mode="modulate"/>
+                <AssetImage bodyPart="body" num={variant.body_variant}/>
+            </Group>
+
+            {/**Head group */}
+            <Group>
+                <BlendColor color={variant.head_hex} mode="modulate"/>
+                <AssetImage bodyPart="head" num={variant.head_variant}/>
+            </Group>
+
+            {/**Face group */}
+            <Group>
+                <BlendColor color={variant.face_color} mode="srcIn"/>
+                <AssetImage bodyPart="face" num={variant.face_variant}/>
+            </Group>
+
+        </FitBox>
+    );
+}
+
 export default LittleGuyImage
+
+export {LittleGuySubImage}

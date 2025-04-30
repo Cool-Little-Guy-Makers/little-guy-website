@@ -8,6 +8,11 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  fullScreen: {
+    flex: 1,
+    alignItems: "center",
+  },
+
   containerShort: {
     marginTop: 30,
     marginBottom: 30,
