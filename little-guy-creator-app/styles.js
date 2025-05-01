@@ -11,6 +11,7 @@ export const styles = StyleSheet.create({
   fullScreen: {
     flex: 1,
     alignItems: "center",
+    justifyContent: "center",
   },
 
   containerShort: {
