@@ -24,7 +24,7 @@ export const signInUser = async (username, password) => {
         await AsyncStorage.setItem('username', data.username);
         await AsyncStorage.setItem('token', data.token);
         console.log(data.token);
-        global.reloadHomeScreen();
+        global.reloadRoomScreen();
 
     } else {
         if (response.status === 401) {
@@ -57,7 +57,7 @@ export const registerUser = async (username, password) => {
         }
         throw new Error(`Response status: ${response.status}`);
     }
-    global.reloadHomeScreen()
+    global.reloadRoomScreen()
 }
 
 
@@ -91,7 +91,7 @@ export const logOutUser = async () => {
         await AsyncStorage.removeItem('username');
         await AsyncStorage.removeItem('token');
         console.log("Logged out")
-        global.reloadHomeScreen()
+        global.reloadRoomScreen()
       } catch (e) {
         console.log("Could not log out") 
         // error reading value

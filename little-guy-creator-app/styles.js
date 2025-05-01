@@ -14,6 +14,12 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
   },
 
+  room: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   containerShort: {
     marginTop: 30,
     marginBottom: 30,

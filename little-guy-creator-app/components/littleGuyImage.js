@@ -1,6 +1,7 @@
 import React from "react";
 import { Canvas, BlendColor, FitBox, Image, Group, rect, useImage} from "@shopify/react-native-skia";
 import { getGuyAsset } from "../assets/assetList";
+import { useDerivedValue } from "react-native-reanimated";
 
 // Number of digits for the end of variant asset filenames, i.e. the number 5 with variantDigits 2 --> "05"
 const variantDigits = 2;
@@ -53,15 +54,20 @@ const LittleGuyImage = ({width, height, variant}) => {
 }
 
 // Little guy image as a fitbox (for use when multiple little guys needs to be in a canvas)
-const LittleGuySubImage = ({width, height, variant, cx, cy}) => {
+const LittleGuySubImage = ({width, height, variant, cx, cy, destRectOverride}) => {
     const w = width ?? guyWidth;
     const h = height ?? guyHeight;
+
+    //const destRect = useDerivedValue(() => rect(cx.value - (w/2), cy.value - (h/2), w, h));
 
     const x = cx - (w/2);
     const y = cy - (h/2);
 
+    const destRect = destRectOverride ?? rect(x, y, w, h);
+    console.log(destRect);
+
     return (
-        <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={rect(x, y, w, h)} fit="fill">
+        <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={destRect} fit="fill">
             {/**Legs group */}
             <Group>
                 <BlendColor color={variant.legs_hex} mode="modulate"/>
