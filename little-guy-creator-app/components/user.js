@@ -4,6 +4,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // https://react-native-async-storage.github.io/async-storage/docs/usage/
 
+export const getUsers = async () => {
+    const url = `${baseURL}/user/list`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const fullUsers = await response.json();
+        return fullUsers.map((fullUser) => fullUser.username);
+
+    } catch (error) {
+        console.log(error.message)
+    }
+    return [];
+}
+
 // Signs in user. Throws an error if the sign in failed.
 export const signInUser = async (username, password) => {
     const url = baseURL + "/user/login";

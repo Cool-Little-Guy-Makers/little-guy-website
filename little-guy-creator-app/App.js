@@ -33,7 +33,13 @@ const RootStack = createNativeStackNavigator({
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,
         Room: RoomScreen,
-        Welcome: LandingPage,
+        Welcome: {
+            screen: LandingPage,
+            options: {
+                // Placeholder to prevent flicker, see HomeScreen for real button
+                headerRight: () => <Button title="">Sign In</Button>,
+            }
+        },
     },
 });
 
