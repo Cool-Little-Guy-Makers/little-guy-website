@@ -102,8 +102,8 @@ Replace the definitions for host, username, and password to match your user acco
 ### Running the testing environment:
 
 1. In your terminal, navigate to `htdocs/api/test-guys`.
-2. Make sure that you have composer installed. Run the terminal command ```composer require guzzlehttp/guzzle``` to install guzzle.
-3. Run ```.\vendor\bin\phpunit .\tests\UserTests.php```.
+2. Make sure that you have composer installed. Run the terminal command `composer require guzzlehttp/guzzle` to install guzzle.
+3. Run `./vendor/bin/phpunit ./tests/UserTests.php`.
 
 #### Exploring the use of Generative AI in software testing:
 
