@@ -73,7 +73,7 @@ const LoginScreen = ({route}) => {
 
         if (loginResponse === ValidationResult.OK) {
             // TODO: store authentication data
-            navigation.popTo('Room');
+            navigation.popTo('Welcome');
         }
 
     }

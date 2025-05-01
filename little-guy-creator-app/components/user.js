@@ -23,8 +23,8 @@ export const signInUser = async (username, password) => {
         const data = await response.json();
         await AsyncStorage.setItem('username', data.username);
         await AsyncStorage.setItem('token', data.token);
-        console.log(data.token);
-        global.reloadRoomScreen();
+        //console.log(data.token);
+        global.reloadLandingPage();
 
     } else {
         if (response.status === 401) {
@@ -57,7 +57,7 @@ export const registerUser = async (username, password) => {
         }
         throw new Error(`Response status: ${response.status}`);
     }
-    global.reloadRoomScreen()
+    global.reloadLandingPage()
 }
 
 
@@ -72,6 +72,11 @@ export const getUserData = async () => {
         const value = await AsyncStorage.getItem('username');
         if (value !== null) {
             userData.username = value;
+        }
+
+        const room = await AsyncStorage.getItem('currentRoom');
+        if (room !== null) {
+            userData.currentRoom = room;
         }
 
         const token = await AsyncStorage.getItem('token');
@@ -91,7 +96,7 @@ export const logOutUser = async () => {
         await AsyncStorage.removeItem('username');
         await AsyncStorage.removeItem('token');
         console.log("Logged out")
-        global.reloadRoomScreen()
+        global.reloadLandingPage()
       } catch (e) {
         console.log("Could not log out") 
         // error reading value

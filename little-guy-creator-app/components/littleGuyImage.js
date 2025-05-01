@@ -64,7 +64,7 @@ const LittleGuySubImage = ({width, height, variant, cx, cy, destRectOverride}) =
     const y = cy - (h/2);
 
     const destRect = destRectOverride ?? rect(x, y, w, h);
-    console.log(destRect);
+    //console.log(destRect);
 
     return (
         <FitBox src={rect(0, 0, guyWidth, guyHeight)} dst={destRect} fit="fill">

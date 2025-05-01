@@ -10,6 +10,7 @@ import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-nativ
 import LittleGuyEntity, { LittleGuyImageEntity } from './littleGuyEntity.js';
 import { retrieveLittleGuys } from './littleGuy.js';
 import { cacheDirectory, writeAsStringAsync, EncodingType } from 'expo-file-system';
+import { getUserData } from './user.js';
 
 const guysJSON = '[{"id":4,"username":"Maze","name":"Wizard","head_variant":4,"head_hex":"#000000","face_variant":7,"face_color":"white","body_variant":5,"body_hex":"#1233e6","arms_variant":0,"arms_hex":"#9c27b0","legs_variant":0,"legs_hex":"#9c27b0","iq":""},{"id":5,"username":"Maze","name":"Bill","head_variant":0,"head_hex":"#ffeb3b","face_variant":0,"face_color":"#000000","body_variant":2,"body_hex":"#009688","arms_variant":0,"arms_hex":"#ffeb3b","legs_variant":0,"legs_hex":"#ffeb3b","iq":""},{"id":6,"username":"Maze","name":"Nil","head_variant":2,"head_hex":"#673ab7","face_variant":9,"face_color":"white","body_variant":3,"body_hex":"#673ab7","arms_variant":0,"arms_hex":"#673ab7","legs_variant":0,"legs_hex":"#673ab7","iq":""},{"id":7,"username":"Maze","name":"Rebob","head_variant":1,"head_hex":"#e91e63","face_variant":3,"face_color":"#000000","body_variant":4,"body_hex":"#00bcd4","arms_variant":0,"arms_hex":"#ffffff","legs_variant":0,"legs_hex":"#ffffff","iq":""},{"id":8,"username":"Maze","name":"Fret","head_variant":4,"head_hex":"#9e9e9e","face_variant":6,"face_color":"black","body_variant":0,"body_hex":"#607d8b","arms_variant":0,"arms_hex":"#ffc107","legs_variant":0,"legs_hex":"#cddc39","iq":""},{"id":9,"username":"Maze","name":"Swan","head_variant":5,"head_hex":"#f9ebeb","face_variant":8,"face_color":"black","body_variant":2,"body_hex":"#ed69d3","arms_variant":0,"arms_hex":"#f4e4e4","legs_variant":0,"legs_hex":"#ffffff","iq":""}]';
 
@@ -52,13 +53,8 @@ function RoomScreen({route}) {
     // const [guyAnimatedStyles, setGuyAnimatedStyles] = useState([]);
     //const [animatedStyle, setAnimatedStyle] = useState(null);
 
-    let roomUser = "Maze";
-    let allowEditing = false;
-    // Setup current room user
-    try {
-        roomUser = route.params.user;
-        allowEditing = route.params.allowEditing;
-    } catch { }
+    const [roomUser, setRoomUser] = useState("");
+    const [allowEditing, setAllowEditing] = useState(false);
 
     // Get each guy's stats each frame from the guy
     const onPushStats = ({id, x, y}) => {
@@ -69,7 +65,26 @@ function RoomScreen({route}) {
     global.reloadRoomScreen = async () => {
         await new Promise(resolve => setTimeout(resolve, 250));
 
-        const result = await retrieveLittleGuys(roomUser);
+        let userData;
+        let isYourRoom;
+
+        const fetchUserData = async () => {
+            try {
+                userData = await getUserData();
+                isYourRoom = (userData.username == userData.currentRoom);
+                setAllowEditing(isYourRoom);
+                setRoomUser(userData.currentRoom);
+            } catch (e) {
+                // Handle error
+                console.log("Error in fetching user data for RoomScreen: "+e);
+            }
+        }
+
+        await fetchUserData();
+
+        navigation.setOptions({title: (isYourRoom ? userData.currentRoom + "'s Room (Your Room)" : userData.currentRoom + "'s Room")});
+
+        const result = await retrieveLittleGuys(userData.currentRoom);
 
         // Assign values to each little guy
         result.forEach((guy) => {
@@ -102,7 +117,9 @@ function RoomScreen({route}) {
 
     useEffect( () => {
         global.reloadRoomScreen();
-        navigation.setOptions({title: (allowEditing ? roomUser + "'s Room (Your Room)" : roomUser + "'s Room")});
+        //setRoomUser(route.params.user);
+        //setAllowEditing(route.params.allowEditing);
+        
     }, []);
 
     

@@ -1,6 +1,9 @@
 import React from "react";
 
 const assets = {
+    hero: {
+        1: require("./hero.png")
+    },
     arms: {
         1: require("./little-guys/arms/arms-01.png"),
     },
