@@ -1,6 +1,29 @@
 <?php
 class LittleGuyController extends BaseController
 {
+        /** 
+* "/user/list" Endpoint - get list of little guys
+*/
+public function listUser() 
+{
+    $strErrorDesc = '';
+    $requestMethod = $_SERVER["REQUEST_METHOD"];
+    if (strtoupper($requestMethod) == 'GET') {
+        try {
+            $littleGuyModel = new UserModel();
+            $arrGuys = $littleGuyModel->getAllUsers(); 
+            $responseData = json_encode($arrGuys);
+        } catch (Error $e) {
+            $strErrorDesc = $e->getMessage().'Something went wrong! Please contact support.';
+            $strErrorHeader = 'HTTP/1.1 500 Internal Server Error';
+        }
+    } else {
+        $strErrorDesc = 'Method not supported';
+        $strErrorHeader = 'HTTP/1.1 422 Unprocessable Entity';
+    }
+    // send output 
+    $this->doOutput($strErrorDesc, $responseData, $strErrorHeader, '200 OK');
+}
 
         /** 
 * "/user/login" Endpoint - returns OK if user exists

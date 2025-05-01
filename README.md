@@ -38,7 +38,6 @@ In `/little-guy-creator-web/`
 - `under-construction-notice.html`: under construction page for portions of the app not yet developed.
 
 ### REST API File Guide:
-**UPDATE AS FILES ARE ADDED.**
 In `/little-guy-creator-web/api/`
 - `index.php`: entry point for REST API calls
 - `Controller/Api/BaseController.php`: helper methods for API requests
@@ -48,8 +47,9 @@ In `/little-guy-creator-web/api/`
 - `inc/config.php`: database configuration (Replace this with your database's details!)
 - `Model/Database.php`: generic methods to interact with SQL queries
 - `Model/UserModel.php`: methods for base useful single-query requests for the program
+- `test-little-guys/tests/UserTests.php`: module for running backend user tests
+
 ### How to run locally:
-**UPDATE AS PARAMETERS ARE ADDED.**
 1. Install XAMPP and start your server, navigate to localhost/phpmyadmin/ in your browser (or equivalent depending on the xampp specifications for your OS), and under the SQL tab run the following command:
 ```sql
 CREATE DATABASE `app-db`;
@@ -98,6 +98,16 @@ Replace the definitions for host, username, and password to match your user acco
 4. Put the contents of `/little-guy-creator-web/` into the htdocs folder on your machine (located in the xampp folder). **Put all files straight into htdocs, not in its own folder.**
 
 5. In your terminal, `cd` into `htdocs/api/` then run the command `composer install`
+
+### Running the testing environment:
+
+1. In your terminal, navigate to `htdocs/api/test-guys`.
+2. Make sure that you have composer installed. Run the terminal command ```composer require guzzlehttp/guzzle``` to install guzzle.
+3. Run ```.\vendor\bin\phpunit .\tests\UserTests.php```.
+
+#### Exploring the use of Generative AI in software testing:
+
+I love making software, but I hate writing code, learning about code, making mistakes, being able to explain my code to my peers, having direct involvement in what the final product is, and the environment. To account for these preferences, Generative AI is a helpful tool that can expedite the process of test-writing and code review. It can write appropriate stress-tests, or provide a helpful framework for more specific use-cases. Peer-review and specialized testing that takes into consideration the holistic product and how it will be used both by clients and developers? No thanks! I prefer a soulless amalgamation of proverbial fecal matter that is billions of stack overflow discussions, reddit threads, and blog posts so that when I am sitting in my bed at 4 AM, sweat tracing its way down my neck, hours-deep into my "Synthwave/Breakcore/T-Girl Producer" playlist, I can let my eyes glaze over as I type, "Now design a test using PHPUnit that is supposed to give a 401 Response" and watch in helpless dismay as this text-predictor generates the same malfunctioning test for a fourth time. In fact, I love using Generative AI so much that I made it write this whole section of the README. I am so averse to effort that I outsourced the process of evaluating and analyzing a piece of software to the software itself. I hate creation. I hate thinking. I like stealing work and I think that Apple TV's "Severance" is interesting because of the goats. I am excited by the future of Generative AI.
 
 ### How to use the site:
 
