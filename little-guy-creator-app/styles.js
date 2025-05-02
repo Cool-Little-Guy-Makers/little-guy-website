@@ -8,6 +8,18 @@ export const styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  fullScreen: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
+  room: {
+    flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+  },
+
   containerShort: {
     marginTop: 30,
     marginBottom: 30,
@@ -114,6 +126,13 @@ export const styles = StyleSheet.create({
 
   errorText: {
     color: 'firebrick'
+  },
+
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
   },
 
 });

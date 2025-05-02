@@ -16,7 +16,7 @@ const LogoutScreen = ({route}) => {
         {/* Sign Out Button */}
         <Button onPress={() => {
           logOutUser()
-          navigation.popTo('Home')
+          navigation.popTo('Welcome')
           }}>
           <Text>Sign Out</Text>
         </Button>

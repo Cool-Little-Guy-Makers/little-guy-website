@@ -4,6 +4,25 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // https://react-native-async-storage.github.io/async-storage/docs/usage/
 
+export const getUsers = async () => {
+    const url = `${baseURL}/user/list`;
+
+    try {
+        const response = await fetch(url);
+
+        if (!response.ok) {
+            throw new Error(`Response status: ${response.status}`);
+        }
+
+        const fullUsers = await response.json();
+        return fullUsers.map((fullUser) => fullUser.username);
+
+    } catch (error) {
+        console.log(error.message)
+    }
+    return [];
+}
+
 // Signs in user. Throws an error if the sign in failed.
 export const signInUser = async (username, password) => {
     const url = baseURL + "/user/login";
@@ -23,8 +42,8 @@ export const signInUser = async (username, password) => {
         const data = await response.json();
         await AsyncStorage.setItem('username', data.username);
         await AsyncStorage.setItem('token', data.token);
-        console.log(data.token);
-        global.reloadHomeScreen();
+        //console.log(data.token);
+        global.reloadLandingPage();
 
     } else {
         if (response.status === 401) {
@@ -57,7 +76,7 @@ export const registerUser = async (username, password) => {
         }
         throw new Error(`Response status: ${response.status}`);
     }
-    global.reloadHomeScreen()
+    global.reloadLandingPage()
 }
 
 
@@ -72,6 +91,11 @@ export const getUserData = async () => {
         const value = await AsyncStorage.getItem('username');
         if (value !== null) {
             userData.username = value;
+        }
+
+        const room = await AsyncStorage.getItem('currentRoom');
+        if (room !== null) {
+            userData.currentRoom = room;
         }
 
         const token = await AsyncStorage.getItem('token');
@@ -91,7 +115,7 @@ export const logOutUser = async () => {
         await AsyncStorage.removeItem('username');
         await AsyncStorage.removeItem('token');
         console.log("Logged out")
-        global.reloadHomeScreen()
+        global.reloadLandingPage()
       } catch (e) {
         console.log("Could not log out") 
         // error reading value

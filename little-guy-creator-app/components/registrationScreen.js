@@ -139,7 +139,7 @@ const RegistrationScreen = (props) => {
             } catch (error) {
                 console.log(error.message)
             }
-            navigation.popTo('Home');
+            navigation.popTo('Welcome');
         }
     }
 

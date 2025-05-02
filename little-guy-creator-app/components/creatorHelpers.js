@@ -19,7 +19,7 @@ export function trySubmitLittleGuy(type,name,variant,id,navigation) {
 function addNewLittleGuy(name,variant,navigation) {
     console.log("Adding little guy with name: "+name);
     sendAddToDatabase(name,variant);
-    navigation.popTo('Home');
+    navigation.popTo('Room');
 }
 
 const sendAddToDatabase = async(name,variantObj) => {
@@ -40,7 +40,7 @@ const sendAddToDatabase = async(name,variantObj) => {
                 variant: variantObj,
             }),
         });
-        global.reloadHomeScreen()
+        global.reloadRoomScreen()
     } catch (error) {
         console.error(error);
     }
@@ -52,7 +52,7 @@ const sendAddToDatabase = async(name,variantObj) => {
 function editLittleGuy(name,variant,id,navigation) {
     console.log("Editing little guy with ID: "+id+" and name: "+name);
     sendEditToDatabase(name,variant,id);
-    navigation.popTo('Home');
+    navigation.popTo('Room');
 }
 
 const sendEditToDatabase = async(name,variant,id) => {
@@ -73,7 +73,7 @@ const sendEditToDatabase = async(name,variant,id) => {
                 variant: variant,
             }),
         });
-        global.reloadHomeScreen()
+        global.reloadRoomScreen()
     } catch (error) {
         console.error(error);
     }
@@ -92,7 +92,7 @@ export function deleteLittleGuy(name,id,navigation) {
         {text: 'Yes', onPress: () => {
             console.log("ID to be deleted: "+id);
             sendDeleteToDatabase(id); 
-            navigation.popTo('Home');
+            navigation.popTo('Room');
         }},
       ]);
 }
@@ -114,7 +114,7 @@ const sendDeleteToDatabase = async(id) => {
         if (!response.ok) {
             throw new Error(`Response status: ${response.status}`);
         }
-        global.reloadHomeScreen()
+        global.reloadRoomScreen()
 
     } catch (error) {
         console.log(error.message)

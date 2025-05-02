@@ -11,14 +11,15 @@ import CreatorScreen from "./components/creatorScreen.js";
 import LoginScreen from './components/loginScreen.js';
 import LogoutScreen from './components/logoutScreen.js';
 import RegistrationScreen from "./components/registrationScreen.js";
+import RoomScreen from "./components/roomScreen.js";
+import LandingPage from "./components/landingPage.js";
 
 // All the screens listed here for the navigator
 // **** be sure to add new pages here!
 // https://reactnavigation.org/docs/hello-react-navigation
 
 const RootStack = createNativeStackNavigator({
-    initialRouteName: 'Home',
-    initialRouteName: 'Home',
+    initialRouteName: 'Welcome',
     screens: {
         Home: {
             screen: HomeScreen,
@@ -31,6 +32,14 @@ const RootStack = createNativeStackNavigator({
         'Sign In': LoginScreen,
         'Sign Out': LogoutScreen,
         Registration: RegistrationScreen,
+        Room: RoomScreen,
+        Welcome: {
+            screen: LandingPage,
+            options: {
+                // Placeholder to prevent flicker, see HomeScreen for real button
+                headerRight: () => <Button title="">Sign In</Button>,
+            }
+        },
     },
 });
 
