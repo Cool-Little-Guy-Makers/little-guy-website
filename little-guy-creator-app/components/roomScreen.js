@@ -1,13 +1,13 @@
 import React, { useEffect, useLayoutEffect, useState } from 'react';
 import { styles } from '../styles.js';
-import { Canvas, Circle, Oval, Rect, useCanvasRef, vec, } from '@shopify/react-native-skia';
+import { Canvas, Circle, Oval, Rect, useCanvasRef, vec, Line, Group } from '@shopify/react-native-skia';
 import { LittleGuySubImage } from './littleGuyImage.js';
 import { useWindowDimensions, View, Text, Button, Share} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
 import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
-import LittleGuyEntity, { LittleGuyImageEntity } from './littleGuyEntity.js';
+import { LittleGuyImageEntity } from './littleGuyEntity.js';
 import { retrieveLittleGuys } from './littleGuy.js';
 import { cacheDirectory, writeAsStringAsync, EncodingType } from 'expo-file-system';
 import { getUserData } from './user.js';
@@ -16,6 +16,27 @@ const guysJSON = '[{"id":4,"username":"Maze","name":"Wizard","head_variant":4,"h
 
 const guyWidth = 90;
 const guyHeight = 100;
+
+// Overlay for guys to detect gestures.
+// Note that transform should be a sharedValue.
+function GuyGestureHandler ({transform, guy}) {
+    const style = useAnimatedStyle(() => ({
+        position: "absolute",
+        // Use center of guy
+        top: -guyHeight / 2,
+        left: -guyWidth / 2,
+        width: guyWidth,
+        height: guyHeight,
+        backgroundColor: "#0000ff80",
+        transform: transform.value,
+    }));
+
+    return (
+        <GestureDetector gesture={guy.tap}>
+            <Animated.View style={style}/>
+        </GestureDetector>
+    );
+}
 
 
 function RoomScreen({route}) {
@@ -49,15 +70,15 @@ function RoomScreen({route}) {
     }
 
     const [guys, setGuys] = useState([]);
-    // const [guyPositions, setGuyPositions] = useState([]);
-    // const [guyAnimatedStyles, setGuyAnimatedStyles] = useState([]);
-    //const [animatedStyle, setAnimatedStyle] = useState(null);
-
-    const [roomUser, setRoomUser] = useState("");
+    //const [roomUser, setRoomUser] = useState("");
     const [allowEditing, setAllowEditing] = useState(false);
+    const [guyDatas, setGuyDatas] = useState([]);
 
     // Get each guy's stats each frame from the guy
-    const onPushStats = ({id, x, y}) => {
+    const onPushTransform = ({transform, guy}) => {
+        //console.log(transform);
+        guyDatas.push({transform, guy});
+        //guys.filter(guy => guy.id === id)[0].transforms.push(transform);
         //if (id === 1) console.log("(" + x.toString() + "," + y.toString() + ")");
     }
     
@@ -73,7 +94,7 @@ function RoomScreen({route}) {
                 userData = await getUserData();
                 isYourRoom = (userData.username == userData.currentRoom);
                 setAllowEditing(isYourRoom);
-                setRoomUser(userData.currentRoom);
+                //setRoomUser(userData.currentRoom);
             } catch (e) {
                 // Handle error
                 console.log("Error in fetching user data for RoomScreen: "+e);
@@ -89,8 +110,8 @@ function RoomScreen({route}) {
         // Assign values to each little guy
         result.forEach((guy) => {
             // Initial positions
-            guy.x = (Math.floor(Math.random() * width));
-            guy.y = (Math.floor(Math.random() * height));
+            // guy.x = (Math.floor(Math.random() * width));
+            // guy.y = (Math.floor(Math.random() * height));
 
             // Tap gesture
             guy.tap = Gesture.Tap()
@@ -104,21 +125,19 @@ function RoomScreen({route}) {
         });
 
         // Y-sorting: guys with a smaller y (higher up on screen) should come earier in the array
-        result.sort((guy1, guy2) => {
-            let diffY = guy1.y - guy2.y;
-            if (diffY == 0) {
-                diffY = (guy1.id < guy2.id) ? -1 : 1;
-            }
-            return diffY;
-        });
+        // result.sort((guy1, guy2) => {
+        //     let diffY = guy1.y - guy2.y;
+        //     if (diffY == 0) {
+        //         diffY = (guy1.id < guy2.id) ? -1 : 1;
+        //     }
+        //     return diffY;
+        // });
 
         setGuys(result);
     }
 
     useEffect( () => {
         global.reloadRoomScreen();
-        //setRoomUser(route.params.user);
-        //setAllowEditing(route.params.allowEditing);
         
     }, []);
 
@@ -129,27 +148,18 @@ function RoomScreen({route}) {
             <View ref={mainViewRef} style={styles.room} onLayout={setCanvasSize}>
                 <View style={{width, height}}>
                     <Canvas style={{flex: 1}} ref={canvasRef} >
-                        <Oval x={0} y={0} width={width} height={height} color="cyan" />
+                        {/* <Oval x={0} y={0} width={width} height={height} color="cyan" /> */}
+                        <RoomBackground width={width}/>
 
                         {/** Guy Images */}
-                        {/* {guys.map((guy) => (
-                            <LittleGuySubImage
-                                variant={guy}
-                                cx={guy.x}
-                                cy={guy.y}
-                                width={90}
-                                height={100}
-                                key={guy.id}
-                            /> 
-                        ))} */}
                         {
                             guys.map((guy) => (
                                 <LittleGuyImageEntity
-                                    variant={guy}
+                                    guy={guy}
                                     extents={{x: 0, y: 0, w: width, h: height}}
                                     width={90}
                                     height={100}
-                                    pushStats={onPushStats}
+                                    pushTransform={onPushTransform}
                                     key={guy.id}
                                 />
                             ))
@@ -160,8 +170,8 @@ function RoomScreen({route}) {
                     </Canvas>
 
                     {/** Guy Gesture Handlers */}
-                    {allowEditing ? guys.map((guy) => (
-                        <LittleGuyEntity guy={guy} key={guy.id}/>
+                    {allowEditing ? guyDatas.map(({transform, guy}) => (
+                        <GuyGestureHandler transform={transform} guy={guy} key={guy.id}/>
                     )) : null}
 
                 </View>
@@ -191,6 +201,41 @@ function RoomScreen({route}) {
             </View>
             
         </View>
+    );
+}
+
+function RoomBackground({width, height}) {
+    const spacing = 40;
+    const number = 20;
+
+    const lines = [];
+    for (let i = -5; i < number; i++) {
+        lines.push(
+            <Line
+                p1={vec(0, 0 + (i * spacing))}
+                p2={vec(width, width * Math.sin(0.523599) + (i * spacing))}
+                color="lightgray"
+                style="stroke"
+                strokeWidth={2}
+                key={"a" + i}
+            />
+        );
+        lines.push(
+            <Line
+                p1={vec(width, 0 + (i * spacing))}
+                p2={vec(0, width * Math.sin(0.523599) + (i * spacing))}
+                color="lightgray"
+                style="stroke"
+                strokeWidth={2}
+                key={"b" + i}
+            />
+        );
+    }
+
+    return (
+        <Group>
+            {lines}
+        </Group>
     );
 }
 

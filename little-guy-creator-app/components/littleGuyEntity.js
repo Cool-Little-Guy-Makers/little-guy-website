@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../styles.js';
-import { Canvas, Circle, Oval, rect, vec, } from '@shopify/react-native-skia';
+import { Canvas, Circle, Oval, Rect, rect, vec, FitBox, Group, useDerivedValueOnJS} from '@shopify/react-native-skia';
 import { LittleGuySubImage } from './littleGuyImage.js';
 import { useWindowDimensions, View, } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -18,39 +18,18 @@ import Animated, {
 const guyWidth = 90;
 const guyHeight = 100;
 
-// Entity for use with gesture handling and movement
-export default function LittleGuyEntity ({guy}) {
-
-    const style = useAnimatedStyle(() => ({
-        position: "absolute",
-        // Use center of guy
-        top: -guyHeight / 2,
-        left: -guyWidth / 2,
-        width: guyWidth,
-        height: guyHeight,
-        //color: "black",
-        transform: [{translateX: guy.x}, {translateY: guy.y}],
-    }));
-
-    return (
-        <GestureDetector gesture={guy.tap}>
-            <Animated.View style={style}/>
-        </GestureDetector>
-    );
-}
-
-const waitTimeLow = 0;
-const waitTimeHigh = 6000;
+const waitTimeLow = 1000;
+const waitTimeHigh = 10000;
 
 // pixels per second while walking
-const speed = 200;
+const speed = 150;
 
 const randomRange = (low, high) => {
     return low + Math.floor(Math.random() * (high - low));
 }
 
 // Little Guy who moves by himself across the Extents (a rectangle)
-export function LittleGuyImageEntity({variant, extents, width, height, pushStats}) {
+export function LittleGuyImageEntity({guy, extents, width, height, pushTransform}) {
     // How much time left waiting
     const waiting = useSharedValue(randomRange(waitTimeLow, waitTimeHigh));
     const isWalking = useSharedValue(false);
@@ -60,10 +39,6 @@ export function LittleGuyImageEntity({variant, extents, width, height, pushStats
 
     const xPos = useSharedValue(randomRange(extents.x, extents.x + extents.w));
     const yPos = useSharedValue(randomRange(extents.y, extents.y + extents.h));
-
-    const destRectOverride = useDerivedValue(() => (
-        rect(xPos.value - (width/2), yPos.value - (height/2), width, height)
-    ));
 
     const frameCallback = useFrameCallback((frameInfo) => {
         // redefine random range due to worklet weirdness
@@ -110,23 +85,30 @@ export function LittleGuyImageEntity({variant, extents, width, height, pushStats
             waiting.value = randomRange(waitTimeLow, waitTimeHigh);
             isWalking.value = true;
         }
-
-        runOnJS(pushStats)({id: variant.id, x: xPos.value, y: yPos.value});
     })
 
     useEffect(() => {
         frameCallback.setActive(true);
+        // push the animated transform reference to the parent (for later use)
+        if (pushTransform) pushTransform({transform: transform, guy: guy});
         return () => frameCallback.setActive(false); // Clean up on unmount
     }, []);
 
+    //const destRect = useDerivedValueOnJS(() => (rect(xPos.value, yPos.value, 160, 80)));
+    const transform = useDerivedValue(() => [
+        {translateX: xPos.value},
+        {translateY: yPos.value},
+    ]);
+
     return (
-        <LittleGuySubImage
-            variant={variant}
-            cx={xPos.value}
-            cy={yPos.value}
-            width={width}
-            height={height}
-            // destRectOverride={destRectOverride}
-        /> 
+        <Group transform={transform}>
+            <LittleGuySubImage
+                variant={guy}
+                cx={0}
+                cy={0}
+                width={width}
+                height={height}
+            /> 
+        </Group>
     )
 }
