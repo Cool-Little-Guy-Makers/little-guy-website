@@ -1,8 +1,4 @@
-import { useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { Button } from '@react-navigation/elements';
+import { View, Text, TextInput } from 'react-native';
 import {styles} from '../styles.js';
 
 // Text input field with feedback text (e.g. for following constraints)

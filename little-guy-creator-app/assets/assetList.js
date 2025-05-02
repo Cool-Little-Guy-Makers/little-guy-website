@@ -1,5 +1,3 @@
-import React from "react";
-
 const assets = {
     hero: {
         1: require("./hero.png")

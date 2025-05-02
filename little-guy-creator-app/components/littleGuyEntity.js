@@ -1,17 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { styles } from '../styles.js';
-import { Canvas, Circle, Oval, Rect, rect, vec, FitBox, Group, useDerivedValueOnJS, Text, useFont, Fill, } from '@shopify/react-native-skia';
+import { Rect, Group, Text, useFont, } from '@shopify/react-native-skia';
 import { LittleGuySubImage } from './littleGuyImage.js';
-import { useWindowDimensions, View, } from 'react-native';
-import { useHeaderHeight } from '@react-navigation/elements';
-import { useNavigation } from '@react-navigation/native';
-import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, {
-    useAnimatedStyle,
+import {
     useSharedValue,
     useDerivedValue,
     useFrameCallback,
-    useAnimatedProps,
     runOnJS,
 } from 'react-native-reanimated';
 

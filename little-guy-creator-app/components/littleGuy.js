@@ -1,4 +1,4 @@
-import { View, Text, Image } from 'react-native';
+import { View, Text, } from 'react-native';
 import { Button } from '@react-navigation/elements';
 
 import {styles} from '../styles.js';

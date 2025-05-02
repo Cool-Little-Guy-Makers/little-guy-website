@@ -1,8 +1,8 @@
 import { useNavigation } from "@react-navigation/native";
 import React, { useState, useEffect } from "react";
 import { styles } from "../styles";
-import { View, Text, Button, Pressable, FlatList } from "react-native";
-import { Canvas, BlendColor, FitBox, Image, Group, rect, useImage} from "@shopify/react-native-skia";
+import { View, Text, Pressable, FlatList } from "react-native";
+import { Canvas, Image, useImage} from "@shopify/react-native-skia";
 import { getGuyAsset } from "../assets/assetList";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { getUserData, getUsers } from "./user";

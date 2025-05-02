@@ -1,7 +1,6 @@
 import { useState } from 'react';
-import { View, Text, Image, TextInput } from 'react-native';
-import { createStaticNavigation, useNavigation } from '@react-navigation/native';
-import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { View, Text, } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';
 import {styles} from '../styles.js';
 import FeedbackTextInput from './feedbackTextInput.js';

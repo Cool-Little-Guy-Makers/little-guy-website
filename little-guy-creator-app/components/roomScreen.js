@@ -1,18 +1,14 @@
-import React, { useEffect, useLayoutEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { styles } from '../styles.js';
-import { Canvas, Circle, Oval, Rect, useCanvasRef, vec, Line, Group } from '@shopify/react-native-skia';
-import { LittleGuySubImage } from './littleGuyImage.js';
-import { useWindowDimensions, View, Text, Button, Share} from 'react-native';
-import { useHeaderHeight } from '@react-navigation/elements';
+import { Canvas, Rect, useCanvasRef, vec, Line, Group } from '@shopify/react-native-skia';
+import { useWindowDimensions, View, Button, Share} from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useDerivedValue, useFrameCallback, useSharedValue } from 'react-native-reanimated';
+import Animated, { runOnJS, useAnimatedStyle, } from 'react-native-reanimated';
 import { LittleGuyImageEntity } from './littleGuyEntity.js';
 import { retrieveLittleGuys } from './littleGuy.js';
 import { cacheDirectory, writeAsStringAsync, EncodingType } from 'expo-file-system';
 import { getUserData } from './user.js';
-
-const guysJSON = '[{"id":4,"username":"Maze","name":"Wizard","head_variant":4,"head_hex":"#000000","face_variant":7,"face_color":"white","body_variant":5,"body_hex":"#1233e6","arms_variant":0,"arms_hex":"#9c27b0","legs_variant":0,"legs_hex":"#9c27b0","iq":""},{"id":5,"username":"Maze","name":"Bill","head_variant":0,"head_hex":"#ffeb3b","face_variant":0,"face_color":"#000000","body_variant":2,"body_hex":"#009688","arms_variant":0,"arms_hex":"#ffeb3b","legs_variant":0,"legs_hex":"#ffeb3b","iq":""},{"id":6,"username":"Maze","name":"Nil","head_variant":2,"head_hex":"#673ab7","face_variant":9,"face_color":"white","body_variant":3,"body_hex":"#673ab7","arms_variant":0,"arms_hex":"#673ab7","legs_variant":0,"legs_hex":"#673ab7","iq":""},{"id":7,"username":"Maze","name":"Rebob","head_variant":1,"head_hex":"#e91e63","face_variant":3,"face_color":"#000000","body_variant":4,"body_hex":"#00bcd4","arms_variant":0,"arms_hex":"#ffffff","legs_variant":0,"legs_hex":"#ffffff","iq":""},{"id":8,"username":"Maze","name":"Fret","head_variant":4,"head_hex":"#9e9e9e","face_variant":6,"face_color":"black","body_variant":0,"body_hex":"#607d8b","arms_variant":0,"arms_hex":"#ffc107","legs_variant":0,"legs_hex":"#cddc39","iq":""},{"id":9,"username":"Maze","name":"Swan","head_variant":5,"head_hex":"#f9ebeb","face_variant":8,"face_color":"black","body_variant":2,"body_hex":"#ed69d3","arms_variant":0,"arms_hex":"#f4e4e4","legs_variant":0,"legs_hex":"#ffffff","iq":""}]';
 
 const guyWidth = 90;
 const guyHeight = 100;

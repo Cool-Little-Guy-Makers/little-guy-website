@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { View, Button, Image, Modal, Alert } from 'react-native';
+import { View, Button, Image, Modal, } from 'react-native';
 
 import ColorPicker, { Panel1, Swatches, Preview, HueSlider } from 'reanimated-color-picker';
 
