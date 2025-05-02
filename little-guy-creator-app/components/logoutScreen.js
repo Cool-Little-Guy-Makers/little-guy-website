@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { View, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { Button } from '@react-navigation/elements';

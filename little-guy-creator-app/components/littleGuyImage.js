@@ -1,7 +1,6 @@
 import React from "react";
 import { Canvas, BlendColor, FitBox, Image, Group, rect, useImage} from "@shopify/react-native-skia";
 import { getGuyAsset } from "../assets/assetList";
-import { useDerivedValue } from "react-native-reanimated";
 
 // Number of digits for the end of variant asset filenames, i.e. the number 5 with variantDigits 2 --> "05"
 const variantDigits = 2;

@@ -5,40 +5,19 @@
 - Maze Labowitz (33%)
 - Kate Lyman (33%)
 
-### To Use Online: [online link](https://littleguycreator.great-site.net/)
-
 ### Chapters:
-- [Web Server Backend and Web Frontend](#web-server-backend-and-web-frontend) (`/little-guy-creator-web/`)
+- [Web Server Backend](#web-server-backend) (`/little-guy-creator-web/`)
 - [Mobile Frontend](#mobile-frontend) (`/little-guy-creator-app/`)
 - [Using the REST API](#using-the-rest-api)
 
 
-## Web Server Backend and Web Frontend
+## Web Server Backend
+*Please note: In an effort to focus production on a polished mobile experience, the web frontend was
+deprecated and removed from this repository. See Release 1.1.0 for a version with a web frontend.*
 
 
 ### File Guide:
-**UPDATE AS FILES ARE ADDED.**
-In `/little-guy-creator-web/`
-- `ad.html`: a site advertising green beans, used in the landing page.
-- `checksignin.php`: verifies a sign in attempt, setting the current user/isloggedin variables.
-- `config.php`: connect to the database. (do not modify directly--it is sourced from the REST API config.php file, see later)
-- `createaccount.php`: inserts new credentials into the user database after a successful registration attempt.
-- `createguyhelper.php`: inserts little guy data into database after creation.
-- `creator.php`: form for creating a little guy.
-- `delete.php`: remove little guy information when deleted.
-- `editguyhelper.php`: change data in little guy database after edit.
-- `editor.php`: form for editing a little guy.
-- `favicon.ico`: icon for little guy website.
-- `home.php`: main page for showing your little guys and other users' little guys.
-- `index.php`: landing page.
-- `logout.php`: logs user out by destroying the session. Redirects to landing page.
-- `registration.php`: form for making an account.
-- `signin.php`: form for signing into an account.
-- `style.css`: visual information for html.
-- `under-construction-notice.html`: under construction page for portions of the app not yet developed.
-
-### REST API File Guide:
-In `/little-guy-creator-web/api/`
+REST API Files In `/little-guy-creator-web/api/`
 - `index.php`: entry point for REST API calls
 - `Controller/Api/BaseController.php`: helper methods for API requests
 - `Controller/Api/LittleGuyController.php`: handles specific implementation details for each type of API request (see table below)
@@ -109,19 +88,9 @@ Replace the definitions for host, username, and password to match your user acco
 
 I love making software, but I hate writing code, learning about code, making mistakes, being able to explain my code to my peers, having direct involvement in what the final product is, and the environment. To account for these preferences, Generative AI is a helpful tool that can expedite the process of test-writing and code review. It can write appropriate stress-tests, or provide a helpful framework for more specific use-cases. Peer-review and specialized testing that takes into consideration the holistic product and how it will be used both by clients and developers? No thanks! I prefer a soulless amalgamation of proverbial fecal matter that is billions of stack overflow discussions, reddit threads, and blog posts so that when I am sitting in my bed at 4 AM, sweat tracing its way down my neck, hours-deep into my "Synthwave/Breakcore/T-Girl Producer" playlist, I can let my eyes glaze over as I type, "Now design a test using PHPUnit that is supposed to give a 401 Response" and watch in helpless dismay as this text-predictor generates the same malfunctioning test for a fourth time. In fact, I love using Generative AI so much that I made it write this whole section of the README. I am so averse to effort that I outsourced the process of evaluating and analyzing a piece of software to the software itself. I hate creation. I hate thinking. I like stealing work and I think that Apple TV's "Severance" is interesting because of the goats. I am excited by the future of Generative AI.
 
-### How to use the site:
-
-From the landing page, use the far-right button on the navigation bar at the top (labelled "sign in") to sign in to the site. You may either sign in to an existing account or register a new account using the link below the entry fields. After logging in, the site will direct you to the home page, where the CRUD functionality is. The home page displays all of the users Little Guys, as well as all the Little Guys of the other users.
-
-You may Create a little guy using the link titled "Create a new Little Guy". After making at least one little guy, little guys can be Read and are displayed at the top of the page. The little guys can be Updated using the "edit" button to the right of your little guy, and can be Deleted using the "edit" button and then opting to delete.
-
-*Insert world specifics*
-
 ## Mobile Frontend
 ### File Guide:
-**UPDATE AS FILES ARE ADDED.**
-
-In `/little-guy-creator-app/`
+In `/little-guy-creator-app/`:
 - `App.js`: Contains the root level native navigation stack
 - `app.json`: app base data
 - `config.js`: stores base url for http requests
@@ -134,14 +103,17 @@ Files in `/little-guy-creator-app/components/`
 - `creatorHelpers.js`: helper functions to add, edit, and delete little guys from the database
 - `creatorScreen.js`: screen for creating a new little guy or editing an existing little guy, with tabs for each body part (each is an optionsSection)
 - `feedbackTextInput.js`: variant on TextInput with a line of text for feedback, i.e. for username and password fields that need to conform to different constraints
-- `homeScreen.js`: home screen, containing little guys and buttons to sign in/out, create and edit little guys
-- `littleGuy.js`: functions and a component to help display little guys on the home page
+- `landingPage.js`: a static landing page while logged out, and a list of users' Rooms to visit while logged in.
+Contains buttons to sign in/out
+- `littleGuy.js`: functions and a component to help get and display little guys
+- `littleGuyEntity.js`: component for a little guy that roams around a rectangle randomly
+- `littleGuyImage.js`: component to render a custom little guy image, given a little guy variant object
 - `loginScreen.js`: screen for user log-in
 - `logoutScreen.js`: screen for user log-out
 - `optionsSection.js`: displays all the options for one body part which can be selected and recolored
 - `registrationScreen.js`: screen to create a new account. Accessible from login screen.
+- `roomScreen.js`: screen with a room of a users little guys as LittleGuyEntities. Can create, edit, and take a screenshot of little guys
 - `user.js`: helper functions for dealing with user data (signing in, handling a token, etc.)
-- `littleGuyImage.js`: component to render a custom little guy image, given a little guy variant object
 ### How to run locally:
 1. Ensure you have installed Node.js and the npm CLI
 
@@ -162,49 +134,66 @@ export const baseURL = 'http://YOUR_IP_ADDRESS_HERE/api/index.php'
 
 7. Run `npx expo start`
 
-8. Follow the instructions to run it on your device
+8. Follow the instructions to run it on your device or emulator
 ### How to use the app:
 
-While not signed in, the home page displays all users' little guys and a "Sign In" button in the top right. While signed in, the home page displays your little guys and other users' little guys in two distinct sections, and your username and a "Sign Out" button in the top right. *You may need to scroll in each section to see all little guys.*
+While not signed in, the landing page displays a static image and a "Sign In" button in the top right. While
+signed in, it instead shows a home page with a list of all users' Rooms, with your Room at the top, and a "Sign
+Out" button in the top right. Pressing on a button lets you view that room. *You may need to scroll to see all
+rooms.*
 
-**Creating an account**: 
+#### Creating an account: 
 
 Press "Sign In" in the upper right, then press "Create an account" and follow the instructions. After creating an account, you will be automatically signed in.
 
-**Sign In/Sign Out**: 
+#### Sign In/Sign Out: 
 
 Press "Sign In" or "Sign out" in the top right of the Home page.
 
-**Creating a little guy**: 
+#### Viewing your room:
 
-Press "Create a New Little Guy". This will bring you to a page where you can customize your new little guy with preset heads, faces, bodies, arms, and legs. All colors can be picked with a hex code, except for the face details which may only be black or white.
-*Insert specifics.*
+While signed in, a button leading to your room appears at the top of the home page, starting with a 👑.
+In your room, you will see your little guys, and they will randomly pick a location to move to and move towards
+that location. While moving, the little guys waddle.
 
-**Editing a little guy**:
+#### Creating a little guy: 
 
-While in your world, click on a pre-existing little guy you would like to edit. Press the "edit" button. This will bring you to a page similar to the original create page.
-*Insert specifics.*
+From your room, press "Create New Little Guy" in the bottom left. This brings you to a page where you can customize your new little guy with preset heads, faces, bodies, arms, and legs.
 
-**Deleting a little guy**: 
+To customize each body part, select the corresponding tab, then tap on the chosen style for that part.
+Press "Change Color" to select a color for that body part. Hex codes are used for all colors except for the
+face details which may only be black or white.
 
-Press "Edit" for one of your current little guys, then press Delete Little Guy.
-*Insert specifics.*
+You must also give your guy a name in the "Name" box.
 
-**Your world**:
+Once you're ready, tap "Create My Guy".
 
-*Insert specifics.*
+#### Editing a little guy:
 
-**Visiting other users' worlds**:
+While in your room, tap on a little guy that you would like to edit. This brings you to a page similar to the original create page.
 
-*Insert specifics.*
+#### Deleting a little guy: 
+
+While in your room, tap on a little guy that you would like to delete. This brings you to the edit dialog, where there is also a button you can press to "Delete This Guy".
+
+#### Visiting other users' rooms:
+
+While signed in, you can access any user's room from the home page. You may need to scroll to see all rooms.
+While visiting someone else's room, you cannot create a new little guy or edit a little guy in that room, but
+you may take a screenshot just like in your room.
+
+#### Taking a screenshot:
+
+While in any room, you can press the "Take A Screenshot" button which will capture the image of the current
+room and prompt a share dialog where you can save the image or send it to your friends.
 
 ## Using the REST API
-**UPDATE AS PARAMETERS ARE ADDED.**
 The following table describes API calls that can be made.
 
 Use the base URL `http://localhost/api/index.php`, where `localhost` can be replaced with however you are running the backend server.
 
-Protected calls require an authorization header `'Authorization': 'Bearer YOUR_TOKEN_HERE'`
+Protected calls require an authorization header `'Authorization': 'Bearer YOUR_TOKEN_HERE'`. Clients receive an
+authorization token on a successful login.
 
 | Append to URL      | Request Type | Protected? | Request Body (JSON)       | Query Params | Returns (JSON or Status Code)                                                                                                                                                             |
 | ------------------ | ------------ | ---------- | ------------------------- | ------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
