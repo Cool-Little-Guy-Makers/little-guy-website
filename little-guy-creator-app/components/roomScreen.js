@@ -6,7 +6,7 @@ import { useWindowDimensions, View, Text, Button, Share} from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
 import { useNavigation } from '@react-navigation/native';
 import { Gesture, GestureDetector } from 'react-native-gesture-handler';
-import Animated, { runOnJS, useAnimatedStyle, useSharedValue } from 'react-native-reanimated';
+import Animated, { runOnJS, useAnimatedStyle, useDerivedValue, useFrameCallback, useSharedValue } from 'react-native-reanimated';
 import { LittleGuyImageEntity } from './littleGuyEntity.js';
 import { retrieveLittleGuys } from './littleGuy.js';
 import { cacheDirectory, writeAsStringAsync, EncodingType } from 'expo-file-system';
@@ -27,7 +27,7 @@ function GuyGestureHandler ({transform, guy}) {
         left: -guyWidth / 2,
         width: guyWidth,
         height: guyHeight,
-        backgroundColor: "#0000ff80",
+        //backgroundColor: "#0000ff80",
         transform: transform.value,
     }));
 
@@ -66,20 +66,25 @@ function RoomScreen({route}) {
             const fileUri = `${cacheDirectory}room.png`;
             await writeAsStringAsync(fileUri, base64, {encoding: EncodingType.Base64});
             await Share.share({url: fileUri});
-        } catch (e) { alert(e.message )}
+        } catch (e) {
+            alert(e.message )}
     }
 
-    const [guys, setGuys] = useState([]);
+    const [guys, setGuys] = useState({});
     //const [roomUser, setRoomUser] = useState("");
     const [allowEditing, setAllowEditing] = useState(false);
     const [guyDatas, setGuyDatas] = useState([]);
 
     // Get each guy's stats each frame from the guy
     const onPushTransform = ({transform, guy}) => {
-        //console.log(transform);
-        guyDatas.push({transform, guy});
-        //guys.filter(guy => guy.id === id)[0].transforms.push(transform);
-        //if (id === 1) console.log("(" + x.toString() + "," + y.toString() + ")");
+        setGuyDatas(prevDatas => [...prevDatas, {transform, guy}]);
+    }
+
+    const onPushY = ({id, y}) => {
+        // if (guys[id]) {
+        //     guys[id].y = y;
+        //     if (id==1) console.log(guys[id].y);
+        // }
     }
     
 
@@ -92,7 +97,9 @@ function RoomScreen({route}) {
         const fetchUserData = async () => {
             try {
                 userData = await getUserData();
+                console.log("User data:", userData);
                 isYourRoom = (userData.username == userData.currentRoom);
+                console.log("Is your room:", isYourRoom);
                 setAllowEditing(isYourRoom);
                 //setRoomUser(userData.currentRoom);
             } catch (e) {
@@ -107,11 +114,13 @@ function RoomScreen({route}) {
 
         const result = await retrieveLittleGuys(userData.currentRoom);
 
+        const guysObject = {};
+
         // Assign values to each little guy
         result.forEach((guy) => {
             // Initial positions
             // guy.x = (Math.floor(Math.random() * width));
-            // guy.y = (Math.floor(Math.random() * height));
+            guy.y = (Math.floor(Math.random() * height));
 
             // Tap gesture
             guy.tap = Gesture.Tap()
@@ -122,6 +131,8 @@ function RoomScreen({route}) {
                     runOnJS(navigation.navigate)('Creator', {guy: thisGuy});
             });
             
+            // Place guy into object with key as id
+            guysObject[guy.id] = guy;
         });
 
         // Y-sorting: guys with a smaller y (higher up on screen) should come earier in the array
@@ -133,13 +144,45 @@ function RoomScreen({route}) {
         //     return diffY;
         // });
 
-        setGuys(result);
+        setGuys(guysObject);
+
+        // Clear guy datas, this will get pushed to later
+        setGuyDatas([]);
     }
 
     useEffect( () => {
         global.reloadRoomScreen();
-        
+        //frameCallback.setActive(true);
     }, []);
+
+
+    // Y Sorting. needs to happen every frame since guys move every frame
+    // guys with smaller y (higher on the screen) should come earlier in the array
+    // const frameCallback = useFrameCallback((frameInfo) => {
+    //     //console.log("hi");
+    //     try {
+    //         guys.sort((guy1, guy2) => {
+    //             let diffY = guy1.y - guy2.y;
+    //             if (diffY == 0) {
+    //                 diffY = (guy1.id < guy2.id) ? -1 : 1;
+    //             }
+    //             return diffY;
+    //         });
+    //     } catch (e) {
+    //         alert(e.message);
+    //     }
+    // });
+
+    // const sortedGuys = useDerivedValue(() => (
+    //     [...guys].sort((guy1, guy2) => {
+    //         let diffY = guy1.y - guy2.y;
+    //         if (diffY == 0) {
+    //             diffY = (guy1.id < guy2.id) ? -1 : 1;
+    //         }
+    //         return diffY;
+    //     })
+    // ));
+
 
     
     // Display
@@ -148,18 +191,27 @@ function RoomScreen({route}) {
             <View ref={mainViewRef} style={styles.room} onLayout={setCanvasSize}>
                 <View style={{width, height}}>
                     <Canvas style={{flex: 1}} ref={canvasRef} >
-                        {/* <Oval x={0} y={0} width={width} height={height} color="cyan" /> */}
                         <RoomBackground width={width}/>
 
                         {/** Guy Images */}
                         {
-                            guys.map((guy) => (
+                            
+                            Object.values(guys)
+                            .sort((guy1, guy2) => {
+                                let diffY = guy1.y - guy2.y;
+                                if (diffY == 0) {
+                                    diffY = (guy1.id < guy2.id) ? -1 : 1;
+                                }
+                                return diffY;
+                            })
+                            .map((guy) => (
                                 <LittleGuyImageEntity
                                     guy={guy}
                                     extents={{x: 0, y: 0, w: width, h: height}}
                                     width={90}
                                     height={100}
                                     pushTransform={onPushTransform}
+                                    pushY={onPushY}
                                     key={guy.id}
                                 />
                             ))
@@ -204,6 +256,7 @@ function RoomScreen({route}) {
     );
 }
 
+// Isometric grid background
 function RoomBackground({width, height}) {
     const spacing = 40;
     const number = 20;

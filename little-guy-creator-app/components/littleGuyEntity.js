@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { styles } from '../styles.js';
-import { Canvas, Circle, Oval, Rect, rect, vec, FitBox, Group, useDerivedValueOnJS} from '@shopify/react-native-skia';
+import { Canvas, Circle, Oval, Rect, rect, vec, FitBox, Group, useDerivedValueOnJS, Text, useFont, Fill, } from '@shopify/react-native-skia';
 import { LittleGuySubImage } from './littleGuyImage.js';
 import { useWindowDimensions, View, } from 'react-native';
 import { useHeaderHeight } from '@react-navigation/elements';
@@ -21,6 +21,8 @@ const guyHeight = 100;
 const waitTimeLow = 1000;
 const waitTimeHigh = 10000;
 
+const updateTime = 30;
+
 // pixels per second while walking
 const speed = 150;
 
@@ -29,7 +31,7 @@ const randomRange = (low, high) => {
 }
 
 // Little Guy who moves by himself across the Extents (a rectangle)
-export function LittleGuyImageEntity({guy, extents, width, height, pushTransform}) {
+export function LittleGuyImageEntity({guy, extents, width, height, pushTransform, pushY}) {
     // How much time left waiting
     const waiting = useSharedValue(randomRange(waitTimeLow, waitTimeHigh));
     const isWalking = useSharedValue(false);
@@ -39,6 +41,11 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
 
     const xPos = useSharedValue(randomRange(extents.x, extents.x + extents.w));
     const yPos = useSharedValue(randomRange(extents.y, extents.y + extents.h));
+
+    const timeUntilUpdate = useSharedValue(updateTime);
+
+    const rotation = useSharedValue(0);
+    //const startRotation = randomRange()
 
     const frameCallback = useFrameCallback((frameInfo) => {
         // redefine random range due to worklet weirdness
@@ -55,6 +62,9 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
 
             const xSpeed = (dx / distance) * speed;
             const ySpeed = (dy / distance) * speed;
+
+            // waddle
+            rotation.value = Math.sin(frameInfo.timeSinceFirstFrame/100) * 0.1;
 
             // account for overshoot
             if (Math.abs(dx) < Math.abs(xSpeed * (frameInfo.timeSincePreviousFrame / 1000))) {
@@ -75,6 +85,9 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
         } else {
             // on idle, run wait timer
             waiting.value -= frameInfo.timeSincePreviousFrame;
+
+            // don't waddle
+            rotation.value = 0;
         }
         
         // launch when done waiting
@@ -85,6 +98,15 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
             waiting.value = randomRange(waitTimeLow, waitTimeHigh);
             isWalking.value = true;
         }
+
+        // track if we should send an update
+        timeUntilUpdate.value -= frameInfo.timeSincePreviousFrame;
+        if (timeUntilUpdate.value <= 0) {
+            // add to time instead of resetting to account for overshoot
+            timeUntilUpdate.value += updateTime;
+
+            runOnJS(pushY)({id: guy.id, y: yPos.value});
+        }
     })
 
     useEffect(() => {
@@ -92,7 +114,7 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
         // push the animated transform reference to the parent (for later use)
         if (pushTransform) pushTransform({transform: transform, guy: guy});
         return () => frameCallback.setActive(false); // Clean up on unmount
-    }, []);
+    }, [guy]); // Add guy as a dependency
 
     //const destRect = useDerivedValueOnJS(() => (rect(xPos.value, yPos.value, 160, 80)));
     const transform = useDerivedValue(() => [
@@ -100,15 +122,40 @@ export function LittleGuyImageEntity({guy, extents, width, height, pushTransform
         {translateY: yPos.value},
     ]);
 
+    const rotTransform = useDerivedValue(() => [
+        {rotate: rotation.value},
+    ]);
+
     return (
         <Group transform={transform}>
-            <LittleGuySubImage
-                variant={guy}
-                cx={0}
-                cy={0}
-                width={width}
-                height={height}
-            /> 
+            <Group transform={rotTransform}>
+                <LittleGuySubImage
+                    variant={guy}
+                    cx={0}
+                    cy={0}
+                    width={width}
+                    height={height}
+                /> 
+            </Group>
+            <NameTag name={guy.name}/>
         </Group>
     )
+}
+
+function NameTag({name}) {
+    const fontSize = 16;
+    const font = useFont(require("../assets/OpenSans-Medium.ttf"), fontSize);
+    const textWidth = font?.measureText(name).width ?? 0;
+    return (
+        <Group>
+            <Rect x={-textWidth/2 - 5} width={textWidth + 10} y={-50} height={21} color="#eeeeff80" />
+            <Text
+                x={-textWidth/2}
+                y={fontSize - 50}
+                text={name}
+                font={font}
+        
+            />
+        </Group>
+    );
 }
