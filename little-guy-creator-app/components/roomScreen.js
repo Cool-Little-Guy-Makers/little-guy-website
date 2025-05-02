@@ -187,6 +187,8 @@ function RoomScreen({route}) {
             <View ref={mainViewRef} style={styles.room} onLayout={setCanvasSize}>
                 <View style={{width, height}}>
                     <Canvas style={{flex: 1}} ref={canvasRef} >
+                        <Rect x={0} y={0} width={width} height={height} color="white" key="back"/>
+
                         <RoomBackground width={width}/>
 
                         {/** Guy Images */}
